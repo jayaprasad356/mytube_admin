@@ -118,9 +118,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['balance'] = $row['balance'];
         $tempRow['history'] = $row['history'];
         $tempRow['withdrawal'] = $row['withdrawal'];
-        $tempRow['ongoing_sa_balance'] = $row['ongoing_sa_balance'];
-        $tempRow['salary_advance_balance'] = $row['salary_advance_balance'];
-        $tempRow['sa_refer_count'] = $row['sa_refer_count'];
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
         elseif($row['status']==1)
@@ -618,8 +615,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['today_codes'] = $row['today_codes'];
         $tempRow['refer_code'] = $row['refer_code'];
-        $tempRow['l_referral_count'] = $row['l_referral_count'];
-        $tempRow['level'] = $row['level'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['joined_date'] = $row['joined_date'];
         $tempRow['total_referrals'] = $row['total_referrals'];

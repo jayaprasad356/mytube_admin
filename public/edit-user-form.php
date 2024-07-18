@@ -26,7 +26,6 @@ if (isset($_POST['btnEdit'])) {
             $city = $db->escapeString(($_POST['city']));
             $status = $db->escapeString(($_POST['status']));
             $refer_code = $db->escapeString(($_POST['refer_code']));
-            $security = $db->escapeString(($_POST['security']));
             $joined_date = (isset($_POST['joined_date']) && !empty($_POST['joined_date'])) ? $db->escapeString($_POST['joined_date']) : $date;
             $code_generate_time = $db->escapeString(($_POST['code_generate_time']));
             $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
@@ -40,32 +39,17 @@ if (isset($_POST['btnEdit'])) {
             $today_codes = (isset($_POST['today_codes']) && !empty($_POST['today_codes'])) ? $db->escapeString($_POST['today_codes']) : 0;
             $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
 
-            $salary_advance_balance = $db->escapeString(($_POST['salary_advance_balance']));
-            $task_type = $db->escapeString(($_POST['task_type']));
-            $champion_task_eligible = $db->escapeString(($_POST['champion_task_eligible']));
-            $mcg_timer = $db->escapeString(($_POST['mcg_timer']));
-            $ad_status = $db->escapeString(($_POST['ad_status']));
-            $l_referral_count = (isset($_POST['l_referral_count']) && !empty($_POST['l_referral_count'])) ? $db->escapeString($_POST['l_referral_count']) : 0;
             $per_code_cost = $db->escapeString(($_POST['per_code_cost']));
             //$level = $db->escapeString(($_POST['level']));
             $per_code_val = $db->escapeString(($_POST['per_code_val']));
-            $support_id = $db->escapeString(($_POST['support_id']));
-            $branch_id = $db->escapeString(($_POST['branch_id']));
             $worked_days = $db->escapeString(($_POST['worked_days']));
-            $black_box = $db->escapeString(($_POST['black_box']));
             $error = array();
             
             if (empty($mobile)) {
                 $error['mobile'] = " <span class='label label-danger'>Required!</span>";
             }
-            if (empty($support_id)) {
-                $error['update_users'] = " <span class='label label-danger'> Support Required!</span>";
-            }
-            if (empty($branch_id)) {
-                $error['update_users'] = " <span class='label label-danger'> Branch Required!</span>";
-            }
 
-     if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email) && !empty($city) && !empty($code_generate_time) && !empty($support_id) && !empty($branch_id)) {
+     if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email) && !empty($city) && !empty($code_generate_time)) {
         $refer_bonus_sent = $fn->get_value('users','refer_bonus_sent',$ID);
 
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
@@ -85,13 +69,12 @@ if (isset($_POST['btnEdit'])) {
 
                 }
 
-                $sa_refer_count=$res[0]['sa_refer_count'];
+
                 $refer_sa_balance=200;
 
 
-                $sql_query = "UPDATE users SET `l_referral_count` = l_referral_count + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus,`salary_advance_balance`=salary_advance_balance +$refer_sa_balance,`sa_refer_count`=sa_refer_count + 1  WHERE id =  $user_id";
+                $sql_query = "UPDATE users SET `earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus  WHERE id =  $user_id";
                 $db->sql($sql_query);
-                $fn->update_refer_code_cost($user_id);
                 $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
                 $db->sql($sql_query);
                 $sql_query = "INSERT INTO salary_advance_trans (user_id,refer_user_id,amount,datetime,type)VALUES($ID,$user_id,'$refer_sa_balance','$datetime','credit')";
@@ -111,7 +94,6 @@ if (isset($_POST['btnEdit'])) {
 
 
         }
-        $fn->update_refer_code_cost($ID);
         $register_bonus_sent = $fn->get_value('users','register_bonus_sent',$ID);
         if($status == 1 && $register_bonus_sent != 1){
             $join_codes = 0;
@@ -127,7 +109,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance = $salary_advance_balance,l_referral_count=$l_referral_count,per_code_val=$per_code_val,per_code_cost=$per_code_cost,support_id='$support_id',branch_id='$branch_id',black_box='$black_box',worked_days='$worked_days'  WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',per_code_val=$per_code_val,per_code_cost=$per_code_cost,worked_days='$worked_days'  WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -295,9 +277,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
                                     <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Withdrawal Status</label><br>
@@ -305,72 +284,14 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                    <label class="control-label">Task Type</label><i class="text-danger asterik">*</i><br>
-                                    <div id="task_type" class="btn-group">
-                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="task_type" value="regular" <?= ($res[0]['task_type'] == 'regular') ? 'checked' : ''; ?>> Regular
-                                        </label>
-                                        <label class="btn btn-info" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="task_type" value="champion" <?= ($res[0]['task_type'] == 'champion') ? 'checked' : ''; ?>> Champion
-                                        </label>
-                                    </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="">Champion Task Eligible</label><br>
-                                    <input type="checkbox" id="eligible_button" class="js-switch" <?= isset($res[0]['champion_task_eligible']) && $res[0]['champion_task_eligible'] == 1 ? 'checked' : '' ?>>
-                                    <input type="hidden" id="champion_task_eligible" name="champion_task_eligible" value="<?= isset($res[0]['champion_task_eligible']) && $res[0]['champion_task_eligible'] == 1 ? 1 : 0 ?>">
-                                </div>
-                            </div>
                         </div>
+                     
                         <br>
                         <div class="row">
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">MCG Timer</label><i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="mcg_timer" value="<?php echo $res[0]['mcg_timer']; ?>">
-                                </div>
-                                <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="">Ad Status</label><br>
-                                            <input type="checkbox" id="ad_button" class="js-switch" <?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 'checked' : '' ?>>
-                                            <input type="hidden" id="ad_status" name="ad_status" value="<?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 1 : 0 ?>">
-                                        </div>
-                                 </div>
-                                 <div class="col-md-4">
-                                 <div class="form-group">
-                                    <label for="">Black Box</label><br>
-                                    <input type="checkbox" id="black_box_button" class="js-switch" <?= isset($res[0]['black_box']) && $res[0]['black_box'] == 1 ? 'checked' : '' ?>>
-                                    <input type="hidden" id="black_box" name="black_box" value="<?= isset($res[0]['black_box']) && $res[0]['black_box'] == 1 ? 1 : 0 ?>">
-                                </div>
-                                 </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Security</label><br>
-                                    <input type="checkbox" id="security_button" class="js-switch" <?= isset($res[0]['security']) && $res[0]['security'] == 1 ? 'checked' : '' ?>>
-                                    <input type="hidden" id="security" name="security" value="<?= isset($res[0]['security']) && $res[0]['security'] == 1 ? 1 : 0 ?>">
-                                </div>      
-                            </div>
-                            <div class="col-md-3">
-                                <label for="exampleInputEmail1">Salary Advance Balance</label><i class="text-danger asterik">*</i>
-                                <input type="text" class="form-control" name="salary_advance_balance" value="<?php echo $res[0]['salary_advance_balance']; ?>">
-                            </div>
-                            <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Level Referral Count</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="l_referral_count" value="<?php echo $res[0]['l_referral_count']; ?>">
-                                </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Per Code Cost</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="per_code_cost" value="<?php echo $res[0]['per_code_cost']; ?>">
                                 </div>
-                        </div>
-
-                            <br>
-                            <div class="row">
-                            <div class="form-group">
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Per Code Value</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="per_code_val" value="<?php echo $res[0]['per_code_val']; ?>">
@@ -379,44 +300,8 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Worked Days</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>">
                                 </div>
-                            </div>
-                        </div>
+                          </div>
                         <br>
-                        <div class="row">
-                        <div class="form-group col-md-3">
-                                    <label for="exampleInputEmail1">Select Support</label> <i class="text-danger asterik">*</i>
-                                    <select id='support_id' name="support_id" class='form-control' style="background-color: #7EC8E3">
-                                             <option value="">--Select--</option>
-                                                <?php
-                                                $sql = "SELECT * FROM `staffs`";
-                                                $db->sql($sql);
-
-                                                $result = $db->getResult();
-                                                foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
-                                                    
-                                                <?php } ?>
-                                    </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                    <label for="exampleInputEmail1">Select Branch</label> <i class="text-danger asterik">*</i>
-                                    <select id='branch_id' name="branch_id" class='form-control'>
-                                           <option value="">--Select--</option>
-                                                <?php
-                                                $sql = "SELECT * FROM `branches`";
-                                                $db->sql($sql);
-
-                                                $result = $db->getResult();
-                                                foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['branch_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
-                                                    
-                                                <?php } ?>
-                                    </select>
-                            </div>
-                        </div>
-
                         <div class="row">
 									<div class="form-group col-md-12">
 										<label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
@@ -475,52 +360,5 @@ if (isset($_POST['btnCancel'])) { ?>
         }
     };
 </script>
-<script>
-    var changeCheckbox = document.querySelector('#security_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#security').val(1);
 
-        } else {
-            $('#security').val(0);
-        }
-    };
-</script>
-<script>
-    var changeCheckbox = document.querySelector('#eligible_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#champion_task_eligible').val(1);
 
-        } else {
-            $('#champion_task_eligible').val(0);
-        }
-    };
-</script>
-<script>
-    var changeCheckbox = document.querySelector('#black_box_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#black_box').val(1);
-
-        } else {
-            $('#black_box').val(0);
-        }
-    };
-</script>
-
-<script>
-    var changeCheckbox = document.querySelector('#ad_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#ad_status').val(1);
-
-        } else {
-            $('#ad_status').val(0);
-        }
-    };
-</script>

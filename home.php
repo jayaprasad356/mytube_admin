@@ -88,9 +88,7 @@ $activeUserCount = (isset($res[0]['activeUserCount'])) ? $res[0]['activeUserCoun
                                             <th data-field="today_codes" data-sortable='true'>Codes</th>
                                             <th data-field="refer_code" data-sortable='true'>Refer Code</th>
                                             <th data-field="earn" >Earn</th>
-                                           
-                                            <th data-field="l_referral_count" data-sortable='true'>Level Referals Count</th>
-                                            <th data-field="level" data-sortable='true'>Level</th>
+                                          
                                         
                                         </tr>
                                     </thead>

@@ -151,15 +151,3 @@ $res = $db->getResult();
         }
     };
 </script>
-<script>
-    var changeCheckbox = document.querySelector('#ad_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#ad_status').val(1);
-
-        } else {
-            $('#ad_status').val(0);
-        }
-    };
-</script>

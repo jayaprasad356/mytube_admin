@@ -30,12 +30,11 @@ if (empty($_POST['user_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $function->monitorUserApi('wallet',$user_id);
 $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($_POST['codes']) : 0;
-$user_black_box = (isset($_POST['black_box']) && $_POST['black_box'] != "") ? $db->escapeString($_POST['black_box']) : '0';
 $sync_unique_id = (isset($_POST['sync_unique_id']) && $_POST['sync_unique_id'] != "") ? $db->escapeString($_POST['sync_unique_id']) : '';
 $datetime = date('Y-m-d H:i:s');
 
 $type = 'generate';
-$sql = "SELECT level,app_version FROM users WHERE id = $user_id";
+$sql = "SELECT app_version FROM users WHERE id = $user_id";
 
 $db->sql($sql);
 $ures = $db->getResult();
@@ -45,7 +44,6 @@ $set = $db->getResult();
 $code_generate = $set[0]['code_generate'];
 $sync_codes = $set[0]['sync_codes'];
 $app_version = $ures[0]['app_version'];
-$code_min_sync_time = $fn->get_sync_time($ures[0]['level']);
 
 $t_sync_unique_id = '';
 $sql = "SELECT datetime,sync_unique_id FROM transactions WHERE user_id = $user_id AND type = 'generate' ORDER BY datetime DESC LIMIT 1 ";
@@ -124,35 +122,16 @@ if($code_generate == 1){
             $res = $db->getResult();
             $num = $db->numRows($res);
 
-    
-
-            
-        
-            if($num == 1){
-                $referred_by = $res[0]['referred_by'];
-            
-                
-                $referamtcode = $codes * REFER_COST_PER_CODE;
-                
-                $sql = "SELECT id,mobile FROM users WHERE `refer_code` = '$referred_by' ";
-                $db->sql($sql);
-                $rep= $db->getResult();
-                $sql = "UPDATE `users` SET  `sync_refer_wallet` = sync_refer_wallet + $referamtcode WHERE `refer_code` = '$referred_by'";
-                $db->sql($sql);
-                $response['sync'] = "Code Sync Successfully";
-        
-            }
         }
     }
      
     
-    $sql = "SELECT today_codes,total_codes,balance,code_generate,status,referred_by,black_box FROM users WHERE id = $user_id ";
+    $sql = "SELECT today_codes,total_codes,balance,code_generate,status,referred_by FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     
     $response['success'] = true;
     $response['message'] = "Code Added Successfully";
-    $response['black_box'] = $res[0]['black_box'];
     $response['status'] = $res[0]['status'];
     $response['balance'] = $res[0]['balance'];
     $response['today_codes'] = $res[0]['today_codes'];

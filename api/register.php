@@ -100,9 +100,7 @@ else{
         }
     } while(1);
 
-    $support_id = 0;
 
-    $branch_id = '1';
     if(empty($referred_by)){
         $refer_code = MAIN_REFER . $random_number;
 

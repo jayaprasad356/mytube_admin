@@ -75,30 +75,6 @@ class custom_functions
         }
     }
 
-    public function get_sync_time($level)
-    {
-        if ($level == 1) {
-            $time = 20;
-
-        }
-        elseif($level == 2){
-            $time = 11 ;
-        }
-        elseif($level == 3){
-            $time = 8;
-        }
-        elseif($level == 4){
-            $time = 5;
-        }
-        elseif($level == 5){
-            $time = 3;
-        }
-        else {
-            $time = 11;
-        }
-
-        return $time;
-    } 
     public function get_value($table,$col,$id)
     {
         $sql = "SELECT $col FROM $table WHERE `id`= $id";
@@ -121,46 +97,7 @@ class custom_functions
             return COST_PER_CODE;
         }
     }
-    public function update_refer_code_cost($id)
-    {
-        $sql = "SELECT l_referral_count FROM users WHERE id = " . $id;
-        $this->db->sql($sql);
-        $res = $this->db->getResult();
-        if (!empty($res) && isset($res[0]['l_referral_count'])) {
-            $l_referral_count =  $res[0]['l_referral_count'];
-            $per_code_val = 1;
-            if($l_referral_count <= 2){
-                $per_code_val = 1;
-                $level = 1;
-
-
-            }elseif($l_referral_count >= 3 && $l_referral_count <= 4){
-                $per_code_val = 2;
-                $level = 2;
-
-            }
-            elseif($l_referral_count >= 5 && $l_referral_count <= 7){
-                $per_code_val = 3;
-                $level = 3;
-
-            }
-            elseif($l_referral_count >= 8 && $l_referral_count <= 9){
-                $per_code_val = 4;
-                $level = 4;
-
-            }else{
-                $per_code_val = 6;
-                $level = 5;
-
-            }
-            $sql_query = "UPDATE users SET `per_code_val` = $per_code_val,`level` = $level WHERE id =  $id";
-            $this->db->sql($sql_query);
-
-            return '';
-        } else {
-            return '';
-        }
-    }
+    
     public function validate_image($file, $is_image = true)
     {
         if (function_exists('finfo_file')) {
