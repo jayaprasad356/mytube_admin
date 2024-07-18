@@ -32,7 +32,7 @@ $activeUserCount = (isset($res[0]['activeUserCount'])) ? $res[0]['activeUserCoun
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Fortune - Dashboard</title>
+    <title>Smart Id Maker - Dashboard</title>
 </head>
 
 <body>

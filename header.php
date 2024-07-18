@@ -112,7 +112,7 @@ $fn = new custom_functions;
                 </span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">
-                    <h3>Fortune</h3>
+                    <h3>Smart Id Maker</h3>
                 </span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->

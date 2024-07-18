@@ -56,7 +56,7 @@ if (isset($_POST['btnLogin'])) {
     <div class='row'>
         <div class="col-md-12 text-center">
             <img src="dist/img/logo.jpeg" height="110">
-            <h3>Fortune -Dashboard</h3>
+            <h3>Smart Id Maker -Dashboard</h3>
         </div>
         <div class="box box-info col-md-12">
             <div class="box-header with-border">
