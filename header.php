@@ -227,12 +227,18 @@ $fn = new custom_functions;
 
                     </ul>
                 </li>
-   
 
                 <li class="treeview">
                     <a href="app-update.php">
                         <i class="fa fa-bullseye"></i>
                         <span>App Update</span>
+                    </a>
+                </li>
+
+                <li class="treeview">
+                    <a href="manage-devices.php">
+                    <i class="fa fa-laptop"></i>
+                       <span> Manage Devices</span>
                     </a>
                 </li>
 
