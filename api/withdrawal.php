@@ -15,7 +15,7 @@ $db->connect();
 date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/functions.php');
 $fn = new functions;
-$fn->monitorApi('withdrawal');
+
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
@@ -31,7 +31,7 @@ if (empty($_POST['amount'])) {
 }
 if (empty($_POST['type'])) {
     $response['success'] = false;
-    $response['message'] = "Amount is Empty";
+    $response['message'] = "type is Empty";
     print_r(json_encode($response));
     return false;
 }
@@ -82,7 +82,7 @@ if($withdrawal_status == 1 &&  $main_ws == 1 ){
                     }
                     $sql = "UPDATE `users` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $user_id";
                     $db->sql($sql);
-                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`,`withdrawal_type`,`type`)VALUES('$user_id','$amount','$datetime','code_withdrawal','$type')";
+                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`,`type`)VALUES('$user_id','$amount','$datetime','$type')";
                     $db->sql($sql);
                     $sql = "SELECT balance FROM users WHERE id = $user_id ";
                     $db->sql($sql);
