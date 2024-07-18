@@ -1,0 +1,2 @@
+verify user in both manage verify user option and edit 
+so if u change code means u have to change both

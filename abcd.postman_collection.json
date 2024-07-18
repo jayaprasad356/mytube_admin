@@ -1,0 +1,462 @@
+{
+	"info": {
+		"_postman_id": "7b3d409b-bb88-4197-94b4-e05572ab8560",
+		"name": "abcd",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23988338"
+	},
+	"item": [
+		{
+			"name": "Change Device",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "11",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/userdetails.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"userdetails.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Withdrawal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "12",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/withdrawal_lists.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"withdrawal_lists.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Bank",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "11",
+							"type": "text"
+						},
+						{
+							"key": "account_num",
+							"value": "85807483523",
+							"type": "text"
+						},
+						{
+							"key": "holder_name",
+							"value": "Jandroid ",
+							"type": "text"
+						},
+						{
+							"key": "bank",
+							"value": "State Bank of India",
+							"type": "text"
+						},
+						{
+							"key": "branch",
+							"value": "Tamilnadu",
+							"type": "text"
+						},
+						{
+							"key": "ifsc",
+							"value": "BJFKD7545K",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/updatebank.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"updatebank.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "prasad",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "8778624681",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "jayaprasad356@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "Kumbakonam",
+							"type": "text"
+						},
+						{
+							"key": "dob",
+							"value": "2022-11-19",
+							"type": "text"
+						},
+						{
+							"key": "device_id",
+							"value": "c26ee6b3ca3f941b",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "11",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/updateuser.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"updateuser.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/import_data.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"import_data.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notifications",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/notification_lists.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"notification_lists.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "prasad",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "8778624681",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "jayaprasad356@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "Kumbakonam",
+							"type": "text"
+						},
+						{
+							"key": "dob",
+							"value": "2022-11-19",
+							"type": "text"
+						},
+						{
+							"key": "device_id",
+							"value": "c26ee6b3ca3f941b",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/register.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"register.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Codes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/reset_codes.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"reset_codes.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "mobile",
+							"value": "8778624681",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "device_id",
+							"value": "c26ee6b3ca3f941b",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/login.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"login.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Withdrawal Lists",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "11",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/withdrawal_lists.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"withdrawal_lists.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Wallet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "11",
+							"type": "text"
+						},
+						{
+							"key": "codes",
+							"value": "500",
+							"type": "text"
+						},
+						{
+							"key": "fcm_id",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/wallet.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"wallet.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Details",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "11",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/abcd_web/api/userdetails.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"abcd_web",
+						"api",
+						"userdetails.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
