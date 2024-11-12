@@ -194,6 +194,17 @@ $fn = new custom_functions;
                     </a>
                 </li>
  
+                 <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-calendar"></i>
+                        <span>Plans</span>
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="plan.php"><i class="fa fa-calendar"></i>Plan</a></li>
+                        <li><a href="user_plan.php"><i class="fa fa-user"></i>User Plan</a></li>
+                   </ul>
+                </li>
 
                 <?php
                 if($_SESSION['role'] == 'Super Admin'){?>
@@ -241,7 +252,25 @@ $fn = new custom_functions;
                        <span> Manage Devices</span>
                     </a>
                 </li>
-
+                
+                  <li class="treeview">
+                    <a href="faq.php">
+                    <i class="fa fa-question"></i>
+                       <span>Faq</span>
+                    </a>
+                </li>
+                  <li class="treeview">
+                    <a href="youtube_links.php">
+                    <i class="fa fa-youtube"></i>
+                       <span>Youtube Links</span>
+                    </a>
+                </li>
+                  <li class="treeview">
+                    <a href="payments.php">
+                    <i class="fa fa-money"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
        
                 <?php
 

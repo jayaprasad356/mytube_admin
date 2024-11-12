@@ -1,42 +1,47 @@
+<?php
+session_start();
+header("Expires: on, 01 Jan 1970 00:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+// start session
 
-<!DOCTYPE html>
-<html lang="en">
+// set time for session timeout
+$currentTime = time() + 25200;
+$expired = 720000;
+
+// if session not set go to login page
+if (!isset($_SESSION['username'])) {
+    
+}
+
+// if current time is more than session timeout back to login page
+if ($currentTime > $_SESSION['timeout']) {
+   
+    
+}
+
+// destroy previous session timeout and create new one
+unset($_SESSION['timeout']);
+$_SESSION['timeout'] = $currentTime + $expired;
+
+?>
+
+<?php include "header.php"; ?>
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payments | - Dashboard</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
- <style>
-  body{
-    color:white;
-    overflow-y:hidden;
-  }
-  button{
-    border:2px solid white;
-    border-radius:5px;
-    font-weight:600;
-    margin-bottom:10px;
-    width:150px;
-    height:40px;
-  }
-  .card{
-height:100vh;
-  }
- </style>
+    <title>Payments| - Dashboard</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
+
 <body>
-<div class="container-fluid">
-        <div class="card text-center">
-            <img src="dist/img/payment.jpg" height="420px" alt="...">
-            <div class="card-body" style="background-color:#aa74b0;">
-              <form action="pay.html">
-                 <button type="submit">Pay Now</button>
-              </form>
-               <h5 class="card-title">All India Students Data Base</h5>
-              <p class="card-text">Buy any college data from us. <br>60000 data minimum purchase</p>
-            </div>
-        </div>
-</div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <?php include('public/payments-table.php'); ?>
+    </div><!-- /.content-wrapper -->
 </body>
+
 </html>
+<?php include "footer.php"; ?>

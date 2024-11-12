@@ -8,28 +8,40 @@ $fn = new custom_functions;
 <?php
 if (isset($_POST['btnUpdate'])) {
 
-        $link = $db->escapeString(($_POST['link']));
-        $version = $db->escapeString($_POST['version']);
-        $description = $db->escapeString($_POST['description']);
-        
-       if (!empty($link) && !empty($version) && !empty($description)) {
-            $sql_query = "UPDATE `app_settings` SET `link` = '$link',`version` = '$version',`description` = '$description' WHERE `app_settings`.`id` = 1;";
-            $db->sql($sql_query);
-            $result = $db->getResult();
-            if (!empty($result)) {
-                $result = 0;
-            } else {
-                $result = 1;
-            }
+    $link = $db->escapeString($_POST['link']);
+    $version = $db->escapeString($_POST['version']);
+    $description = $db->escapeString($_POST['description']);
 
-            if ($result == 1) {
-                
-                $error['add_staff'] = "<section class='content-header'>
-                                                <span class='label label-success'>Updated Successfully</span> </section>";
-            } else {
-                $error['add_staff'] = " <span class='label label-danger'>Failed</span>";
-            }
+    if (!empty($_FILES['file_upload']['name'])) {
+        $file_name = $_FILES['file_upload']['name'];
+        $file_tmp_name = $_FILES['file_upload']['tmp_name'];
+
+        $upload_directory = 'upload/files/';
+        $file_path = $upload_directory . $file_name;
+        move_uploaded_file($file_tmp_name, $file_path);
+        
+        $file_path_sql = ", `file_upload` = '$file_path'";
+    } else {
+        $file_path_sql = "";
+    }
+
+    if (!empty($link) && !empty($version) && !empty($description)) {
+        $sql_query = "UPDATE `app_settings` SET `link` = '$link',`version` = '$version',`description` = '$description' $file_path_sql WHERE `app_settings`.`id` = 1;";
+        $db->sql($sql_query);
+        $result = $db->getResult();
+        if (!empty($result)) {
+            $result = 0;
+        } else {
+            $result = 1;
         }
+
+        if ($result == 1) {
+            $error['update_app_settings'] = "<section class='content-header'>
+                                                <span class='label label-success'>Updated Successfully</span> </section>";
+        } else {
+            $error['update_app_settings'] = " <span class='label label-danger'>Failed</span>";
+        }
+    }
 }
 $sql_query = "SELECT * FROM app_settings ";
 $db->sql($sql_query);
@@ -82,6 +94,18 @@ $res = $db->getResult();
                                             <textarea type="text" rows="4" class="form-control" name="description" required><?php echo $res[0]['description']?></textarea>
                                     </div>
                                  </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="exampleInputFile">File Upload</label><?php echo isset($error['file_upload']) ? $error['file_upload'] : ''; ?>
+                                        <input type="file" id="exampleInputFile" name="file_upload">
+                                        <p class="help-block">Upload your file here.</p>
+                                        <?php if (!empty($res[0]['file_upload'])): ?>
+                                            <p>Uploaded File: <a href="<?php echo $res[0]['file_upload']; ?>"><?php echo basename($res[0]['file_upload']); ?></a></p>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
                             </div>
 
          

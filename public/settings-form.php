@@ -23,9 +23,8 @@ if (isset($_POST['btnUpdate'])) {
     $num_sync_times = $db->escapeString(($_POST['num_sync_times']));
     $min_sync_refer_wallet = $db->escapeString(($_POST['min_sync_refer_wallet']));
     $main_content = $db->escapeString(($_POST['main_content']));
-    $code_min_sync_time = $db->escapeString(($_POST['code_min_sync_time']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content',code_min_sync_time='$code_min_sync_time' WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -180,12 +179,6 @@ $res = $db->getResult();
                                         <input type="number"class="form-control" name="min_sync_refer_wallet" value="<?= $res[0]['min_sync_refer_wallet'] ?>">
                                     </div>
                                 </div>  
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label for="">Code Min Sync Time</label><br>
-                                        <input type="number"class="form-control" name="code_min_sync_time" value="<?= $res[0]['code_min_sync_time'] ?>">
-                                    </div>
-                                </div>
                             </div> 
                             <br>   
                             <div class="form-group">
