@@ -60,7 +60,7 @@ $per_code_cost = $plan[0]['per_code_cost'];
 
 $per_code = 50 * $per_code_cost;
 
- $sql = "UPDATE users SET earning_wallet = earning_wallet + $per_code , today_codes = today_codes + 50 ,total_codes = total_codes + 50 WHERE id = $user_id";
+ $sql = "UPDATE users SET earning_wallet = earning_wallet + $per_code , today_codes = today_codes + 50 ,total_codes = total_codes + 50 ,today_earnings = today_earnings + 50 ,total_earnings = total_earnings + 50  WHERE id = $user_id";
  $db->sql($sql);
 
  $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$per_code', '$datetime', 'Generated')";

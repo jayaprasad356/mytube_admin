@@ -115,7 +115,7 @@ $datetime = date('Y-m-d H:i:s');
                     $invite_bonus = $price * 0.15;
                 }
                 
-                $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $invite_bonus,team_income = team_income + $invite_bonus ,withdrawal_status = 1  WHERE refer_code = '$referred_by'";
+                $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $invite_bonus,team_income = team_income + $invite_bonus ,withdrawal_status = 1 ,today_earnings = today_earnings + $invite_bonus, total_earnings = total_earnings + $invite_bonus  WHERE refer_code = '$referred_by'";
                 $db->sql($sql);
     
                 $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$invite_bonus', '$datetime', 'refer_bonus')";
