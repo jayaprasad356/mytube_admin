@@ -118,6 +118,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['balance'] = $row['balance'];
         $tempRow['history'] = $row['history'];
         $tempRow['withdrawal'] = $row['withdrawal'];
+        $tempRow['recharge'] = $row['recharge'];
+        $tempRow['total_recharge'] = $row['total_recharge'];
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
         elseif($row['status']==1)

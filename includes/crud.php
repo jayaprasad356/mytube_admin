@@ -1,7 +1,7 @@
 <?php
 
 
-define('DOMAIN_URL', 'https://smartidmaker.graymatterworks.com/');
+define('DOMAIN_URL', 'https://admin.aidiapp.in/');
 define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678');
 define('COST_PER_CODE', 0.17);
@@ -15,9 +15,9 @@ class Database
 
     //Live
     private $db_host = "localhost";
-    private $db_user = "u743445510_smart_id_maker";
-    private $db_pass = "SmartID@2024"; 
-    private $db_name = "u743445510_smart_id_maker"; 
+    private $db_user = "u261531247_smart_id_maker";
+    private $db_pass = "SmartID@2024";
+    private $db_name = "u261531247_smart_id_maker"; 
     // Demo
     // private $db_host = "localhost";
     // private $db_user = "u743445510_demofortune";

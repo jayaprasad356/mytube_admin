@@ -53,6 +53,8 @@
                                     <th data-field="withdrawal_status" data-sortable="true">Withdrawal Status</th>
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="city" data-sortable="true">City</th>
+                                    <th data-field="recharge" data-sortable="true">Recharge </th>
+                                    <th  data-field="total_recharge" data-sortable="true">Total Recharge</th>
                                     <th data-field="device_id" data-sortable="true">Device Id</th>
                                     <th data-field="password" data-sortable="true">Password</th>
                                     <th data-field="dob" data-sortable="true">Date of Birth</th>
