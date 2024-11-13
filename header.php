@@ -271,6 +271,12 @@ $fn = new custom_functions;
                         <span>Payments</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="leaves.php">
+                    <i class="fa fa-money"></i>
+                        <span>Leaves</span>
+                    </a>
+                </li>
        
                 <?php
 

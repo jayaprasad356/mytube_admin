@@ -15,18 +15,7 @@
             <div class="box">
                 <div class="box-header">
                     <div class="row">
-                        <div class="form-group col-md-3">
-                            <h4 class="box-title">Filter by Type</h4>
-                            <select id='type' name="type" class='form-control'>
-                                <option value="">--select--</option>
-                                <option value="user_leave">User Leave</option>
-                                <option value="common_leave">Common Leave</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <h4 class="box-title">Filter by Date</h4>
-                            <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
-                        </div>
+                       
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -39,11 +28,7 @@
                             <tr>
                                 <th data-field="id" data-sortable="true">ID</th>
                                 <th data-field="date" data-sortable="true">Date</th>
-                                <th data-field="type" data-sortable="true">Leave Type</th>
-                                <th data-field="name" data-sortable="true">User</th>
-                                <th data-field="mobile" data-sortable="true">Mobile Number</th>
                                 <th data-field="reason" data-sortable="true">Reason</th>
-                                <th data-field="status" data-sortable="true">Status</th>
                                 <th data-field="operate">Action</th>
                             </tr>
                         </thead>
