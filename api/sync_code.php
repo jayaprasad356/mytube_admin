@@ -34,7 +34,6 @@ if (empty($_POST['plan_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $plan_id = $db->escapeString($_POST['plan_id']);
 
-// Check if the user has the specified plan
 $sql_check = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
 $db->sql($sql_check);
 $user_plan = $db->getResult();
@@ -42,6 +41,14 @@ $user_plan = $db->getResult();
 if (empty($user_plan)) {
     $response['success'] = false;
     $response['message'] = "Plan not activated for this user";
+    echo json_encode($response);
+    return;
+}
+
+$claim = $user_plan[0]['claim'];
+if ($claim == 0) {
+    $response['success'] = false;
+    $response['message'] = "Your plan is expired";
     echo json_encode($response);
     return;
 }
