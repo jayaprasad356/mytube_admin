@@ -41,7 +41,7 @@ if (isset($_POST['btnLogin'])) {
             $_SESSION['email'] = $res[0]['email'];
             $_SESSION['refer_code'] = $res[0]['refer_code'];
             $_SESSION['timeout'] = $currentTime + $expired;
-            header("location: home.php");
+            header("location: reports.php");
             
         }
         else{

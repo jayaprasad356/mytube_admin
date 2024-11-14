@@ -80,7 +80,7 @@ if ($transaction_count[0]['sync_count'] >= $num_sync) {
 
 $per_code = 50 * $per_code_cost;
 
-$sql = "UPDATE users SET earning_wallet = earning_wallet + $per_code , today_codes = today_codes + 50 , total_codes = total_codes + 50 , today_earnings = today_earnings + 50 , total_earnings = total_earnings + 50 WHERE id = $user_id";
+$sql = "UPDATE users SET earning_wallet = earning_wallet + $per_code , today_codes = today_codes + $per_code , total_codes = total_codes + $per_code , today_earnings = today_earnings + $per_code , total_earnings = total_earnings + $per_code WHERE id = $user_id";
 $db->sql($sql);
 
 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$per_code', '$datetime', 'Generated')";

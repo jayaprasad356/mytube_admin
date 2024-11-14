@@ -159,14 +159,8 @@ $fn = new custom_functions;
             <section class="sidebar">
             <ul class="sidebar-menu">
                 <li class="treeview">
-                    <a href="home.php">
-                        <i class="fa fa-home" class="active"></i> <span>Home</span>
-                    </a>
-                </li>
-                <li class="treeview">
                     <a href="reports.php">
-                    <i class="fa fa-users"></i>
-                        <span>Reports</span>
+                        <i class="fa fa-home" class="active"></i> <span>Home</span>
                     </a>
                 </li>
                 <li class="treeview">
