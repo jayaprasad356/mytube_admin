@@ -14,7 +14,6 @@ $db = new Database();
 $db->connect();
 include_once('../includes/custom-functions.php');
 include_once('../includes/functions.php');
-include_once('verify-token.php');
 $fn = new functions;
 
 $date = date('Y-m-d');
@@ -88,15 +87,9 @@ if ($recharge >= $price) {
             $r_id = $res[0]['id'];
             $r_refer_code = $res[0]['refer_code'];
 
-            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $invite_bonus, team_income = team_income + $invite_bonus, withdrawal_status = 1, today_earnings = today_earnings + $invite_bonus, total_earnings = total_earnings + $invite_bonus WHERE refer_code = '$referred_by'";
-            $db->sql($sql);
-
-            $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$invite_bonus', '$datetime', 'refer_bonus')";
-            $db->sql($sql);
-
             if ($plan_id == 1 || $plan_id == 2) {
                
-            $codes = 2000 * 0.04;
+            $codes = 2000 * 0.04;   
 
             $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $codes, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
             $db->sql($sql);
@@ -104,6 +97,16 @@ if ($recharge >= $price) {
             $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$codes', '$datetime', 'refer_bonus')";
             $db->sql($sql);
             }
+            if ($plan_id == 3) {
+               
+            $codes = 5;   
+    
+            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $codes, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
+            $db->sql($sql);
+    
+            $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$codes', '$datetime', 'refer_bonus')";
+            $db->sql($sql);
+           }
         }
     }
 
