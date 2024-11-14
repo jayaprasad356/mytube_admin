@@ -1621,6 +1621,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'system-users') {
         $tempRow['price'] = $row['price'];
         $tempRow['type'] = $row['type'];
         $tempRow['min_refers'] = $row['min_refers'];
+        $tempRow['num_sync'] = $row['num_sync'];
         if(!empty($row['image'])){
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
 

@@ -26,7 +26,6 @@ if (isset($_POST['btnEdit'])) {
             $city = $db->escapeString(($_POST['city']));
             $status = $db->escapeString(($_POST['status']));
             $refer_code = $db->escapeString(($_POST['refer_code']));
-            $joined_date = (isset($_POST['joined_date']) && !empty($_POST['joined_date'])) ? $db->escapeString($_POST['joined_date']) : $date;
             $code_generate_time = $db->escapeString(($_POST['code_generate_time']));
             $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
             $refer_bonus_sent = (isset($_POST['refer_bonus_sent']) && !empty($_POST['refer_bonus_sent'])) ? $db->escapeString($_POST['refer_bonus_sent']) : 0;
@@ -42,7 +41,6 @@ if (isset($_POST['btnEdit'])) {
             $per_code_cost = $db->escapeString(($_POST['per_code_cost']));
             //$level = $db->escapeString(($_POST['level']));
             $per_code_val = $db->escapeString(($_POST['per_code_val']));
-            $worked_days = $db->escapeString(($_POST['worked_days']));
             $earning_wallet= $db->escapeString($_POST['earning_wallet']);
             $bonus_wallet = $db->escapeString($_POST['bonus_wallet']);
             $recharge = $db->escapeString(($_POST['recharge']));
@@ -113,7 +111,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',per_code_val=$per_code_val,per_code_cost=$per_code_cost,worked_days='$worked_days',earning_wallet = '$earning_wallet',bonus_wallet = '$bonus_wallet',recharge  = '$recharge',total_recharge  = '$total_recharge'  WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,per_code_val=$per_code_val,per_code_cost=$per_code_cost,earning_wallet = '$earning_wallet',bonus_wallet = '$bonus_wallet',recharge  = '$recharge',total_recharge  = '$total_recharge'  WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -278,10 +276,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="number" class="form-control" name="code_generate_time" value="<?php echo $res[0]['code_generate_time']; ?>">
                                 </div>
                             <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
-                                    <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
-                            </div>
-                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Withdrawal Status</label><br>
                                     <input type="checkbox" id="withdrawal_button" class="js-switch" <?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 'checked' : '' ?>>
@@ -299,10 +293,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Per Code Value</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="per_code_val" value="<?php echo $res[0]['per_code_val']; ?>">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Worked Days</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>">
                                 </div>
                                  <div class="col-md-3">
                                    <label for="exampleInputEmail1">Earning Wallet</label><i class="text-danger asterik">*</i>
