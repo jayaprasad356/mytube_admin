@@ -102,7 +102,7 @@ else{
 
 
     if(empty($referred_by)){
-        $refer_code = MAIN_REFER . $random_number;
+        $refer_code = "ID" . $random_number;
 
     }
     else{
