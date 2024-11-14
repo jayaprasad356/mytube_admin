@@ -44,7 +44,8 @@
                                     <th data-field="referred_by" data-sortable="true">Refered By</th>
                                     <th data-field="balance" data-sortable="true">Balance</th>
                                     <th data-field="withdrawal" data-sortable="true">Withdrawal</th>
-                                    <th data-field="history" data-sortable="true">History</th>
+                                    <th data-field="recharge" data-sortable="true">Recharge </th>
+                                    <th  data-field="total_recharge" data-sortable="true">Total Recharge</th>
                                     <th data-field="earn" data-sortable="true">Earn</th>
                                     <th data-field="today_codes" data-sortable="true">Today Codes</th>
                                     <th data-field="total_referrals" data-sortable="true">Total Referrals</th>
@@ -53,8 +54,6 @@
                                     <th data-field="withdrawal_status" data-sortable="true">Withdrawal Status</th>
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="city" data-sortable="true">City</th>
-                                    <th data-field="recharge" data-sortable="true">Recharge </th>
-                                    <th  data-field="total_recharge" data-sortable="true">Total Recharge</th>
                                     <th data-field="device_id" data-sortable="true">Device Id</th>
                                     <th data-field="password" data-sortable="true">Password</th>
                                     <th data-field="dob" data-sortable="true">Date of Birth</th>
