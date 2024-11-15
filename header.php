@@ -271,7 +271,12 @@ $fn = new custom_functions;
                         <span>Leaves</span>
                     </a>
                 </li>
-       
+                <li class="treeview">
+                    <a href="bulk_upload.php">
+                    <i class="fa fa-file"></i>
+                        <span>Bulk Upload</span>
+                    </a>
+                </li>
                 <?php
 
                 }

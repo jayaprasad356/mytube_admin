@@ -11,6 +11,39 @@ $fn = new custom_functions;
 include_once('../includes/functions.php');
 $function = new functions;
 
+if (isset($_POST['bulk_data']) && $_POST['bulk_data'] == 1) {
+    $error = false;
+    $filename = $_FILES["upload_file"]["tmp_name"];
+    
+    // Validate that the file is a valid CSV
+    if ($_FILES["upload_file"]["size"] > 0) {
+        $file = fopen($filename, "r");
+        $isFirstRow = true; // Flag to skip the header row
+        
+        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE) {
+            if ($isFirstRow) {
+                $isFirstRow = false; // Skip the header row
+                continue;
+            }
+
+            // Trim and escape each value
+            $college = trim($db->escapeString($emapData[0]));
+            $name = trim($db->escapeString($emapData[1]));
+            $batch_number = trim($db->escapeString($emapData[2]));
+            $date = trim($db->escapeString($emapData[3]));
+
+            // Insert data into the database
+            $sql = "INSERT INTO random_data (`college`, `name`, `batch_number`, `date`) VALUES ('$college', '$name', '$batch_number', '$date')";
+            $db->sql($sql);
+        }
+        
+        fclose($file);
+        echo "<p class='alert alert-success'>CSV file is successfully imported!</p><br>";
+    } else {
+        echo "<p class='alert alert-danger'>Invalid file format! Please upload data in CSV file!</p><br>";
+    }
+}
+
 
 
 if (isset($_POST['bulk_upload']) && $_POST['bulk_upload'] == 1) {
