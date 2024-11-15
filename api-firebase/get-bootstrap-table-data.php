@@ -442,7 +442,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $join = "LEFT JOIN users u ON w.user_id = u.id LEFT JOIN bank_details b ON b.user_id = w.user_id WHERE (u.refer_code REGEXP '^$refer_code' AND (w.withdrawal_type != 'sa_withdrawal')) ";
     }
   
-    $join = "LEFT JOIN `users` u ON l.user_id = u.id LEFT JOIN `bank_details` b ON u.id = b.user_id WHERE l.id IS NOT NULL AND l.withdrawal_type != 'sa_withdrawal' " . $where;
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id LEFT JOIN `bank_details` b ON u.id = b.user_id WHERE l.id IS NOT NULL " . $where;
 
     $sql = "SELECT COUNT(l.id) AS total FROM `withdrawals` l " . $join;
     $db->sql($sql);
@@ -450,7 +450,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
     
-    $sql = "SELECT l.id AS id, l.*, u.name, u.mobile, u.balance, u.total_codes, u.total_referrals, u.referred_by, u.refer_code, b.branch, b.bank, b.ifsc, b.account_num, b.holder_name, DATEDIFF('$currentdate', u.joined_date) AS history FROM `withdrawals` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+    $sql = "SELECT l.id AS id, l.*, u.name, u.mobile, u.balance, u.total_codes, u.total_referrals, u.referred_by, u.refer_code, b.branch, b.bank, b.ifsc, b.account_num, b.holder_name FROM `withdrawals` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
     
     $db->sql($sql);
     $res = $db->getResult();
@@ -475,7 +475,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['referred_by'] = $row['referred_by'];
         $tempRow['refer_code'] = $row['refer_code'];
-        $tempRow['history'] = $row['history'];
         $tempRow['type'] = $row['type'];
         $tempRow['branch'] = $row['branch'];
         $tempRow['bank'] = $row['bank'];

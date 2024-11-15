@@ -6,6 +6,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
+date_default_timezone_set('Asia/Kolkata');
 
 
 include_once('../includes/crud.php');
@@ -35,9 +36,35 @@ if (empty($_POST['type'])) {
     print_r(json_encode($response));
     return false;
 }
+$date = date('Y-m-d');
+function isBetween10AMand6PM() {
+    $currentHour = date('H');
+    $startTimestamp = strtotime('10:00:00');
+    $endTimestamp = strtotime('18:00:00');
+    return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
+}
+
 $user_id = $db->escapeString($_POST['user_id']);
 $amount = $db->escapeString($_POST['amount']);
 $type = $db->escapeString($_POST['type']);
+$datetime = date('Y-m-d H:i:s');
+$dayOfWeek = date('w', strtotime($datetime));
+
+if (!isBetween10AMand6PM()) {
+    $response['success'] = false;
+    $response['message'] = "Withdrawal time morning 10:00AM to 6PM";
+    print_r(json_encode($response));
+    return false;
+}
+
+$dayOfWeek = date('w');
+
+if ($dayOfWeek == 0 || $dayOfWeek == 7) {
+    $response['success'] = false;
+    $response['message'] = "Withdrawal time Monday to Saturday";
+    print_r(json_encode($response));
+    return false;
+} 
 
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
@@ -59,14 +86,6 @@ if($withdrawal_status == 1 &&  $main_ws == 1 ){
     if (($type == 'bank_transfer' && $num >= 1) || $type == 'cash_payment') {
         if($amount >= $min_withdrawal){
                 if($balance >= $amount){
-                    $max_withdrawal = 300;
-
-                    if ($amount > $max_withdrawal ) {
-                        $response['success'] = false;
-                        $response['message'] = "Maximum Withdrawal ₹".$max_withdrawal;
-                        print_r(json_encode($response));
-                        return false;
-                    }
 
                     $sql = "SELECT id FROM withdrawals WHERE user_id = $user_id AND DATE(datetime) = '$date'";
                     $db->sql($sql);

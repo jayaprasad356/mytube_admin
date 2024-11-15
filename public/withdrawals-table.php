@@ -160,7 +160,7 @@ if (isset($_POST['export_all'])) {
                                         <th data-field="mobile" data-sortable="true">Mobile</th>
                                         <th data-field="referred_by" data-sortable="true">Referred By</th>
                                         <th data-field="refer_code" data-sortable="true">Refer Code</th>
-                                        <th data-field="history" data-sortable="true">History</th>
+                                      
 
                                         <!-- <th  data-field="operate" data-events="actionEvents">Action</th> -->
                                     </tr>
