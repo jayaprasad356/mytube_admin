@@ -26,6 +26,13 @@ $num = $db->numRows($res_user);
 if ($num >= 1) {
     $user_details = $res_user[0];
 
+    $sql_settings = "SELECT min_withdrawal FROM settings WHERE id = 1";
+    $db->sql($sql_settings);
+    $res_settings = $db->getResult();
+    $min_withdrawal = $res_settings[0]['min_withdrawal'];
+
+    $user_details['min_withdrawal'] = $min_withdrawal;
+
     $sql_plans = "SELECT plan.* FROM user_plan
     LEFT JOIN plan ON user_plan.plan_id = plan.id
     WHERE user_plan.user_id = $user_id";
