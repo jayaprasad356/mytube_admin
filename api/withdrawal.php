@@ -87,18 +87,16 @@ if($withdrawal_status == 1 &&  $main_ws == 1 ){
         if($amount >= $min_withdrawal){
                 if($balance >= $amount){
 
-                    $sql = "SELECT id FROM withdrawals WHERE user_id = $user_id AND DATE(datetime) = '$date'";
+                    $sql = "SELECT * FROM withdrawals WHERE user_id='$user_id' AND status = 0";
                     $db->sql($sql);
-                    $res= $db->getResult();
-                    $num = $db->numRows($res);
-        
-                    if ($num >= 1){
+                    $pendingWithdrawals = $db->getResult();
+                    if (!empty($pendingWithdrawals)) {
                         $response['success'] = false;
-                        $response['message'] = "You Already Requested to Withdrawal pls wait...";
+                        $response['message'] = "Please withdraw again after your pending withdrawal is paid";
                         print_r(json_encode($response));
                         return false;
-        
                     }
+                    
                     $sql = "UPDATE `users` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $user_id";
                     $db->sql($sql);
                     $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`,`type`)VALUES('$user_id','$amount','$datetime','$type')";
