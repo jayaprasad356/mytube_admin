@@ -41,7 +41,7 @@ $res = $db->getResult();
 $activeUserCount = (isset($res[0]['activeUserCount'])) ? $res[0]['activeUserCount'] : 0;
 // Fetch today's registration count
 $currentDate = date('Y-m-d');
-$sql = "SELECT COUNT(*) AS todayRegistrationCount FROM users $joinCondition AND joined_date = '$currentDate' AND status = 1";
+$sql = "SELECT COUNT(*) AS todayRegistrationCount FROM users $joinCondition AND joined_date = '$currentDate'";
 $db->sql($sql);
 $res = $db->getResult();
 $todayRegistrationCount = (isset($res[0]['todayRegistrationCount'])) ? $res[0]['todayRegistrationCount'] : 0;
@@ -131,30 +131,6 @@ $totalTransactionsAmount = "Rs." . (isset($res[0]['totalTransactionsAmount'])) ?
                         </div>
                         <div class="icon"><i class="fa fa-money"></i></div>
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-purple">
-                        <div class="inner">
-                        <h3><?php
-                            echo $paidWithdrawalsAmount;
-                             ?></h3>
-                            <p>Paid Withdrawals</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-money"></i></div>
-                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                        <h3><?php
-                            echo $totalTransactionsAmount;
-                             ?></h3>
-                            <p>Total Transactions</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-arrow-right"></i></div>
-                        <a href="transactions.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 

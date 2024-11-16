@@ -105,7 +105,7 @@ $fn = new custom_functions;
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="home.php" class="logo">
+            <a href="reports.php" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
                      <img src="dist/img/logo.jpeg" height="25px" width="25px" style="border-radius:15px;" alt="">
