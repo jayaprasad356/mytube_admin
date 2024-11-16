@@ -47,7 +47,7 @@ if (isset($_POST['btnAdd'])) {
     Referal Bonus</h1>
     <small><?php echo isset($error['update_users']) ? $error['update_users'] : ''; ?></small>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
 </section>
 <section class="content">

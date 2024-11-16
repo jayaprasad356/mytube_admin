@@ -72,7 +72,7 @@ if (isset($_POST['btnCancel'])) { ?>
         Edit Staff<small><a href='staffs.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Staffs</a></small></h1>
     <small><?php echo isset($error['update_staff']) ? $error['update_staff'] : ''; ?></small>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
 </section>
 <section class="content">

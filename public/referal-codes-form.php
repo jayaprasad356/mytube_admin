@@ -63,7 +63,7 @@ if (isset($_POST['btnUpdate'])) {
     Manage Referred By</h1>
     <small><?php echo isset($error['update_users']) ? $error['update_users'] : ''; ?></small>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
 </section>
 <section class="content">

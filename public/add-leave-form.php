@@ -46,7 +46,7 @@ if (isset($_POST['btnAdd'])) {
 
     <?php echo isset($error['add_leave']) ? $error['add_leave'] : ''; ?>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
     <hr />
 </section>

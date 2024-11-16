@@ -59,7 +59,7 @@ if (isset($_POST['btnCancel'])) { ?>
         Edit Youtube Links<small><a href='youtube_links.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Youtube Links</a></small></h1>
     <small><?php echo isset($error['update_faq']) ? $error['update_faq'] : ''; ?></small>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
 </section>
 <section class="content">

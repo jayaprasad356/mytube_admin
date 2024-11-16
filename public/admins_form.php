@@ -38,7 +38,7 @@ if ($_SESSION['role'] == 'editor') {
 }
 ?>
 <section class="content-header">
-    <h1>Create admin <small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+    <h1>Create admin <small><a href="reports.php"><i class="fa fa-home"></i> Home</a></small></h1>
 
 </section>
 <!-- Main content -->

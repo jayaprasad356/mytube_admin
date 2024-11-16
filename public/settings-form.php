@@ -53,7 +53,7 @@ $res = $db->getResult();
     <h1>Settings</h1>
     <?php echo isset($error['update']) ? $error['update'] : ''; ?>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
     <hr />
 </section>

@@ -41,4 +41,6 @@ foreach ($users as $user) {
         $db->sql($updateSql);
     }
 }
+$sql = "UPDATE users SET today_codes = 0 ";
+$db->sql($sql);
 ?>

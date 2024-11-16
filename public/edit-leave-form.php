@@ -60,7 +60,7 @@ if (isset($_POST['btnCancel'])) { ?>
         Edit Leave Details<small><a href='leaves.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Leaves</a></small></h1>
     <small><?php echo isset($error['update_leave']) ? $error['update_leave'] : ''; ?></small>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
 </section>
 <section class="content">

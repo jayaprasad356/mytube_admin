@@ -91,7 +91,7 @@ if (isset($_POST['btnCancel'])) { ?>
 		Edit Plan<small><a href='plan.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Plan</a></small></h1>
 	<small><?php echo isset($error['update_languages']) ? $error['update_languages'] : ''; ?></small>
 	<ol class="breadcrumb">
-		<li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+		<li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
 	</ol>
 </section>
 <section class="content">

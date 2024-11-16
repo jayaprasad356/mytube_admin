@@ -1,5 +1,5 @@
 <section class="content-header">
-    <h1>Notifications /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+    <h1>Notifications /<small><a href="reports.php"><i class="fa fa-home"></i> Home</a></small></h1>
     <ol class="breadcrumb">
         <a class="btn btn-block btn-default" href="add-notification.php"><i class="fa fa-plus-square"></i> Add Notification</a>
     </ol>

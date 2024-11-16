@@ -47,7 +47,7 @@ if (isset($_POST['btnd'])) {
 <h1>Add New Bulk Upload</h1>
     <?php echo isset($error['add_notification']) ? $error['add_notification'] : ''; ?>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
     <hr />
 </section>

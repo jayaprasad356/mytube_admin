@@ -43,7 +43,7 @@ $activeUserCount = (isset($res[0]['activeUserCount'])) ? $res[0]['activeUserCoun
             <h1>Home</h1>
             <ol class="breadcrumb">
                 <li>
-                    <a href="home.php"> <i class="fa fa-home"></i> Home</a>
+                    <a href="reports.php"> <i class="fa fa-home"></i> Home</a>
                 </li>
             </ol>
         </section>

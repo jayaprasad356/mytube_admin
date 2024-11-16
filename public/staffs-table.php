@@ -1,6 +1,6 @@
 
 <section class="content-header">
-    <h1>Staffs /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+    <h1>Staffs /<small><a href="reports.php"><i class="fa fa-home"></i> Home</a></small></h1>
     <ol class="breadcrumb">
                 <a class="btn btn-block btn-default" href="add-staff.php"><i class="fa fa-plus-square"></i> Add New Staff</a>
 </ol>

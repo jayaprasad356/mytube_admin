@@ -52,7 +52,7 @@ $res = $db->getResult();
 
     <?php echo isset($error['add_staff']) ? $error['add_staff'] : ''; ?>
     <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
     <hr />
 </section>

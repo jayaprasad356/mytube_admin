@@ -3,7 +3,7 @@
 include_once('includes/custom-functions.php');
 include_once('includes/functions.php');
 $function = new custom_functions;
-
+date_default_timezone_set('Asia/Kolkata');
 // set time for session timeout
 $currentTime = time() + 25200;
 $expired = 3600;
@@ -28,17 +28,20 @@ if ($_SESSION['role'] == 'Super Admin') {
     $joinCondition = "WHERE refer_code REGEXP '^$referCode'";
     $referCodePattern = "^$referCode";
 }
-
+$date = date('Y-m-d');
 // Fetch user count
 $sql = "SELECT COUNT(*) AS userCount FROM users $joinCondition";
 $db->sql($sql);
 $res = $db->getResult();
 $userCount = (isset($res[0]['userCount'])) ? $res[0]['userCount'] : 0;
 // Fetch active user count
-$sql = "SELECT COUNT(*) AS activeUserCount FROM users $joinCondition AND status = 1 AND code_generate = 1 AND today_codes != 0";
+// Assuming your current date is stored in $currentDate
+// Make sure $currentDate is in 'YYYY-MM-DD' format
+$sql = "SELECT COUNT(id) AS generatedUserCount  FROM users WHERE today_codes > 0 AND joined_date = '$date'";
 $db->sql($sql);
 $res = $db->getResult();
-$activeUserCount = (isset($res[0]['activeUserCount'])) ? $res[0]['activeUserCount'] : 0;
+$generatedUserCount = (isset($res[0]['generatedUserCount'])) ? $res[0]['generatedUserCount'] : 0;
+
 // Fetch today's registration count
 $currentDate = date('Y-m-d');
 $sql = "SELECT COUNT(*) AS todayRegistrationCount FROM users $joinCondition AND joined_date = '$currentDate'";
@@ -52,15 +55,13 @@ $db->sql($sql);
 $res = $db->getResult();
 $unpaidWithdrawalsAmount = "Rs." . (isset($res[0]['unpaidWithdrawalsAmount'])) ? $res[0]['unpaidWithdrawalsAmount'] : 0;
 // Fetch paid withdrawals amount
-$sql = "SELECT SUM(w.amount) AS paidWithdrawalsAmount FROM withdrawals w INNER JOIN users u ON u.id = w.user_id WHERE u.refer_code REGEXP '$referCodePattern' AND w.status = 1";
+
+// Assuming your current date is stored in $currentDate
+$sql = "SELECT SUM(amount) AS todayTotalAmount FROM payments WHERE DATE(datetime) = '$currentDate'";
 $db->sql($sql);
 $res = $db->getResult();
-$paidWithdrawalsAmount = "Rs." . (isset($res[0]['paidWithdrawalsAmount'])) ? $res[0]['paidWithdrawalsAmount'] : 0;
-// Fetch total transactions amount
-$sql = "SELECT SUM(t.amount) AS totalTransactionsAmount FROM transactions t INNER JOIN users u ON u.id = t.user_id WHERE u.refer_code REGEXP '$referCodePattern'";
-$db->sql($sql);
-$res = $db->getResult();
-$totalTransactionsAmount = "Rs." . (isset($res[0]['totalTransactionsAmount'])) ? $res[0]['totalTransactionsAmount'] : 0;
+$todayTotalAmount = (isset($res[0]['todayTotalAmount'])) ? $res[0]['todayTotalAmount'] : 0;
+
 
 
 ?>
@@ -68,7 +69,7 @@ $totalTransactionsAmount = "Rs." . (isset($res[0]['totalTransactionsAmount'])) ?
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Fortune - Dashboard</title>
+    <title>Smart Id Maker - Dashboard</title>
 </head>
 
 <body>
@@ -79,7 +80,7 @@ $totalTransactionsAmount = "Rs." . (isset($res[0]['totalTransactionsAmount'])) ?
             <h1>Reports</h1>
             <ol class="breadcrumb">
                 <li>
-                    <a href="home.php"> <i class="fa fa-home"></i> Home</a>
+                    <a href="reports.php"> <i class="fa fa-home"></i> Home</a>
                 </li>
             </ol>
         </section>
@@ -101,7 +102,7 @@ $totalTransactionsAmount = "Rs." . (isset($res[0]['totalTransactionsAmount'])) ?
                     <div class="small-box bg-green">
                         <div class="inner">
                         <h3><?php
-                            echo $activeUserCount;
+                            echo $generatedUserCount;
                              ?></h3>
                             <p>Active Users</p>
                         </div>
@@ -131,6 +132,18 @@ $totalTransactionsAmount = "Rs." . (isset($res[0]['totalTransactionsAmount'])) ?
                         </div>
                         <div class="icon"><i class="fa fa-money"></i></div>
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <h3><?php
+                            echo $todayTotalAmount;
+                             ?></h3>
+                            <p>Payment Received</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-money"></i></div>
+                        <a href="payments.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
