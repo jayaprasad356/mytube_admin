@@ -17,8 +17,11 @@ date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/functions.php');
 $fn = new functions;
 
+$response['success'] = false;
+$response['message'] = "Disable";
+print_r(json_encode($response)); 
 
-if (empty($_POST['user_id'])) {
+/*if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User Id is Empty";
     print_r(json_encode($response));
@@ -142,4 +145,4 @@ if($withdrawal_status == 1 &&  $main_ws == 1 ){
 
 
 
-?>
+?>*/
