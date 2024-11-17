@@ -16,12 +16,8 @@ include_once('../includes/functions.php');
 $fn = new functions;
 $datetime = date('Y-m-d H:i:s');
 
-$response['success'] = false;
-$response['message'] = "Disable";
-echo json_encode($response);
-
 // Validate inputs
-/*if (empty($_POST['user_id'])) {
+if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User Id is Empty";
     echo json_encode($response);
@@ -37,6 +33,18 @@ if (empty($_POST['plan_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 $plan_id = $db->escapeString($_POST['plan_id']);
+
+$current_date = date('Y-m-d');
+$sql_check_leave = "SELECT * FROM leaves WHERE date = '$current_date'";
+$db->sql($sql_check_leave);
+$leave_data = $db->getResult();
+
+if (!empty($leave_data)) {
+    $response['success'] = false;
+    $response['message'] = "Today Holiday";
+    echo json_encode($response);
+    return;
+}
 
 $sql_check = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
 $db->sql($sql_check);
@@ -82,9 +90,11 @@ if ($transaction_count[0]['sync_count'] >= $num_sync) {
     return;
 }
 
-$per_code = 50 * $per_code_cost;
+$codes = 50;
 
-$sql = "UPDATE users SET earning_wallet = earning_wallet + $per_code , today_codes = today_codes + $per_code , total_codes = total_codes + $per_code , today_earnings = today_earnings + $per_code , total_earnings = total_earnings + $per_code WHERE id = $user_id";
+$total_cost = $codes * $per_code_cost;
+
+$sql = "UPDATE users SET earning_wallet = earning_wallet + $total_cost , today_codes = today_codes + $codes , total_codes = total_codes + $codes , today_earnings = today_earnings + $total_cost , total_earnings = total_earnings + $total_cost WHERE id = $user_id";
 $db->sql($sql);
 
 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$per_code', '$datetime', 'Generated')";
@@ -99,4 +109,3 @@ $response['message'] = "Sync Completed Successfully";
 $response['user_data'] = $user_data;
 echo json_encode($response);
 ?>
-*/
