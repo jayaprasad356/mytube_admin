@@ -16,8 +16,12 @@ include_once('../includes/functions.php');
 $fn = new functions;
 $datetime = date('Y-m-d H:i:s');
 
+$response['success'] = false;
+$response['message'] = "Disable";
+echo json_encode($response);
+
 // Validate inputs
-if (empty($_POST['user_id'])) {
+/*if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User Id is Empty";
     echo json_encode($response);
@@ -95,3 +99,4 @@ $response['message'] = "Sync Completed Successfully";
 $response['user_data'] = $user_data;
 echo json_encode($response);
 ?>
+*/
