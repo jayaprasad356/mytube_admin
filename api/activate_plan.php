@@ -97,7 +97,7 @@ if ($recharge >= $price) {
             $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
             $db->sql($sql);
 
-            $sql = "INSERT INTO transactions (user_id, amount, datetime, type , codes) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus','$codes')";
+            $sql = "INSERT INTO transactions (user_id, amount, datetime, type, codes) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus','$codes')";
             $db->sql($sql);
             }
             if ($plan_id == 3) {
@@ -108,7 +108,7 @@ if ($recharge >= $price) {
             $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
             $db->sql($sql);
     
-            $sql = "INSERT INTO transactions (user_id, amount, datetime, type,codes) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus','$codes')";
+            $sql = "INSERT INTO transactions (user_id, amount, datetime, type, codes) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus','$codes')";
             $db->sql($sql);
            }
         }
