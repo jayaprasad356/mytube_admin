@@ -3,13 +3,10 @@ include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
-$sql = "SELECT id, name FROM categories ORDER BY id ASC";
-$db->sql($sql);
-$res = $db->getResult();
 
 ?>
 <?php
-if (isset($_POST['btnd'])) {
+if (isset($_POST['btnAdd'])) {
 
         $title = $db->escapeString(($_POST['title']));
         $description = $db->escapeString($_POST['description']);
@@ -38,12 +35,13 @@ if (isset($_POST['btnd'])) {
             }
 
             if ($result == 1) {
-                
                 $error['add_notification'] = "<section class='content-header'>
-                                                <span class='label label-success'>Notification Added Successfully</span> </section>";
+                                                <span class='label label-success'>Notification Added Successfully</span> 
+                                              </section>";
             } else {
-                $error['add_notification'] = " <span class='label label-danger'>Failed</span>";
+                $error['add_notification'] = "<span class='label label-danger'>Failed</span>";
             }
+            
             }
         }
 ?>
@@ -67,7 +65,7 @@ if (isset($_POST['btnd'])) {
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form id='notification_form' method="post" action="send-multiple-push.php" enctype="multipart/form-data">
+                <form id='notification_form' method="post" enctype="multipart/form-data">
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group">
@@ -113,36 +111,7 @@ if (isset($_POST['btnd'])) {
 
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-<script>
-    $('#notification_form').on('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: formData,
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(result) {
 
-                    $('#result').html(result.message);
-                    $('#result').show().delay(6000).fadeOut();
-                    $('#notification_form').each(function() {
-                        this.reset();
-                    });
-                    
-                }
-            });
-
-        });
-    $('#btnClear').on('click', function() {
-        for (instance in CKEDITOR.instances) {
-            CKEDITOR.instances[instance].setData('');
-        }
-    });
-</script>
 
 <!--code for page clear-->
 <script>
