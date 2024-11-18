@@ -44,13 +44,6 @@ if($user_id != ''){
     $user_code_generate_time = $res[0]['code_generate_time'];
    
     $champion_task = $set[0]['champion_task'];
-    
-        $appres[0]['version'] = '18';
-
-
-
-    $sql = "UPDATE `users` SET  `app_version` = $app_version WHERE `id` = $user_id";
-    $db->sql($sql);
 
 
     if(!empty($fcm_id)){

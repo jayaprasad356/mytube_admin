@@ -89,27 +89,30 @@ if ($recharge >= $price) {
 
             if ($plan_id == 1 || $plan_id == 2) {
                
-            $codes = 2000 * 0.04;   
 
-            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $codes, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
+            $codes = 2000;
+            $code_per_cost = 0.04;
+            $total_cost = $codes * $code_per_cost;
+
+            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
             $db->sql($sql);
 
-            $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$codes', '$datetime', 'refer_bonus')";
+            $sql = "INSERT INTO transactions (user_id, amount, datetime, type , codes) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus','$codes')";
             $db->sql($sql);
             }
             if ($plan_id == 3) {
                
-            $codes = 5;   
-    
-            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $codes, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
+            $codes = 0;
+            $total_cost = 5;
+
+            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
             $db->sql($sql);
     
-            $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$codes', '$datetime', 'refer_bonus')";
+            $sql = "INSERT INTO transactions (user_id, amount, datetime, type,codes) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus','$codes')";
             $db->sql($sql);
            }
         }
     }
-
     $sql = "UPDATE users SET recharge = recharge - $price, total_assets = total_assets + $price, withdrawal_status = 1 WHERE id = $user_id";
     $db->sql($sql);
 
