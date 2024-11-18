@@ -97,7 +97,7 @@ $total_cost = $codes * $per_code_cost;
 $sql = "UPDATE users SET earning_wallet = earning_wallet + $total_cost , today_codes = today_codes + $codes , total_codes = total_codes + $codes , today_earnings = today_earnings + $total_cost , total_earnings = total_earnings + $total_cost WHERE id = $user_id";
 $db->sql($sql);
 
-$sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$per_code', '$datetime', 'Generated')";
+$sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','Generated','$codes')";
 $db->sql($sql);
 
 $sql = "SELECT * FROM users WHERE id = $user_id";
