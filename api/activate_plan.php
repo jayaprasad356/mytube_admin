@@ -63,6 +63,7 @@ if (empty($plan)) {
 $price = $plan[0]['price'];
 $min_refers = $plan[0]['min_refers'];
 $invite_bonus = $plan[0]['invite_bonus'];
+$per_code_cost = $plan[0]['per_code_cost'];
 $datetime = date('Y-m-d H:i:s');
 
 $sql_check = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
@@ -91,8 +92,7 @@ if ($recharge >= $price) {
                
 
             $codes = 2000;
-            $code_per_cost = 0.04;
-            $total_cost = $codes * $code_per_cost;
+            $total_cost = $codes * $per_code_cost;
 
             $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
             $db->sql($sql);
