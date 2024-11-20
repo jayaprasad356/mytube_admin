@@ -15,10 +15,20 @@ $sql = "SELECT * FROM `notifications` ORDER BY id DESC LIMIT 20 ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
+
 if ($num >= 1) {
+    foreach ($res as $row) {
+        $temp['id'] = $row['id'];
+        $temp['title'] = $row['title'];
+        $temp['description'] = $row['description'];
+        $temp['link'] = $row['link'];
+        $temp['datetime'] = $row['datetime'];
+        $temp['image'] = DOMAIN_URL . $row['image'];
+        $rows[] = $temp;
+   }
     $response['success'] = true;
     $response['message'] = "Notification listed Successfully";
-    $response['data'] = $res;
+    $response['data'] = $rows;
     print_r(json_encode($response));
 
 }else{

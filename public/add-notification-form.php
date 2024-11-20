@@ -1,54 +1,73 @@
+
 <?php
 include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 
-?>
-<?php
 if (isset($_POST['btnAdd'])) {
+    $title = $db->escapeString($_POST['title']);
+    $description = $db->escapeString($_POST['description']);
+    $link = $db->escapeString($_POST['link']);
+    $error = array();
 
-        $title = $db->escapeString(($_POST['title']));
-        $description = $db->escapeString($_POST['description']);
-        $link = $db->escapeString($_POST['link']);
-        $error = array();
-       
-        if (empty($title)) {
-            $error['title'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($description)) {
-            $error['description'] = " <span class='label label-danger'>Required!</span>";
-        }
-       
-       
-       if (!empty($title) && !empty($description)) 
-       {
-        $datetime = date('Y-m-d H:i:s');
-           
-            $sql_query = "INSERT INTO notifications (title,description,datetime,link)VALUES('$title','$description','$datetime','$link')";
-            $db->sql($sql_query);
-            $result = $db->getResult();
-            if (!empty($result)) {
-                $result = 0;
-            } else {
-                $result = 1;
-            }
+    if (empty($title)) {
+        $error['title'] = " <span class='label label-danger'>Required!</span>";
+    }
+    if (empty($description)) {
+        $error['description'] = " <span class='label label-danger'>Required!</span>";
+    }
+    if (empty($link)) {
+        $error['link'] = " <span class='label label-danger'>Required!</span>";
+    }
 
-            if ($result == 1) {
-                $error['add_notification'] = "<section class='content-header'>
-                                                <span class='label label-success'>Notification Added Successfully</span> 
-                                              </section>";
-            } else {
-                $error['add_notification'] = "<span class='label label-danger'>Failed</span>";
-            }
-            
-            }
+    // Initialize variables
+    $upload_image = 'dist/img/icon.jpeg'; // Default image path
+    $current_datetime = date('Y-m-d H:i:s');
+
+    // Validate and process the image upload
+    if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
+        $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+
+        $result = $fn->validate_image($_FILES["image"]);
+        $target_path = 'upload/images/';
+
+        $filename = microtime(true) . '.' . strtolower($extension);
+        $full_path = $target_path . $filename;
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $full_path)) {
+            $upload_image = $full_path; // Set the uploaded image path
+        } else {
+            echo '<p class="alert alert-danger">Can not upload image.</p>';
+            return false;
         }
+    }
+
+    // Insert into the database
+    $sql = "INSERT INTO notifications (title, description, image, link, datetime) 
+            VALUES ('$title', '$description', '$upload_image', '$link', '$current_datetime')";
+    $db->sql($sql);
+
+    $result = $db->getResult();
+    if (!empty($result)) {
+        $result = 0;
+    } else {
+        $result = 1;
+    }
+
+    if ($result == 1) {
+        $error['add_languages'] = "<section class='content-header'>
+                                        <span class='label label-success'>Notification Added Successfully</span>
+                                   </section>";
+    } else {
+        $error['add_languages'] = "<span class='label label-danger'>Failed</span>";
+    }
+}
 ?>
 <section class="content-header">
-    <h1>Add New Notification <small><a href='notifications.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Notifications</a></small></h1>
+    <h1>Add New Notification <small><a href='notifications.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Notification</a></small></h1>
 
-    <?php echo isset($error['add_notification']) ? $error['add_notification'] : ''; ?>
+    <?php echo isset($error['add_languages']) ? $error['add_languages'] : ''; ?>
     <ol class="breadcrumb">
         <li><a href="reports.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
@@ -65,35 +84,36 @@ if (isset($_POST['btnAdd'])) {
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form id='notification_form' method="post" enctype="multipart/form-data">
+                <form url="add-languages-form" method="post" enctype="multipart/form-data">
                     <div class="box-body">
-                        <div class="row">
+                       <div class="row">
                             <div class="form-group">
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Title</label> <i class="text-danger asterik">*</i><?php echo isset($error['title']) ? $error['title'] : ''; ?>
+                                    <label for="exampleInputtitle">Title</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="title" required>
                                 </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Description</label><i class="text-danger asterik">*</i><?php echo isset($error['description']) ? $error['description'] : ''; ?>
-                                    <textarea  rows="3" type="number" class="form-control" name="description" required></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Link</label> <i class="text-danger asterik">*</i><?php echo isset($error['link']) ? $error['link'] : ''; ?>
+                                    <label for="exampleInputtitle">Link</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="link">
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <br>    
+                        <div class="row">
+                            <div class="form-group">
+                            <div class='col-md-6'>
+                                    <label for="exampleInputtitle">Description</label> <i class="text-danger asterik">*</i>
+                                    <textarea type="text" rows="3" class="form-control" name="description" required></textarea>
+                                </div>
+                                 <div class="col-md-3">
+                                    <label for="exampleInputFile">Image</label> <i class="text-danger asterisk">*</i><?php echo isset($error['image']) ? $error['image'] : ''; ?>
+                                    <input type="file" name="image" onchange="readURL(this);" accept="image/png, image/jpeg" id="image"/><br>
+                                    <img id="blah" src="#" alt="" style="display: none; max-height: 200px; max-width: 200px;" /> <!-- Adjust max-height and max-width as needed -->
+                                 </div>
+                            </div> 
+                        </div> 
+                        <br>
+      
                     <!-- /.box-body -->
 
                     <div class="box-footer">
@@ -108,10 +128,38 @@ if (isset($_POST['btnAdd'])) {
         </div>
     </div>
 </section>
-
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script>
+    $('#add_leave_form').validate({
 
+        ignore: [],
+        debug: false,
+        rules: {
+        reason: "required",
+            date: "required",
+        }
+    });
+    $('#btnClear').on('click', function() {
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].setData('');
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#user_id').select2({
+        width: 'element',
+        placeholder: 'Type in name to search',
+
+    });
+    });
+
+    if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+
+</script>
 
 <!--code for page clear-->
 <script>
@@ -119,5 +167,32 @@ if (isset($_POST['btnAdd'])) {
     window.location.reload();
 } 
 </script>
+<script>
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
+        reader.onload = function (e) {
+            // Set the source of the image to the selected file
+            document.getElementById('blah').src = e.target.result;
+            // Display the image by changing its style to block
+            document.getElementById('blah').style.display = 'block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+<script>
+    var changeCheckbox = document.querySelector('#stock_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#stock').val(1);
+
+        } else {
+            $('#stock').val(0);
+        }
+    };
+</script>
 <?php $db->disconnect(); ?>

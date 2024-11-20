@@ -23,6 +23,7 @@
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="title" data-sortable="true">Title</th>
                                     <th data-field="description" data-sortable="true">Description</th>
+                                    <th data-field="image">Image</th>
                                     <th data-field="datetime" data-sortable="true">Date Time</th>
                                     <th data-field="operate">Action</th>
                                 </tr>

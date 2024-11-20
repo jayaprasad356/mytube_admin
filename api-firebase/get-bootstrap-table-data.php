@@ -741,11 +741,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'notifications') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-        $operate = ' <a class="text text-danger" href="delete-notification.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $operate = '<a href="edit-notification.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-notification.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['title'] = $row['title'];
         $tempRow['description'] = $row['description'];
         $tempRow['datetime'] = $row['datetime'];
+        if(!empty($row['image'])){
+            $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
+        }else{
+            $tempRow['image'] = 'No Image';
+        }
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }

@@ -15,7 +15,7 @@ $fn = new custom_functions;
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="icon" type="image/ico" href="dist/img/favicon.jpeg">
+        <link rel="icon" type="image/ico" href="dist/img/icon.jpeg">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -108,7 +108,7 @@ $fn = new custom_functions;
             <a href="reports.php" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
-                     <img src="dist/img/logo.jpeg" height="25px" width="25px" style="border-radius:15px;" alt="">
+                     <img src="dist/img/icon.jpeg" height="25px" width="25px" style="border-radius:15px;" alt="">
                 </span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">
