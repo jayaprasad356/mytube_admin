@@ -35,6 +35,13 @@ if (empty($_POST['plan_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $plan_id = $db->escapeString($_POST['plan_id']);
 
+if ($plan_id != 1 && $plan_id != 2) {
+    $response['success'] = false;
+    $response['message'] = "You can only activate plan_id 1 or plan_id 2.";
+    print_r(json_encode($response));
+    return false;
+}
+
 $sql = "SELECT * FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $user = $db->getResult();
@@ -45,6 +52,7 @@ if (empty($user)) {
     print_r(json_encode($response));
     return false;
 }
+
 $recharge = $user[0]['recharge'];
 $refer_code = $user[0]['refer_code'];
 $referred_by = $user[0]['referred_by'];
@@ -72,7 +80,29 @@ $res_check_user = $db->getResult();
 
 if (!empty($res_check_user)) {
     $response['success'] = false;
-    $response['message'] = "You have already started this plan";
+    $response['message'] = "You have already activated this plan.";
+    print_r(json_encode($response));
+    return false;
+}
+
+$sql_check_plan_1 = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = 1";
+$db->sql($sql_check_plan_1);
+$res_check_plan_1 = $db->getResult();
+
+if (!empty($res_check_plan_1)) {
+    $response['success'] = false;
+    $response['message'] = "You have already activated the 2999 plan."; 
+    print_r(json_encode($response));
+    return false;
+}
+
+$sql_check_plan_2 = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = 2";
+$db->sql($sql_check_plan_2);
+$res_check_plan_2 = $db->getResult();
+
+if (!empty($res_check_plan_2)) {
+    $response['success'] = false;
+    $response['message'] = "You have already activated the 3999 plan."; 
     print_r(json_encode($response));
     return false;
 }
@@ -89,8 +119,7 @@ if ($recharge >= $price) {
             $r_refer_code = $res[0]['refer_code'];
 
             if ($plan_id == 1 || $plan_id == 2) {
-               
-
+  
             $codes = 2000;
             $total_cost = $codes * $per_code_cost;
 

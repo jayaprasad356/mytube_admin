@@ -1,19 +1,18 @@
+
 <?php
 include_once('includes/crud.php');
 $db = new Database();
 $db->connect();
-$sql_query = "SELECT t.codes,t.amount,t.datetime,u.mobile,u.name,u.joined_date  FROM transactions t,users u WHERE t.user_id = u.id";
-	
-if (isset($_GET['id'])) {
-	$ID = $db->escapeString($_GET['id']);
-	$sql_query = "SELECT t.codes,t.amount,t.datetime,u.mobile,u.name,u.joined_date  FROM transactions t,users u WHERE t.user_id = u.id AND t.user_id= ".$ID;
-	
-    
-} 
 
+$currentdate = date('Y-m-d');
 
-	$db->sql($sql_query);
-	$developer_records = $db->getResult();
+// Modify the SQL query to join transactions with users to fetch name and mobile
+$sql_query = "SELECT transactions.user_id, users.name, users.mobile, transactions.type, transactions.datetime, transactions.amount transactions.codes 
+              FROM `transactions`
+              JOIN `users` ON transactions.user_id = users.id"; // Assuming user_id in transactions matches id in users
+
+$db->sql($sql_query);
+$developer_records = $db->getResult();
 	
 	$filename = "All-transactions-data".date('Ymd') . ".xls";			
 	header("Content-Type: application/vnd.ms-excel");
