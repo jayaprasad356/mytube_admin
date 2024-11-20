@@ -35,12 +35,7 @@ if (empty($_POST['plan_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $plan_id = $db->escapeString($_POST['plan_id']);
 
-if ($plan_id != 1 && $plan_id != 2) {
-    $response['success'] = false;
-    $response['message'] = "You can only activate plan_id 1 or plan_id 2.";
-    print_r(json_encode($response));
-    return false;
-}
+
 
 $sql = "SELECT * FROM users WHERE id = $user_id ";
 $db->sql($sql);
