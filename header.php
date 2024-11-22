@@ -157,6 +157,7 @@ $fn = new custom_functions;
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
+               
             <ul class="sidebar-menu">
                 <li class="treeview">
                     <a href="reports.php">
@@ -181,6 +182,8 @@ $fn = new custom_functions;
                       
                     </ul>
                 </li>
+              <?php
+                if($_SESSION['role'] == 'Super Admin'){?>
                 <li class="treeview">
                     <a href="transactions.php">
                     <i class="fa fa-arrow-right"></i>
@@ -199,10 +202,6 @@ $fn = new custom_functions;
                         <li><a href="user_plan.php"><i class="fa fa-user"></i>User Plan</a></li>
                    </ul>
                 </li>
-
-                <?php
-                if($_SESSION['role'] == 'Super Admin'){?>
-               
 
                 <li class="treeview">
                     <a href="bank_details.php">
@@ -259,12 +258,18 @@ $fn = new custom_functions;
                        <span>Youtube Links</span>
                     </a>
                 </li>
+                <?php
+
+                 }
+                   ?>
                   <li class="treeview">
                     <a href="payments.php">
                     <i class="fa fa-money"></i>
                         <span>Payments</span>
                     </a>
                 </li>
+                <?php
+                if($_SESSION['role'] == 'Super Admin'){?>
                 <li class="treeview">
                     <a href="leaves.php">
                     <i class="fa fa-money"></i>
@@ -277,12 +282,11 @@ $fn = new custom_functions;
                         <span>Bulk Upload</span>
                     </a>
                 </li>
+
                 <?php
 
-                }
-                ?>
-
-
+}
+?>
                
             </ul>
             </section>
