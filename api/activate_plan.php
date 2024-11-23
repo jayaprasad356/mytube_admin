@@ -80,26 +80,26 @@ if (!empty($res_check_user)) {
     return false;
 }
 
-$sql_check_plan_1 = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = 1";
-$db->sql($sql_check_plan_1);
-$res_check_plan_1 = $db->getResult();
+if ($plan_id != 3) {
+    $sql_check_active_plan = "SELECT plan_id FROM user_plan WHERE user_id = $user_id AND plan_id IN (1, 2, 4)";
+    $db->sql($sql_check_active_plan);
+    $res_check_active_plan = $db->getResult();
 
-if (!empty($res_check_plan_1)) {
-    $response['success'] = false;
-    $response['message'] = "You have already activated the 2999 plan."; 
-    print_r(json_encode($response));
-    return false;
-}
+    if (!empty($res_check_active_plan)) {
+        $activated_plan = $res_check_active_plan[0]['plan_id'];
 
-$sql_check_plan_2 = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = 2";
-$db->sql($sql_check_plan_2);
-$res_check_plan_2 = $db->getResult();
+        $plan_names = [
+            1 => "2999 plan",
+            2 => "3999 plan",
+            4 => "5999 plan"
+        ];
 
-if (!empty($res_check_plan_2)) {
-    $response['success'] = false;
-    $response['message'] = "You have already activated the 3999 plan."; 
-    print_r(json_encode($response));
-    return false;
+        $activated_plan_name = $plan_names[$activated_plan];
+        $response['success'] = false;
+        $response['message'] = "You have already activated the $activated_plan_name. You cannot activate another plan.";
+        print_r(json_encode($response));
+        return false;
+    }
 }
 
 if ($recharge >= $price) {
@@ -113,15 +113,15 @@ if ($recharge >= $price) {
             $r_id = $res[0]['id'];
             $r_refer_code = $res[0]['refer_code'];
 
-            if ($plan_id == 1 || $plan_id == 2) {
+            if ($plan_id == 1 || $plan_id == 2 || $plan_id == 4) {
   
             $codes = 2000;
             $total_cost = $codes * $per_code_cost;
 
-            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
+            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost  WHERE refer_code = '$referred_by'";
             $db->sql($sql);
 
-            $sql = "INSERT INTO transactions (user_id, amount, datetime, type, codes) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus','$codes')";
+            $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
             $db->sql($sql);
             }
             if ($plan_id == 3) {
@@ -129,10 +129,10 @@ if ($recharge >= $price) {
             $codes = 0;
             $total_cost = 5;
 
-            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, today_codes = today_codes + $codes, total_codes = total_codes + $codes WHERE refer_code = '$referred_by'";
+            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost WHERE refer_code = '$referred_by'";
             $db->sql($sql);
     
-            $sql = "INSERT INTO transactions (user_id, amount, datetime, type, codes) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus','$codes')";
+            $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
             $db->sql($sql);
            }
         }
