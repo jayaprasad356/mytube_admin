@@ -33,7 +33,7 @@ if (empty($user)) {
     return false;
 }
 
-$sql = "SELECT * FROM plan WHERE type = '$type' ORDER BY price DESC";
+$sql = "SELECT * FROM plan WHERE type = '$type' ORDER BY price ASC";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
