@@ -72,7 +72,7 @@ $db->sql($sql);
 $res = $db->getResult();
 $generatedStandardUserCount = (isset($res[0]['generatedStandardUserCount'])) ? $res[0]['generatedStandardUserCount'] : 0;
 
-$sql = "SELECT COUNT(id) AS generatedAdvancedUserCount  FROM user_plan WHERE plan_id = 5";
+$sql = "SELECT COUNT(id) AS generatedAdvancedUserCount  FROM user_plan WHERE plan_id = 4";
 $db->sql($sql);
 $res = $db->getResult();
 $generatedAdvancedUserCount = (isset($res[0]['generatedAdvancedUserCount'])) ? $res[0]['generatedAdvancedUserCount'] : 0;
