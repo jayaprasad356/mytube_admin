@@ -80,7 +80,7 @@ if (!empty($res_check_user)) {
     return false;
 }
 
-if ($plan_id != 3) {
+if ($plan_id != 5) {
     $sql_check_active_plan = "SELECT plan_id FROM user_plan WHERE user_id = $user_id AND plan_id IN (1, 2, 4)";
     $db->sql($sql_check_active_plan);
     $res_check_active_plan = $db->getResult();
@@ -124,7 +124,7 @@ if ($recharge >= $price) {
             $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
             $db->sql($sql);
             }
-            if ($plan_id == 3) {
+            if ($plan_id == 5) {
                
             $codes = 0;
             $total_cost = 5;
