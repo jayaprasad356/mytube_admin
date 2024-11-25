@@ -16,11 +16,8 @@
                         <div class="box-header">
                                 <div class="row">
                                         <div class="form-group col-md-3">
-                                            <a href="export-verified-user.php" class="btn btn-primary"><i class="fa fa-download"></i> Export verified users</a>
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <a href="export-unverified-user.php" class="btn btn-primary"><i class="fa fa-download"></i> Export unverified users</a>
-                                        </div>      
+                                            <a href="export-user.php" class="btn btn-primary"><i class="fa fa-download"></i> Export users</a>
+                                        </div>    
                                 </div>
                                 <div class="col-md-2">
                                 <h4 class="box-title">Joined Date </h4>

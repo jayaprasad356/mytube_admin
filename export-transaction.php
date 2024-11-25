@@ -7,7 +7,7 @@ $db->connect();
 $currentdate = date('Y-m-d');
 
 // Modify the SQL query to join transactions with users to fetch name and mobile
-$sql_query = "SELECT transactions.user_id, users.name, users.mobile, transactions.type, transactions.datetime, transactions.amount transactions.codes 
+$sql_query = "SELECT transactions.user_id, users.name, users.mobile, transactions.type, transactions.datetime, transactions.amount, transactions.codes 
               FROM `transactions`
               JOIN `users` ON transactions.user_id = users.id"; // Assuming user_id in transactions matches id in users
 

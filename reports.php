@@ -62,7 +62,20 @@ $db->sql($sql);
 $res = $db->getResult();
 $todayTotalAmount = (isset($res[0]['todayTotalAmount'])) ? $res[0]['todayTotalAmount'] : 0;
 
+$sql = "SELECT COUNT(id) AS generatedBasicUserCount  FROM user_plan WHERE plan_id = 1";
+$db->sql($sql);
+$res = $db->getResult();
+$generatedBasicUserCount = (isset($res[0]['generatedBasicUserCount'])) ? $res[0]['generatedBasicUserCount'] : 0;
 
+$sql = "SELECT COUNT(id) AS generatedStandardUserCount  FROM user_plan WHERE plan_id = 2";
+$db->sql($sql);
+$res = $db->getResult();
+$generatedStandardUserCount = (isset($res[0]['generatedStandardUserCount'])) ? $res[0]['generatedStandardUserCount'] : 0;
+
+$sql = "SELECT COUNT(id) AS generatedAdvancedUserCount  FROM user_plan WHERE plan_id = 5";
+$db->sql($sql);
+$res = $db->getResult();
+$generatedAdvancedUserCount = (isset($res[0]['generatedAdvancedUserCount'])) ? $res[0]['generatedAdvancedUserCount'] : 0;
 
 ?>
 <html>
@@ -141,6 +154,42 @@ $todayTotalAmount = (isset($res[0]['todayTotalAmount'])) ? $res[0]['todayTotalAm
                             echo $todayTotalAmount;
                              ?></h3>
                             <p>Payment Received</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-money"></i></div>
+                        <a href="payments.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                        <h3><?php
+                            echo $generatedBasicUserCount;
+                             ?></h3>
+                            <p>Basic plan activated users</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-money"></i></div>
+                        <a href="payments.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-teal">
+                        <div class="inner">
+                        <h3><?php
+                            echo $generatedStandardUserCount;
+                             ?></h3>
+                            <p>Standard Plan Activated Users</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-money"></i></div>
+                        <a href="payments.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                        <h3><?php
+                            echo $generatedAdvancedUserCount;
+                             ?></h3>
+                            <p>Advanced plan activated users</p>
                         </div>
                         <div class="icon"><i class="fa fa-money"></i></div>
                         <a href="payments.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>

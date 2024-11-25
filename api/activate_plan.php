@@ -113,17 +113,38 @@ if ($recharge >= $price) {
             $r_id = $res[0]['id'];
             $r_refer_code = $res[0]['refer_code'];
 
-            if ($plan_id == 1 || $plan_id == 2 || $plan_id == 4) {
-  
-            $codes = 2000;
-            $total_cost = $codes * $per_code_cost;
-
-            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost  WHERE refer_code = '$referred_by'";
-            $db->sql($sql);
-
-            $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
-            $db->sql($sql);
+            $sql_check_user_plan = "SELECT * FROM user_plan WHERE user_id = '$user_id' AND plan_id = 5";
+            $db->sql($sql_check_user_plan);
+            $res_check_user_plan = $db->getResult();
+         
+            if (!empty($res_check_user_plan)) {
+                if ($plan_id == 1) {
+                    $total_cost = 100;
+                } elseif ($plan_id == 2) {
+                    $total_cost = 200;
+                } elseif ($plan_id == 4) {
+                    $total_cost = 300;
+                }
+            
+                $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost WHERE refer_code = '$referred_by'";
+                $db->sql($sql);
+            
+                $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
+                $db->sql($sql);
+            } 
+            else {
+                if ($plan_id == 1 || $plan_id == 2 || $plan_id == 4) {
+                    $codes = 2000;
+                    $total_cost = $codes * $per_code_cost;
+            
+                    $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost WHERE refer_code = '$referred_by'";
+                    $db->sql($sql);
+            
+                    $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
+                    $db->sql($sql);
+                }
             }
+            
             if ($plan_id == 5) {
                
             $codes = 0;
@@ -135,6 +156,7 @@ if ($recharge >= $price) {
             $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
             $db->sql($sql);
            }
+         
         }
     }
     $sql = "UPDATE users SET recharge = recharge - $price, total_assets = total_assets + $price, withdrawal_status = 1 WHERE id = $user_id";
