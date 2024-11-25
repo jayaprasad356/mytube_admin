@@ -16,7 +16,7 @@ $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
 
-$sql = "SELECT id, joined_date FROM user_plan";
+$sql = "SELECT id, joined_date, plan_id FROM user_plan"; 
 $db->sql($sql);
 $users = $db->getResult();
 
@@ -24,11 +24,13 @@ $currentDate = new DateTime();
 
 foreach ($users as $user) {
     $userId = $user['id'];
+    $planId = $user['plan_id']; 
     $joinedDate = new DateTime($user['joined_date']);
 
     $interval = $currentDate->diff($joinedDate);
     $totalDays = $interval->days;
 
+    // Fetch leave days
     $leaveSql = "SELECT COUNT(*) AS leave_days FROM leaves WHERE id = $userId AND date BETWEEN '{$user['joined_date']}' AND '{$currentDate->format('Y-m-d')}'";
     $db->sql($leaveSql);
     $leaveResult = $db->getResult();
@@ -36,11 +38,14 @@ foreach ($users as $user) {
 
     $workedDays = $totalDays - $leaveDays;
 
-    if ($workedDays >= 30) {
+    $threshold = ($planId == 5) ? 4 : 30;
+
+    if ($workedDays >= $threshold) {
         $updateSql = "UPDATE user_plan SET claim = 0 WHERE id = $userId";
         $db->sql($updateSql);
     }
 }
-$sql = "UPDATE users SET today_codes = 0 ";
+
+$sql = "UPDATE users SET today_codes = 0";
 $db->sql($sql);
 ?>
