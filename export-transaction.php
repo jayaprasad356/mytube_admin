@@ -14,19 +14,24 @@ $sql_query = "SELECT transactions.user_id, users.name, users.mobile, transaction
 $db->sql($sql_query);
 $developer_records = $db->getResult();
 	
-	$filename = "All-transactions-data".date('Ymd') . ".xls";			
-	header("Content-Type: application/vnd.ms-excel");
-	header("Content-Disposition: attachment; filename=\"$filename\"");	
-	$show_coloumn = false;
-	if(!empty($developer_records)) {
-	  foreach($developer_records as $record) {
-		if(!$show_coloumn) {
-		  // display field/column names in first row
-		  echo implode("\t", array_keys($record)) . "\n";
-		  $show_coloumn = true;
-		}
-		echo implode("\t", array_values($record)) . "\n";
-	  }
-	}
-	exit;  
+$filename = "Allusers-data_" . date('Ymd') . ".csv";  // Change file extension to .csv
+header("Content-Type: text/csv");  // Change MIME type to text/csv
+header("Content-Disposition: attachment; filename=\"$filename\"");
+
+// Open output stream for writing
+$output = fopen('php://output', 'w');
+
+if (!empty($developer_records)) {
+    // Output the column headings
+    fputcsv($output, array_keys($developer_records[0]));
+    
+    // Output each row of data
+    foreach ($developer_records as $record) {
+        fputcsv($output, $record);
+    }
+}
+
+// Close output stream
+fclose($output);
+exit;
 ?>
