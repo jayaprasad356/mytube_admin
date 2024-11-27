@@ -34,10 +34,8 @@ $sql = "SELECT COUNT(*) AS userCount FROM users $joinCondition";
 $db->sql($sql);
 $res = $db->getResult();
 $userCount = (isset($res[0]['userCount'])) ? $res[0]['userCount'] : 0;
-// Fetch active user count
-// Assuming your current date is stored in $currentDate
-// Make sure $currentDate is in 'YYYY-MM-DD' format
-$sql = "SELECT COUNT(id) AS generatedUserCount  FROM users WHERE today_codes > 0 AND joined_date = '$date'";
+
+$sql = "SELECT COUNT(DISTINCT user_id) AS generatedUserCount  FROM transactions WHERE type = 'Generated' AND amount > 5 AND DATE(datetime) = '$date'";
 $db->sql($sql);
 $res = $db->getResult();
 $generatedUserCount = (isset($res[0]['generatedUserCount'])) ? $res[0]['generatedUserCount'] : 0;
