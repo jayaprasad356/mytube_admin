@@ -52,12 +52,12 @@ if ($num >= 1) {
     $user_details['plan_activated'][] = $user_plan; // Add full plan details with updated image URL
     }
       // Fetch extra claim plans for the user
-      $sql_extra_plans = "SELECT extra_claim_plan.* FROM user_extra_claim_plan
+     /* $sql_extra_plans = "SELECT extra_claim_plan.* FROM user_extra_claim_plan
       LEFT JOIN extra_claim_plan ON user_extra_claim_plan.extra_claim_plan_id = extra_claim_plan.id
       WHERE user_extra_claim_plan.user_id = '$user_id'";
         $db->sql($sql_extra_plans);
         $res_extra_plans = $db->getResult();
-        $user_details['extra_plan_activated'] = $res_extra_plans;
+        $user_details['extra_plan_activated'] = $res_extra_plans;*/
 
     $response['success'] = true;
     $response['message'] = "Users listed Successfully";
