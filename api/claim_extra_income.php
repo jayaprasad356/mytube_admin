@@ -18,37 +18,16 @@ $datetime = date('Y-m-d H:i:s');
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
-    $response['message'] = "User Id is Empty";
-    echo json_encode($response);
-    return;
-}
-
-if (empty($_POST['refer_id'])) {
-    $response['success'] = false;
-    $response['message'] = "Refer Id is Empty";
+    $response['message'] = "User ID is empty";
     echo json_encode($response);
     return;
 }
 
 $user_id = $db->escapeString($_POST['user_id']);
-$refer_id = $db->escapeString($_POST['refer_id']);
-
-$sql = "SELECT refer_count, bonus FROM refers_target WHERE id = $refer_id";
-$db->sql($sql);
-$refers = $db->getResult();
-if (empty($refers)) {
-    $response['success'] = false;
-    $response['message'] = "Refer target not found";
-    echo json_encode($response);
-    return;
-}
-
-$refer_count = $refers[0]['refer_count'];
-$bonus = $refers[0]['bonus'];
-
 $sql = "SELECT total_referrals FROM users WHERE id = $user_id";
 $db->sql($sql);
 $user_data = $db->getResult();
+
 if (empty($user_data)) {
     $response['success'] = false;
     $response['message'] = "User not found";
@@ -58,25 +37,47 @@ if (empty($user_data)) {
 
 $total_referrals = $user_data[0]['total_referrals'];
 
-if ($total_referrals == $refer_count) {
-
-    $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $bonus WHERE id = $user_id";
-    $db->sql($sql);
-
-    $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$bonus', '$datetime', 'Generated')";
-    $db->sql($sql);
-
-    $sql = "SELECT * FROM users WHERE id = $user_id";
-    $db->sql($sql);
-    $updated_user_data = $db->getResult();
-
-    $response['success'] = true;
-    $response['message'] = "Bonus awarded successfully!";
-    $response['user_data'] = $updated_user_data;
+if ($total_referrals == 5 ) {
+    $refer_id = 1;
+} elseif ($total_referrals >= 6 && $total_referrals <= 10) {
+    $refer_id = 2;
+} elseif ($total_referrals >= 11 && $total_referrals <= 20) {
+    $refer_id = 3;
+} elseif ($total_referrals >= 21 && $total_referrals <= 30) {
+    $refer_id = 4;
 } else {
     $response['success'] = false;
-    $response['message'] = "Referral target not met. No bonus awarded.";
+    $response['message'] = "No bonus applicable for this referral count";
+    echo json_encode($response);
+    return;
 }
+
+$sql = "SELECT refer_count, bonus FROM refers_target WHERE id = $refer_id";
+$db->sql($sql);
+$refers = $db->getResult();
+
+if (empty($refers)) {
+    $response['success'] = false;
+    $response['message'] = "Refer target not found";
+    echo json_encode($response);
+    return;
+}
+
+$bonus = $refers[0]['bonus'];
+
+$sql = "UPDATE users SET bonus_wallet = bonus_wallet + $bonus WHERE id = $user_id";
+$db->sql($sql);
+
+$sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$bonus', '$datetime', 'extra_income')";
+$db->sql($sql);
+
+$sql = "SELECT * FROM users WHERE id = $user_id";
+$db->sql($sql);
+$updated_user_data = $db->getResult();
+
+$response['success'] = true;
+$response['message'] = "Extra income claimed successfully!";
+$response['user_data'] = $updated_user_data;
 
 echo json_encode($response);
 ?>

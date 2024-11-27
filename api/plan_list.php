@@ -55,15 +55,15 @@ if ($num >= 1) {
         $temp['num_sync'] = $row['num_sync'];
         
         $plan_id = $row['id'];
-        $sql_check_plan_1_2 = "SELECT * FROM user_plan WHERE user_id = $user_id AND (plan_id = 1 OR plan_id = 2)";
-        $db->sql($sql_check_plan_1_2);
-        $has_plan_1_or_2 = $db->numRows() > 0;
+        $sql_check_plan_1_2_3 = "SELECT * FROM user_plan WHERE user_id = $user_id AND (plan_id = 1 OR plan_id = 2 OR plan_id = 4)";
+        $db->sql($sql_check_plan_1_2_3);
+        $has_plan_1_or_2_or_3 = $db->numRows() > 0;
     
         $sql_check_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
         $db->sql($sql_check_plan);
         $plan_exists = $db->numRows() > 0;
     
-        if ($plan_id == 3 && $has_plan_1_or_2) {
+        if ($plan_id == 5 && $has_plan_1_or_2_or_3) {
             $temp['status'] = 2; 
         } else {
             $temp['status'] = $plan_exists ? 1 : 0;
