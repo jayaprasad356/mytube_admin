@@ -436,24 +436,45 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     }
     
     if ($_SESSION['role'] == 'Super Admin') {
-        $join = "LEFT JOIN users u ON w.user_id = u.id LEFT JOIN bank_details b ON b.user_id = w.user_id WHERE (w.withdrawal_type != 'sa_withdrawal') ";
-    } else {
-        $refer_code = $_SESSION['refer_code'];
-        $join = "LEFT JOIN users u ON w.user_id = u.id LEFT JOIN bank_details b ON b.user_id = w.user_id WHERE (u.refer_code REGEXP '^$refer_code' AND (w.withdrawal_type != 'sa_withdrawal')) ";
-    }
-  
-    $join = "LEFT JOIN `users` u ON l.user_id = u.id LEFT JOIN `bank_details` b ON u.id = b.user_id WHERE l.id IS NOT NULL " . $where;
+        $join = "LEFT JOIN users u ON w.user_id = u.id 
+        LEFT JOIN bank_details b ON b.user_id = w.user_id 
+        LEFT JOIN user_plan up ON w.user_id = up.user_id 
+        LEFT JOIN plan p ON up.plan_id = p.id
+        WHERE (w.withdrawal_type != 'sa_withdrawal')";
+} else {
+$refer_code = $_SESSION['refer_code'];
+$join = "LEFT JOIN users u ON w.user_id = u.id 
+        LEFT JOIN bank_details b ON b.user_id = w.user_id 
+        LEFT JOIN user_plan up ON w.user_id = up.user_id 
+        LEFT JOIN plan p ON up.plan_id = p.id
+        WHERE (u.refer_code REGEXP '^$refer_code' AND (w.withdrawal_type != 'sa_withdrawal'))";
+}
+    
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id 
+    LEFT JOIN `bank_details` b ON u.id = b.user_id 
+    LEFT JOIN `user_plan` up ON l.user_id = up.user_id 
+    LEFT JOIN `plan` p ON up.plan_id = p.id
+    WHERE l.id IS NOT NULL " . $where;
 
-    $sql = "SELECT COUNT(l.id) AS total FROM `withdrawals` l " . $join;
+        $sql = "SELECT COUNT(l.id) AS total 
+        FROM `withdrawals` l " . $join;
+    
     $db->sql($sql);
     $res = $db->getResult();
-    foreach ($res as $row)
+    foreach ($res as $row) {
         $total = $row['total'];
+    }
     
-    $sql = "SELECT l.id AS id, l.*, u.name, u.mobile, u.balance, u.total_codes, u.total_referrals, u.referred_by, u.refer_code, b.branch, b.bank, b.ifsc, b.account_num, b.holder_name FROM `withdrawals` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+    $sql = "SELECT l.id AS id, l.*, u.name, u.mobile, u.balance, u.total_codes, u.total_referrals, u.referred_by, u.refer_code, 
+    b.branch, b.bank, b.ifsc, b.account_num, b.holder_name, 
+    up.plan_id, p.name AS plan_name
+FROM `withdrawals` l " . $join . " 
+ORDER BY $sort $order 
+LIMIT $offset, $limit";
     
     $db->sql($sql);
     $res = $db->getResult();
+    
     
     
 
@@ -481,6 +502,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['account_num'] = ','.$row['account_num'].',';
         $tempRow['holder_name'] = $row['holder_name'];
+        $tempRow['plan_id'] = $row['plan_id'];
+        $tempRow['plan_name'] = $row['plan_name'];
         $tempRow['column'] = $checkbox;
         if($row['status']==1)
             $tempRow['status'] ="<p class='text text-success'>Paid</p>";
