@@ -72,7 +72,7 @@ $res_check_user = $db->getResult();
 
 if (!empty($res_check_user)) {
     $response['success'] = false;
-    $response['message'] = "You have already activated this Extra plan.";
+    $response['message'] = "You have already activated grow plan.";
     print_r(json_encode($response));
     return false;
 }
@@ -98,7 +98,7 @@ if ($recharge >= $price) {
     $response['message'] = "Extra Claim Plan started successfully";
 } else {
     $response['success'] = false;
-    $response['message'] = "Low Recharge Balance. Recharge To Activate The Extra Claim Plan";
+    $response['message'] = "Recharge Balance is low for activation";
 }
 
 print_r(json_encode($response));
