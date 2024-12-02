@@ -169,6 +169,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <h4 class="box-title"> </h4>
                                 <a class="btn btn-block btn-success" href="add-balance.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i>  Add Balance</a>
                             </div>
+                            <div class="form-group col-md-3">
+                                <h4 class="box-title"> </h4>
+                                <a class="btn btn-block btn-danger" href="add-refer_bonus.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i>  Add Refer Bonus</a>
+                            </div>
                 </div>
                 <div class="box-header">
                     <?php echo isset($error['cancelable']) ? '<span class="label label-danger">Till status is required.</span>' : ''; ?>
