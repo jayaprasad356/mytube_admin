@@ -450,11 +450,12 @@ $join = "LEFT JOIN users u ON w.user_id = u.id
         WHERE (u.refer_code REGEXP '^$refer_code' AND (w.withdrawal_type != 'sa_withdrawal'))";
 }
     
-    $join = "LEFT JOIN `users` u ON l.user_id = u.id 
-    LEFT JOIN `bank_details` b ON u.id = b.user_id 
-    LEFT JOIN `user_plan` up ON l.user_id = up.user_id 
-    LEFT JOIN `plan` p ON up.plan_id = p.id
-    WHERE l.id IS NOT NULL " . $where;
+$join = "LEFT JOIN `users` u ON l.user_id = u.id 
+LEFT JOIN `bank_details` b ON u.id = b.user_id 
+LEFT JOIN `user_plan` up ON l.user_id = up.user_id 
+LEFT JOIN `plan` p ON up.plan_id = p.id
+WHERE l.id IS NOT NULL AND (up.claim != 0 OR up.claim IS NULL) " . $where;
+
 
         $sql = "SELECT COUNT(l.id) AS total 
         FROM `withdrawals` l " . $join;

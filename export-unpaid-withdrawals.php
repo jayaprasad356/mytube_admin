@@ -35,7 +35,7 @@ $currentdate = date('Y-m-d');
         JOIN 
             `plan` p ON up.plan_id = p.id
         WHERE 
-            w.status = 0";  // Filter only unpaid withdrawals (status = 0)
+            w.status = 0 AND up.claim != 0"; 
 
 $db->sql($sql);
 $developer_records = $db->getResult();
