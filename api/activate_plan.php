@@ -102,6 +102,17 @@ if ($plan_id != 5) {
     }
 }
 
+if (in_array($plan_id, [1, 2, 4])) {
+    $sql_check_plan_5 = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = 5";
+    $db->sql($sql_check_plan_5);
+    $res_plan_5 = $db->getResult();
+
+    if (!empty($res_plan_5)) {
+        $sql_update_plan_5 = "UPDATE user_plan SET claim = 0 WHERE user_id = $user_id AND plan_id = 5";
+        $db->sql($sql_update_plan_5);
+    }
+}
+
 if ($recharge >= $price) {
     if ($refer_code) {
         $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
@@ -164,15 +175,6 @@ if ($recharge >= $price) {
 
     $sql_insert_user_plan = "INSERT INTO user_plan (user_id, plan_id, joined_date, claim) VALUES ('$user_id', '$plan_id', '$date', 1)";
     $db->sql($sql_insert_user_plan);
-
-    $sql_check_free_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = 5 AND claim = 1";
-    $db->sql($sql_check_free_plan);
-    $res_check_free_plan = $db->getResult();
-
-    if (!empty($res_check_free_plan)) {
-        $sql_update_free_plan = "UPDATE user_plan SET claim = 0 WHERE user_id = $user_id AND plan_id = 5";
-        $db->sql($sql_update_free_plan);
-    }
 
     $sql_insert_transaction = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$price', '$datetime', 'plan_activated')";
     $db->sql($sql_insert_transaction);
