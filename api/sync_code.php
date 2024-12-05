@@ -90,6 +90,24 @@ if ($transaction_count[0]['sync_count'] >= $num_sync) {
     return;
 }
 
+$sql_last_sync = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'Generated' ORDER BY datetime DESC LIMIT 1";
+$db->sql($sql_last_sync);
+$last_sync_result = $db->getResult();
+
+if (!empty($last_sync_result)) {
+    $last_sync_time = strtotime($last_sync_result[0]['datetime']);
+    $current_time = time();
+    $time_difference = $current_time - $last_sync_time;
+
+    if ($time_difference < 600) {
+        $remaining_time = 600 - $time_difference;
+        $response['success'] = false;
+        $response['message'] = "Please wait " . ceil($remaining_time / 60) . " more minutes before your next sync.";
+        echo json_encode($response);
+        return;
+    }
+}
+
 $codes = 50;
 
 $total_cost = $codes * $per_code_cost;
