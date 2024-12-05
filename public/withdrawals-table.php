@@ -148,8 +148,6 @@ if (isset($_POST['export_all'])) {
                                         <th data-field="amount" data-sortable="true" data-visible="true" data-footer-formatter="priceFormatter">Amount</th>
                                         <th data-field="status" data-sortable="true">Status</th>
                                         <th data-field="type" data-sortable="true">Type</th>
-                                        <th data-field="plan_id" data-sortable="true">Plan ID </th>
-                                        <th data-field="plan_name" data-sortable="true">Plan Name </th>
                                         <th data-field="balance" data-sortable="true">Balance</th>
                                         <th data-field="datetime" data-sortable="true">DateTime</th>
                                         <th data-field="account_num" data-sortable="true">Account Number</th>

@@ -48,7 +48,7 @@ $res = $db->getResult();
 $todayRegistrationCount = (isset($res[0]['todayRegistrationCount'])) ? $res[0]['todayRegistrationCount'] : 0;
 
 // Fetch unpaid withdrawals amount
-$sql = "SELECT SUM(w.amount) AS unpaidWithdrawalsAmount FROM withdrawals w INNER JOIN users u ON u.id = w.user_id WHERE w.status = 0";
+$sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE  status = 0 ";
 $db->sql($sql);
 $res = $db->getResult();
 $unpaidWithdrawalsAmount = "Rs." . (isset($res[0]['unpaidWithdrawalsAmount'])) ? $res[0]['unpaidWithdrawalsAmount'] : 0;
