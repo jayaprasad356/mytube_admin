@@ -48,11 +48,10 @@ $res = $db->getResult();
 $todayRegistrationCount = (isset($res[0]['todayRegistrationCount'])) ? $res[0]['todayRegistrationCount'] : 0;
 
 // Fetch unpaid withdrawals amount
-$sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE  status = 0 ";
+$sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE status = 0";
 $db->sql($sql);
 $res = $db->getResult();
-$unpaidWithdrawalsAmount = "Rs." . (isset($res[0]['unpaidWithdrawalsAmount'])) ? $res[0]['unpaidWithdrawalsAmount'] : 0;
-// Fetch paid withdrawals amount
+$unpaidWithdrawalsAmount = "Rs." . (isset($res[0]['amount']) ? $res[0]['amount'] : 0);
 
 // Assuming your current date is stored in $currentDate
 $sql = "SELECT SUM(amount) AS todayTotalAmount FROM payments WHERE DATE(datetime) = '$currentDate'";
