@@ -46,6 +46,7 @@ if ($num >= 1) {
         $refer_id = (int)$refer['id'];
         $refer['status'] = 0;
 
+        // Check total_referrals conditions
         if (($total_referrals >= 5 && $total_referrals <= 9) && $refer_id == 1) {
             $refer['status'] = 1;
         } elseif (($total_referrals >= 10 && $total_referrals <= 19) && in_array($refer_id, [1, 2])) {
@@ -55,6 +56,15 @@ if ($num >= 1) {
         } elseif ($total_referrals >= 30 && in_array($refer_id, [1, 2, 3, 4])) {
             $refer['status'] = 1;
         }
+
+        // Check refer_counts table for user_id and refer_id
+        $sql_check = "SELECT * FROM refer_counts WHERE user_id = $user_id AND refer_id = $refer_id";
+        $db->sql($sql_check);
+        $refer_count = $db->getResult();
+
+        if (!empty($refer_count)) {
+            $refer['status'] = 2; // Set status to 2 if record exists in refer_counts
+        }
     }
 
     $response['success'] = true;
@@ -62,7 +72,6 @@ if ($num >= 1) {
     $response['data'] = $res;
     print_r(json_encode($response));
 } else {
-
     $response['success'] = false;
     $response['message'] = "No Data Found";
     print_r(json_encode($response));
