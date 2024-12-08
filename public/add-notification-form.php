@@ -1,9 +1,60 @@
 
+
 <?php
 include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
+
+// OneSignal Credentials
+define('ONESIGNAL_APP_ID', '8a35ee53-39e8-4a3b-9a40-b13b32eb2045'); 
+define('ONESIGNAL_REST_API_KEY', 'os_v2_app_ri264uzz5bfdxgsawe5tf2zaixdbjl6cqilevcueomp3lvlvrnpdi7tiqccw7pcy7ksi6pxqhvn6z7myob2k7py47jujkirukdhefua'); 
+
+function sendOneSignalNotification($title, $description, $image_url = '', $link = '') {
+    $content = array("en" => $description);
+    $headings = array("en" => $title);
+
+    $fields = array(
+        'app_id' => ONESIGNAL_APP_ID,
+        'included_segments' => array('All'),
+        'headings' => $headings,
+        'contents' => $content,
+        'url' => $link,
+    );
+
+    if (!empty($image_url)) {
+        $fields['big_picture'] = $image_url;
+    }
+
+    $fields_json = json_encode($fields);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json; charset=utf-8',
+        'Authorization: Basic ' . ONESIGNAL_REST_API_KEY
+    ));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_json);
+
+    $response = curl_exec($ch);
+    $error = curl_error($ch);
+
+    if ($error) {
+        // Log any cURL errors
+        error_log("cURL Error: " . $error);
+        echo "Error: " . $error;
+    } else {
+        // Log OneSignal response
+        error_log("OneSignal Response: " . $response);
+        echo $response;
+    }
+
+    curl_close($ch);
+    return $response;
+}
+
 
 if (isset($_POST['btnAdd'])) {
     $title = $db->escapeString($_POST['title']);
@@ -11,24 +62,24 @@ if (isset($_POST['btnAdd'])) {
     $link = $db->escapeString($_POST['link']);
     $error = array();
 
+    // Input validation
     if (empty($title)) {
-        $error['title'] = " <span class='label label-danger'>Required!</span>";
+        $error['title'] = "<span class='label label-danger'>Required!</span>";
     }
     if (empty($description)) {
-        $error['description'] = " <span class='label label-danger'>Required!</span>";
+        $error['description'] = "<span class='label label-danger'>Required!</span>";
     }
     if (empty($link)) {
-        $error['link'] = " <span class='label label-danger'>Required!</span>";
+        $error['link'] = "<span class='label label-danger'>Required!</span>";
     }
 
-    // Initialize variables
+    // Initialize default values
     $upload_image = 'dist/img/icon.jpeg'; // Default image path
     $current_datetime = date('Y-m-d H:i:s');
 
-    // Validate and process the image upload
+    // Handle image upload
     if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
         $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
-
         $result = $fn->validate_image($_FILES["image"]);
         $target_path = 'upload/images/';
 
@@ -36,34 +87,39 @@ if (isset($_POST['btnAdd'])) {
         $full_path = $target_path . $filename;
 
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $full_path)) {
-            $upload_image = $full_path; // Set the uploaded image path
+            $upload_image = $full_path;
         } else {
-            echo '<p class="alert alert-danger">Can not upload image.</p>';
+            echo '<p class="alert alert-danger">Cannot upload image.</p>';
             return false;
         }
     }
 
-    // Insert into the database
-    $sql = "INSERT INTO notifications (title, description, image, link, datetime) 
-            VALUES ('$title', '$description', '$upload_image', '$link', '$current_datetime')";
-    $db->sql($sql);
+    // Attempt to send OneSignal notification
+    $response = sendOneSignalNotification($title, $description, $upload_image, $link);
+    $response_data = json_decode($response, true); // Decode JSON response
 
-    $result = $db->getResult();
-    if (!empty($result)) {
-        $result = 0;
-    } else {
-        $result = 1;
-    }
+    if (isset($response_data['id'])) {
+        // Notification sent successfully, now insert into database
+        $sql = "INSERT INTO notifications (title, description, image, link, datetime) 
+                VALUES ('$title', '$description', '$upload_image', '$link', '$current_datetime')";
+        $db->sql($sql);
 
-    if ($result == 1) {
-        $error['add_languages'] = "<section class='content-header'>
-                                        <span class='label label-success'>Notification Added Successfully</span>
-                                   </section>";
+        $result = $db->getResult();
+        if (empty($result)) {
+            $error['add_languages'] = "<section class='content-header'>
+                                            <span class='label label-success'>Notification Added Successfully</span>
+                                       </section>";
+        } else {
+            $error['add_languages'] = "<span class='label label-danger'>Failed to Insert Notification into Database</span>";
+        }
     } else {
-        $error['add_languages'] = "<span class='label label-danger'>Failed</span>";
+        // Notification failed to send
+        echo '<p class="alert alert-danger">Failed to send notification. Error: ' . $response . '</p>';
     }
 }
+
 ?>
+
 <section class="content-header">
     <h1>Add New Notification <small><a href='notifications.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Notification</a></small></h1>
 
@@ -196,3 +252,4 @@ function readURL(input) {
     };
 </script>
 <?php $db->disconnect(); ?>
+
