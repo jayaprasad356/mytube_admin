@@ -21,7 +21,8 @@ $num = $db->numRows($res);
 if ($num >= 1) {
     $response['success'] = true;
     $response['message'] = "Settings listed Successfully";
-    $response['demo_video'] = "https://youtu.be/91C9epbUXks";
+    $response['grow_video'] = "https://www.youtube.com/watch?v=91C9epbUXks";
+    $response['job_video'] = "https://www.youtube.com/watch?v=6RC_0H4875w";
     $response['data'] = $res;
     print_r(json_encode($response));
 
