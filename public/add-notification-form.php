@@ -7,8 +7,8 @@ include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 
 // OneSignal Credentials
-define('ONESIGNAL_APP_ID', '8a35ee53-39e8-4a3b-9a40-b13b32eb2045'); 
-define('ONESIGNAL_REST_API_KEY', 'os_v2_app_ri264uzz5bfdxgsawe5tf2zaixdbjl6cqilevcueomp3lvlvrnpdi7tiqccw7pcy7ksi6pxqhvn6z7myob2k7py47jujkirukdhefua'); 
+define('ONESIGNAL_APP_ID', '85ada94e-336d-4bd3-8f32-d58f0d09bc75'); 
+define('ONESIGNAL_REST_API_KEY', 'os_v2_app_qww2strtnvf5hdzs2whq2cn4ouizbms3ovluoj4sagjrz3moqhk4p6w6nu23jn6eyvocragvrcwj7qa5hlcmeepwbfo6iifcfnifyai'); 
 
 function sendOneSignalNotification($title, $description, $image_url = '', $link = '') {
     $content = array("en" => $description);
