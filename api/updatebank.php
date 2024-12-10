@@ -47,7 +47,15 @@ if (empty($_POST['branch'])) {
 }
 if (empty($_POST['ifsc'])) {
     $response['success'] = false;
-    $response['message'] = "Ifsc is Empty";
+    $response['message'] = "IFSC is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+
+$ifsc = $db->escapeString($_POST['ifsc']);
+if (!preg_match("/^[A-Z]{4}0[A-Z0-9]{6}$/", $ifsc)) {
+    $response['success'] = false;
+    $response['message'] = "Invalid IFSC Code format. It must be 11 characters long and follow the correct format.";
     print_r(json_encode($response));
     return false;
 }
@@ -56,7 +64,6 @@ $account_num = $db->escapeString($_POST['account_num']);
 $holder_name = $db->escapeString($_POST['holder_name']);
 $bank = $db->escapeString($_POST['bank']);
 $branch = $db->escapeString($_POST['branch']);
-$ifsc = $db->escapeString($_POST['ifsc']);
 
 $sql = "SELECT * FROM bank_details WHERE user_id = $user_id ";
 $db->sql($sql);
