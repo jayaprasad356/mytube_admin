@@ -155,6 +155,7 @@ if (isset($_POST['export_all'])) {
                                         <th data-field="bank" data-sortable="true">Bank</th>
                                         <th data-field="branch" data-sortable="true">Branch</th>
                                         <th data-field="ifsc" data-sortable="true">IFSC</th>
+                                        <th data-field="today_codes" data-sortable="true">Today Codes</th>
                                         <th data-field="total_codes" data-sortable="true">Total Codes</th>
                                         <th data-field="total_referrals" data-sortable="true">Total Referrals</th>
                                         <th data-field="mobile" data-sortable="true">Mobile</th>

@@ -450,7 +450,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
     
-    $sql = "SELECT l.id AS id, l.*, u.name, u.mobile, u.balance, u.total_codes, u.total_referrals, u.referred_by, u.refer_code, b.branch, b.bank, b.ifsc, b.account_num, b.holder_name FROM `withdrawals` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+    $sql = "SELECT l.id AS id, l.*, u.name, u.mobile, u.balance, u.total_codes, u.today_codes, u.total_referrals, u.referred_by, u.refer_code, b.branch, b.bank, b.ifsc, b.account_num, b.holder_name FROM `withdrawals` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
     
     $db->sql($sql);
     $res = $db->getResult();
@@ -472,6 +472,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['amount'] = $row['amount'];
         $tempRow['datetime'] = $row['datetime'];
         $tempRow['total_codes'] = $row['total_codes'];
+        $tempRow['today_codes'] = $row['today_codes'];
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['referred_by'] = $row['referred_by'];
         $tempRow['refer_code'] = $row['refer_code'];
