@@ -10,7 +10,7 @@ $fn = new custom_functions;
 define('ONESIGNAL_APP_ID', '26ce46d3-9d0a-45c1-93b6-bf0c60b43c5a'); 
 define('ONESIGNAL_REST_API_KEY', 'os_v2_app_e3henu45bjc4de5wx4ggbnb4ljv5gqfnwnjusz4k7dnjzpqi4sw2opgky7z7qliphmiekgex54kfhnjg2oytqlw4tgqrgt6ktpyc3ra'); 
 
-function sendOneSignalNotification($title, $description, $image_url = '', $link = '') {
+function sendOneSignalNotification($title, $description, $image_url = '') {
     $content = array("en" => $description);
     $headings = array("en" => $title);
 
@@ -19,7 +19,6 @@ function sendOneSignalNotification($title, $description, $image_url = '', $link 
         'included_segments' => array('All'),
         'headings' => $headings,
         'contents' => $content,
-        'url' => $link,
     );
 
     if (!empty($image_url)) {
@@ -95,7 +94,7 @@ if (isset($_POST['btnAdd'])) {
     }
 
     // Attempt to send OneSignal notification
-    $response = sendOneSignalNotification($title, $description, $upload_image, $link);
+    $response = sendOneSignalNotification($title, $description, $upload_image);
     $response_data = json_decode($response, true); // Decode JSON response
 
     if (isset($response_data['id'])) {
