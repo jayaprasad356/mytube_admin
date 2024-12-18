@@ -34,7 +34,7 @@ foreach ($users as $user) {
     $totalDays = $interval->days;      
 
     // Fetch leave days     
-    $leaveSql = "SELECT COUNT(*) AS leave_days FROM leaves WHERE id = $userId AND date BETWEEN '{$user['joined_date']}' AND '{$currentDate->format('Y-m-d')}'";     
+    $leaveSql = "SELECT COUNT(*) AS leave_days FROM leaves WHERE date BETWEEN '{$user['joined_date']}' AND '{$currentDate->format('Y-m-d')}'";     
     $db->sql($leaveSql);     
     $leaveResult = $db->getResult();     
     $leaveDays = $leaveResult[0]['leave_days'];      

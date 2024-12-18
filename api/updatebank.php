@@ -55,7 +55,7 @@ if (empty($_POST['ifsc'])) {
 $ifsc = $db->escapeString($_POST['ifsc']);
 if (!preg_match("/^[A-Z]{4}0[A-Z0-9]{6}$/", $ifsc)) {
     $response['success'] = false;
-    $response['message'] = "Invalid IFSC Code format. It must be 11 characters long and follow the correct format.";
+    $response['message'] = "IFSC code 11 digits - 5th Digit Is Always ZERO";
     print_r(json_encode($response));
     return false;
 }
