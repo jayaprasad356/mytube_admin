@@ -124,7 +124,7 @@ if ($recharge >= $price) {
             $r_id = $res[0]['id'];
             $r_refer_code = $res[0]['refer_code'];
 
-            $sql_check_user_plan = "SELECT * FROM user_plan WHERE user_id = '$user_id' AND plan_id = 5";
+            $sql_check_user_plan = "SELECT * FROM user_plan WHERE user_id = '$r_id' AND plan_id = 5";
             $db->sql($sql_check_user_plan);
             $res_check_user_plan = $db->getResult();
          
