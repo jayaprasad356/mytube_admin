@@ -124,20 +124,27 @@ if ($recharge >= $price) {
             $r_id = $res[0]['id'];
             $r_refer_code = $res[0]['refer_code'];
 
-            $sql_check_user_plan = "SELECT * FROM user_plan WHERE user_id = '$r_id' AND plan_id = 5";
+            $sql_check_user_plan = "SELECT * FROM user_plan WHERE user_id = '$r_id' AND plan_id = 5 AND claim = 1";
             $db->sql($sql_check_user_plan);
             $res_check_user_plan = $db->getResult();
          
             if (!empty($res_check_user_plan)) {
+
+                $total_cost = 0;
+                $total_referrals = 0;
+
                 if ($plan_id == 1) {
                     $total_cost = 100;
+                    $total_referrals = 1;
                 } elseif ($plan_id == 2) {
                     $total_cost = 200;
+                    $total_referrals = 1;
                 } elseif ($plan_id == 4) {
                     $total_cost = 300;
+                    $total_referrals = 1;
                 }
             
-                $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost ,total_referrals = total_referrals + 1 WHERE refer_code = '$referred_by'";
+                $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost ,total_referrals = total_referrals + $total_referrals WHERE refer_code = '$referred_by'";
                 $db->sql($sql);
             
                 $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
@@ -157,9 +164,8 @@ if ($recharge >= $price) {
             }
             
             if ($plan_id == 5) {
-               
-            $codes = 0;
             $total_cost = 5;
+            $codes = 0;
 
             $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost WHERE refer_code = '$referred_by'";
             $db->sql($sql);
