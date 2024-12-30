@@ -1714,4 +1714,68 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+if (isset($_GET['table']) && $_GET['table'] == 'referral_users') {
+    $offset = 0;
+    $limit = 1; // Change limit to 1 as per the requirement
+    $where = 'AND total_referrals > 1 '; // Filter users with total_referrals > 1
+    $sort = 'total_referrals'; // Default sorting by total_referrals
+    $order = 'DESC'; // Highest total_referrals first
+
+    if ((isset($_GET['date'])  && $_GET['date'] != '')) {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $where .= "AND joined_date='$date' ";
+    }
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND (name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%'  OR referred_by like '%" . $search . "%')";
+    }
+
+    if ($_SESSION['role'] == 'Super Admin') {
+        $join = "WHERE id IS NOT NULL";
+    } else {
+        $refer_code = $_SESSION['refer_code'];
+        $join = "WHERE refer_code REGEXP '^$refer_code'";
+    }
+
+    // Include the total_referrals filter in the query
+    $sql = "SELECT COUNT(`id`) as total FROM `users` $join " . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    // Order by total_referrals DESC and limit to 1 record
+    $sql = "SELECT *,DATEDIFF( '$currentdate',joined_date) AS history 
+            FROM `users` $join " . $where . " 
+            ORDER BY total_referrals DESC, " . $sort . " " . $order . " 
+            LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['refer_code'] = $row['refer_code'];
+        $tempRow['total_referrals'] = $row['total_referrals'];
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
 $db->disconnect();

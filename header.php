@@ -282,6 +282,12 @@ $fn = new custom_functions;
                         <span>Bulk Upload</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="referrals.php">
+                    <i class="fa fa-users"></i>
+                        <span>Referrals</span>
+                    </a>
+                </li>
 
                 <?php
 
