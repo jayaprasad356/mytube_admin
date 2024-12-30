@@ -46,7 +46,7 @@ if (!empty($leave_data)) {
     return;
 }
 
-if (in_array($plan_id, [1, 2, 4])) {
+if (in_array($plan_id, [1, 2, 4, 6])) {
     $sql_check = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
     $db->sql($sql_check);
     $user_plan = $db->getResult();

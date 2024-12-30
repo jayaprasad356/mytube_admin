@@ -91,7 +91,8 @@ if ($plan_id != 5) {
         $plan_names = [
             1 => "2999 plan",
             2 => "3999 plan",
-            4 => "5999 plan"
+            4 => "5999 plan",
+            6 => "11999 plan"
         ];
 
         $activated_plan_name = $plan_names[$activated_plan];
@@ -102,7 +103,7 @@ if ($plan_id != 5) {
     }
 }
 
-if (in_array($plan_id, [1, 2, 4])) {
+if (in_array($plan_id, [1, 2, 4, 6])) {
     $sql_check_plan_5 = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = 5";
     $db->sql($sql_check_plan_5);
     $res_plan_5 = $db->getResult();
@@ -142,6 +143,9 @@ if ($recharge >= $price) {
                 } elseif ($plan_id == 4) {
                     $total_cost = 300;
                     $total_referrals = 1;
+                } elseif ($plan_id == 6) {
+                    $total_cost = 1000;
+                    $total_referrals = 1;
                 }
             
                 $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost ,total_referrals = total_referrals + $total_referrals WHERE refer_code = '$referred_by'";
@@ -151,7 +155,7 @@ if ($recharge >= $price) {
                 $db->sql($sql);
             } 
             else {
-                if ($plan_id == 1 || $plan_id == 2 || $plan_id == 4) {
+                if ($plan_id == 1 || $plan_id == 2 || $plan_id == 4 ) {
                     $codes = 2000;
                     $total_cost = $codes * $per_code_cost;
             
@@ -161,6 +165,17 @@ if ($recharge >= $price) {
                     $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
                     $db->sql($sql);
                 }
+                if ($plan_id == 6) {
+                    $cost = 4000;
+                    $total_cost = $cost;
+            
+                    $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, total_referrals = total_referrals + 1 WHERE refer_code = '$referred_by'";
+                    $db->sql($sql);
+            
+                    $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$r_id', '$total_cost', '$datetime', 'refer_bonus')";
+                    $db->sql($sql);
+                }
+
             }
             
             if ($plan_id == 5) {
