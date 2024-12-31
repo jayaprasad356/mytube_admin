@@ -1,10 +1,9 @@
-
 <?php
 include_once('includes/crud.php');
 $db = new Database();
 $db->connect();
 
-$sql_query = "SELECT * FROM users";
+$sql_query = "SELECT users.*, (SELECT COUNT(*) FROM users AS u WHERE u.referred_by = users.refer_code) AS registration_count FROM users";
 $db->sql($sql_query);
 $developer_records = $db->getResult();
 
