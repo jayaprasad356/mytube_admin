@@ -34,6 +34,8 @@
                                     <th  data-field="min_refers" data-sortable="true">Min Refers</th>
                                     <th data-field="image">Image</th>
                                     <th  data-field="description" data-sortable="true">Description</th>
+                                    <th  data-field="sub_description" data-sortable="true">Sub Description</th>
+                                    <th  data-field="active_link" data-sortable="true">Active Link</th>
                                 </tr>
                             </thead>
                         </table>

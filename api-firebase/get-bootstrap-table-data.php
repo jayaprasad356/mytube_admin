@@ -67,14 +67,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
         $where .= "AND (name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%'  OR referred_by like '%" . $search . "%')";
     }
-    if (isset($_GET['sort'])) {
-        $sort = $db->escapeString($_GET['sort']);
-    }
-    if (isset($_GET['order'])) {
-        $order = $db->escapeString($_GET['order']);
-    }
-
-
     
     if($_SESSION['role'] == 'Super Admin'){
         $join = "WHERE id IS NOT NULL";
@@ -83,14 +75,20 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $refer_code = $_SESSION['refer_code'];
         $join = "WHERE refer_code REGEXP '^$refer_code'";
     }
+
     $sql = "SELECT COUNT(`id`) as total FROM `users` $join " . $where;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-        
-    $sql = "SELECT *,DATEDIFF( '$currentdate',joined_date) AS history FROM `users` $join " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    // Modified SQL query to include registration count
+    $sql = "SELECT *, 
+                DATEDIFF('$currentdate', joined_date) AS history, 
+                (SELECT COUNT(*) FROM `users` AS u WHERE u.referred_by = users.refer_code) AS registration_count 
+            FROM `users` $join " . $where . " 
+            ORDER BY " . $sort . " " . $order . " 
+            LIMIT " . $offset . "," . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -120,6 +118,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['withdrawal'] = $row['withdrawal'];
         $tempRow['recharge'] = $row['recharge'];
         $tempRow['total_recharge'] = $row['total_recharge'];
+        $tempRow['registration_count'] = $row['registration_count']; // Add the registration count here
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
         elseif($row['status']==1)
@@ -142,6 +141,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+
 if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
     $offset = 0;
     $limit = 10;
@@ -1628,6 +1628,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'system-users') {
         $tempRow['type'] = $row['type'];
         $tempRow['min_refers'] = $row['min_refers'];
         $tempRow['num_sync'] = $row['num_sync'];
+        $tempRow['sub_description'] = $row['sub_description'];
+        $tempRow['active_link'] = $row['active_link'];
         if(!empty($row['image'])){
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
 

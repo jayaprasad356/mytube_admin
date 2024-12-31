@@ -26,8 +26,10 @@ if (isset($_POST['btnEdit'])) {
 	$min_refers = $db->escapeString(($_POST['min_refers']));
 	$invite_bonus = $db->escapeString(trim($_POST['invite_bonus']));
 	$num_sync = $db->escapeString(trim($_POST['num_sync']));
+	$sub_description = $db->escapeString(trim($_POST['sub_description']));
+	$active_link = $db->escapeString(trim($_POST['active_link']));
     
-	$sql_query = "UPDATE plan SET name='$name',description='$description',demo_video='$demo_video',monthly_codes='$monthly_codes',per_code_cost='$per_code_cost',price='$price',monthly_earnings='$monthly_earnings',type = '$type',min_refers = '$min_refers',invite_bonus= '$invite_bonus',num_sync = '$num_sync' WHERE id =  $ID";
+	$sql_query = "UPDATE plan SET name='$name',description='$description',demo_video='$demo_video',monthly_codes='$monthly_codes',per_code_cost='$per_code_cost',price='$price',monthly_earnings='$monthly_earnings',type = '$type',min_refers = '$min_refers',invite_bonus= '$invite_bonus',num_sync = '$num_sync',sub_description = '$sub_description',active_link = '$active_link' WHERE id =  $ID";
 		$db->sql($sql_query);
 		$result = $db->getResult();             
 		if (!empty($result)) {
@@ -167,6 +169,18 @@ if (isset($_POST['btnCancel'])) { ?>
 								<div class="col-md-3">
 									<label for="exampleInputEmail1">Num Sync</label><i class="text-danger asterik">*</i>
 									<input type="number" class="form-control" name="num_sync" value="<?php echo $res[0]['num_sync']; ?>">
+								</div>
+                            </div>	 
+						  </div> 
+						  <br><div class="row">
+                            <div class="form-group">
+								<div class="col-md-3">
+									<label for="exampleInputEmail1">Sub Description</label><i class="text-danger asterik">*</i>
+									<input type="text" class="form-control" name="sub_description" value="<?php echo $res[0]['sub_description']; ?>">
+								</div>
+								<div class="col-md-3">
+									<label for="exampleInputEmail1">Active Link</label><i class="text-danger asterik">*</i>
+									<input type="text" class="form-control" name="active_link" value="<?php echo $res[0]['active_link']; ?>">
 								</div>
                             </div>	 
 						  </div> 

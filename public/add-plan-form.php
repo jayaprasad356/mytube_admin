@@ -18,6 +18,8 @@ if (isset($_POST['btnAdd'])) {
         $min_refers = $db->escapeString(($_POST['min_refers']));
         $invite_bonus = $db->escapeString(($_POST['invite_bonus']));
         $num_sync = $db->escapeString(($_POST['num_sync']));
+        $sub_description = $db->escapeString(($_POST['sub_description']));
+        $active_link = $db->escapeString(($_POST['active_link']));
    
         $error = array();
        
@@ -42,6 +44,13 @@ if (isset($_POST['btnAdd'])) {
         if (empty($invite_bonus)) {
             $error['invite_bonus'] = " <span class='label label-danger'>Required!</span>";
         }
+        if (empty($sub_description)) {
+            $error['sub_description'] = " <span class='label label-danger'>Required!</span>";
+        }
+        if (empty($active_link)) {
+            $error['active_link'] = " <span class='label label-danger'>Required!</span>";
+        }
+  
   
        
             // Validate and process the image upload
@@ -61,10 +70,10 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO plan (name,description,image,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync) VALUES ('$name','$description','$upload_image','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync')";
+        $sql = "INSERT INTO plan (name,description,image,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link) VALUES ('$name','$description','$upload_image','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link')";
         $db->sql($sql);
     } else {
-            $sql_query = "INSERT INTO plan (name,description,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync) VALUES ('$name','$description','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync')";
+            $sql_query = "INSERT INTO plan (name,description,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link) VALUES ('$name','$description','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link')";
             $db->sql($sql);
         }
             $result = $db->getResult();
@@ -165,6 +174,19 @@ if (isset($_POST['btnAdd'])) {
                                 <div class='col-md-3'>
                                     <label for="exampleInputtitle">Num Sync</label> <i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="num_sync">
+                                </div>
+                            </div> 
+                        </div> 
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                 <div class='col-md-3'>
+                                    <label for="exampleInputtitle">Sub Description</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="sub_description">
+                                </div>
+                                <div class='col-md-3'>
+                                    <label for="exampleInputtitle">Active Link</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="active_link">
                                 </div>
                             </div> 
                         </div> 
