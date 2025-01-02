@@ -55,44 +55,6 @@ if ($num >= 1) {
             print_r(json_encode($response));
         }
     } 
-    if ($level === 'c') {
-        $sql = "SELECT *,DATE(registered_datetime) AS registered_date,CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE c_referred_by = '$refer_code'  ORDER BY id DESC";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $num = $db->numRows($res);
-    
-        if ($num >= 1) {
-            $response['success'] = true;
-            $response['message'] = "Users Listed Successfully";
-            $response['count'] = $num;
-            $response['data'] = $res;
-            print_r(json_encode($response));
-        } else {
-            $response['success'] = false;
-            $response['message'] = "Not Found";
-            print_r(json_encode($response));
-        }
-    } 
-
-    if ($level === 'd') {
-        $sql = "SELECT *,DATE(registered_datetime) AS registered_date,CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE d_referred_by = '$refer_code'  ORDER BY id DESC";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $num = $db->numRows($res);
-    
-        if ($num >= 1) {
-            $response['success'] = true;
-            $response['message'] = "Users Listed Successfully";
-            $response['count'] = $num;
-            $response['data'] = $res;
-            print_r(json_encode($response));
-        } else {
-            $response['success'] = false;
-            $response['message'] = "Not Found";
-            print_r(json_encode($response));
-        }
-
-    }
     
     
 } else {
