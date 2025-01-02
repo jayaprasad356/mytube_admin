@@ -49,23 +49,25 @@ if ($num >= 1) {
     $paid_plan = 0; // Default value for paid_plan
 
     // Populate plan_activated and check for free_plan and paid_plan
-    foreach ($res_plans as $user_plan) {
-        // Check if there's an image and prepend DOMAIN_URL
-        if (!empty($user_plan['image'])) {
-            $user_plan['image'] = DOMAIN_URL . $user_plan['image']; // Adjust path as needed
-        }
+    if (!empty($res_plans)) {
+        foreach ($res_plans as $user_plan) {
+            // Check if there's an image and prepend DOMAIN_URL
+            if (!empty($user_plan['image'])) {
+                $user_plan['image'] = DOMAIN_URL . $user_plan['image']; // Adjust path as needed
+            }
 
-        // Check if the plan_id is 5 and claim is 1 for free_plan
-        if ($user_plan['id'] == 5 && $user_plan['claim'] == 1) {
-            $free_plan = 1;
-        }
+            // Check if the plan_id is 5 and claim is 1 for free_plan
+            if ($user_plan['id'] == 5 && $user_plan['claim'] == 1) {
+                $free_plan = 1;
+            }
 
-        // Check if the plan_id is 1, 2, 4, or 6 and claim is 1 for paid_plan
-        if (in_array($user_plan['id'], [1, 2, 4, 6]) && $user_plan['claim'] == 1) {
-            $paid_plan = 1;
-        }
+            // Check if the plan_id is 1, 2, 4, or 6 and claim is 1 for paid_plan
+            if (in_array($user_plan['id'], [1, 2, 4, 6]) && $user_plan['claim'] == 1) {
+                $paid_plan = 1;
+            }
 
-        $user_details['plan_activated'][] = $user_plan; // Add full plan details with updated image URL
+            $user_details['plan_activated'][] = $user_plan; // Add full plan details with updated image URL
+        }
     }
 
     // Set the free_plan and paid_plan flags
