@@ -33,11 +33,10 @@ if ($num >= 1) {
     $db->sql($sql_settings);
     $res_settings = $db->getResult();
     $min_withdrawal = $res_settings[0]['min_withdrawal'];
-
     $user_details['min_withdrawal'] = $min_withdrawal;
 
     // Fetch user plans
-    $sql_plans = "SELECT plan.* FROM user_plan
+    $sql_plans = "SELECT plan.*, user_plan.claim FROM user_plan
                   LEFT JOIN plan ON user_plan.plan_id = plan.id
                   WHERE user_plan.user_id = $user_id";
     $db->sql($sql_plans);
@@ -48,7 +47,7 @@ if ($num >= 1) {
     $free_plan = 0; // Default value for free_plan
     $paid_plan = 0; // Default value for paid_plan
 
-    // Populate plan_activated and check for free_plan and paid_plan
+    // Check if plans exist
     if (!empty($res_plans)) {
         foreach ($res_plans as $user_plan) {
             // Check if there's an image and prepend DOMAIN_URL
@@ -57,17 +56,22 @@ if ($num >= 1) {
             }
 
             // Check if the plan_id is 5 and claim is 1 for free_plan
-            if ($user_plan['id'] == 5 && $user_plan['claim'] == 1) {
-                $free_plan = 1; // Mark free_plan as 1 if conditions match
+            if ((int)$user_plan['id'] === 5 && (int)$user_plan['claim'] === 1) {
+                $free_plan = 1;
             }
 
             // Check if the plan_id is 1, 2, 4, or 6 and claim is 1 for paid_plan
-            if (in_array($user_plan['id'], [1, 2, 4, 6]) && $user_plan['claim'] == 1) {
+            if (in_array((int)$user_plan['id'], [1, 2, 4, 6]) && (int)$user_plan['claim'] === 1) {
                 $paid_plan = 1;
             }
 
             $user_details['plan_activated'][] = $user_plan; // Add full plan details with updated image URL
         }
+    }
+
+    // If no plans are activated, ensure plan_activated is an empty array
+    if (empty($user_details['plan_activated'])) {
+        $user_details['plan_activated'] = [];
     }
 
     // Set the free_plan and paid_plan flags
@@ -80,7 +84,7 @@ if ($num >= 1) {
                         WHERE user_extra_claim_plan.user_id = '$user_id'";
     $db->sql($sql_extra_plans);
     $res_extra_plans = $db->getResult();
-    $user_details['extra_plan_activated'] = $res_extra_plans;
+    $user_details['extra_plan_activated'] = !empty($res_extra_plans) ? $res_extra_plans : [];
 
     $response['success'] = true;
     $response['message'] = "Users listed Successfully";
