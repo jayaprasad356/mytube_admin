@@ -58,7 +58,7 @@ if ($num >= 1) {
 
             // Check if the plan_id is 5 and claim is 1 for free_plan
             if ($user_plan['id'] == 5 && $user_plan['claim'] == 1) {
-                $free_plan = 1;
+                $free_plan = 1; // Mark free_plan as 1 if conditions match
             }
 
             // Check if the plan_id is 1, 2, 4, or 6 and claim is 1 for paid_plan
@@ -71,7 +71,7 @@ if ($num >= 1) {
     }
 
     // Set the free_plan and paid_plan flags
-    $user_details['free_plan'] = $free_plan;
+    $user_details['free_plan'] = $free_plan; // Default remains 0 unless updated
     $user_details['paid_plan'] = $paid_plan;
 
     // Fetch extra claim plans for the user
