@@ -191,6 +191,7 @@ if ($recharge >= $price) {
          
         }
     }
+  
     $sql = "UPDATE users SET recharge = recharge - $price, total_assets = total_assets + $price, withdrawal_status = 1 WHERE id = $user_id";
     $db->sql($sql);
 

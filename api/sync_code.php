@@ -67,6 +67,18 @@ if (in_array($plan_id, [1, 2, 4, 6])) {
     }
 }
 
+$sql = "SELECT referred_by FROM users WHERE id = $user_id";
+$db->sql($sql);
+$users = $db->getResult();
+if (empty($users)) {
+    $response['success'] = false;
+    $response['message'] = "User not found";
+    echo json_encode($response);
+    return;
+}
+
+$referred_by = $users[0]['referred_by'];
+
 $sql = "SELECT per_code_cost, num_sync FROM plan WHERE id = $plan_id";
 $db->sql($sql);
 $plan = $db->getResult();
@@ -119,6 +131,19 @@ $db->sql($sql);
 
 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','Generated','$codes')";
 $db->sql($sql);
+
+$sql = "SELECT id FROM users WHERE refer_code = '$referred_by'";
+$db->sql($sql);
+$res= $db->getResult();
+$num = $db->numRows($res);
+if ($num == 1){
+    $refer_id = $res[0]['id'];
+    $level_income = $total_cost * 0.5;
+    $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $level_income, today_codes = today_codes + $level_income, total_codes = total_codes + $level_income,`team_income` = `team_income` + $level_income WHERE id  = $refer_id";
+    $db->sql($sql);
+    $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$refer_id', '$level_income', '$datetime', 'level_income')";
+    $db->sql($sql_insert_transaction);
+}
 
 $sql = "SELECT * FROM users WHERE id = $user_id";
 $db->sql($sql);
