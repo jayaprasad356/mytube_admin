@@ -15,9 +15,9 @@ class Database
 
     //Live
     private $db_host = "localhost";
-    private $db_user = "u261531247_smart_id_maker";
-    private $db_pass = "SmartID@2024";
-    private $db_name = "u261531247_smart_id_maker"; 
+    private $db_user = "root";
+    private $db_pass = "";
+    private $db_name = "smart_id_maker"; 
     // Demo
     // private $db_host = "localhost";
     // private $db_user = "u743445510_demofortune";
