@@ -87,17 +87,23 @@ $city = $db->escapeString($_POST['city']);
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
 $dob = $db->escapeString($_POST['dob']);
 $device_id = $db->escapeString($_POST['device_id']);
+$c_referred_by = '';
 
 if ($referred_by) {
-    $sql = "SELECT id FROM users WHERE refer_code='$referred_by'";
+    // Check if the provided refer_code exists
+    $sql = "SELECT id, referred_by FROM users WHERE refer_code = '$referred_by'";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
+    
     if ($num == 0) {
         $response['success'] = false;
         $response['message'] = "Invalid Referred By";
         print_r(json_encode($response));
         return false;
+    } else {
+        // Get the referred_by of the refer_code owner
+        $c_referred_by = $res[0]['referred_by'];
     }
 }
 // Check if user with the same device_id already exists
@@ -125,8 +131,8 @@ if ($num >= 1) {
 } else {
     // Insert user data without refer_code
     $datetime = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO users (`name`, `mobile`, `email`, `password`, `city`, `dob`, `referred_by`, `device_id`, `last_updated`,`joined_date`)
-            VALUES ('$name', '$mobile', '$email', '$password', '$city', '$dob', '$referred_by', '$device_id', '$datetime', '$datetime')";
+    $sql = "INSERT INTO users (`name`, `mobile`, `email`, `password`, `city`, `dob`, `referred_by`, `c_referred_by`, `device_id`, `last_updated`,`joined_date`)
+            VALUES ('$name', '$mobile', '$email', '$password', '$city', '$dob', '$referred_by', '$c_referred_by', '$device_id', '$datetime', '$datetime')";
     $db->sql($sql);
 
      // Get the ID of the inserted user
