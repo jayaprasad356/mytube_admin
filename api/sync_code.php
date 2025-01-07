@@ -67,12 +67,19 @@ if (in_array($plan_id, [1, 2, 4, 6])) {
     }
 }
 
-$sql = "SELECT referred_by FROM users WHERE id = $user_id";
+$sql = "SELECT referred_by,code_generate FROM users WHERE id = $user_id";
 $db->sql($sql);
 $users = $db->getResult();
 if (empty($users)) {
     $response['success'] = false;
     $response['message'] = "User not found";
+    echo json_encode($response);
+    return;
+}
+$code_generate = $users[0]['code_generate'];
+if ($code_generate == 0) {
+    $response['success'] = false;
+    $response['message'] = "Code Generation is disabled for this user";
     echo json_encode($response);
     return;
 }
@@ -133,14 +140,14 @@ $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes
 $db->sql($sql);
 
 if ($plan_id != 5) {
-    $sql = "SELECT id FROM users WHERE refer_code = '$referred_by'";
+    $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND joined_date > '2025-01-01'";
     $db->sql($sql);
-    $res= $db->getResult();
+    $res = $db->getResult();
     $num = $db->numRows($res);
-    if ($num == 1){
+    if ($num == 1) {
         $refer_id = $res[0]['id'];
-        $level_income = $total_cost * 0.05;   
-        $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $level_income, today_codes = today_codes + $level_income, total_codes = total_codes + $level_income,`team_income` = `team_income` + $level_income WHERE id  = $refer_id";
+        $level_income = $total_cost * 0.05;
+        $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $level_income, today_codes = today_codes + $level_income, total_codes = total_codes + $level_income, `team_income` = `team_income` + $level_income WHERE id = $refer_id";
         $db->sql($sql);
         $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$refer_id', '$level_income', '$datetime', 'level_income')";
         $db->sql($sql_insert_transaction);

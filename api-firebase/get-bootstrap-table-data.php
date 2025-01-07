@@ -109,6 +109,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['device_id'] = $row['device_id'];
         $tempRow['refer_code'] = $row['refer_code'];
         $tempRow['referred_by'] = $row['referred_by'];
+        $tempRow['c_referred_by'] = $row['c_referred_by'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['today_codes'] = $row['today_codes'];

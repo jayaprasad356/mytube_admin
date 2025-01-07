@@ -39,6 +39,7 @@
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="refer_code" data-sortable="true">Refer Code</th>
                                     <th data-field="referred_by" data-sortable="true">Refered By</th>
+                                    <!-- <th data-field="c_referred_by" data-sortable="true">C Refered By</th> -->
                                     <th data-field="balance" data-sortable="true">Balance</th>
                                     <th data-field="withdrawal" data-sortable="true">Withdrawal</th>
                                     <th data-field="recharge" data-sortable="true">Recharge </th>
