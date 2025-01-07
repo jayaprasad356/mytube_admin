@@ -38,7 +38,7 @@ if ($num >= 1) {
     $refer_code = $res_user[0]['refer_code'];
 
     if ($level === 'b') {
-        $sql = "SELECT *, DATE(joined_date) AS joined_date, CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE referred_by = '$refer_code' AND joined_date > '2025-01-01' ORDER BY id DESC";
+        $sql = "SELECT *, DATE(joined_date) AS joined_date, CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE referred_by = '$refer_code' AND joined_date >= '2025-01-01' ORDER BY id DESC";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
@@ -52,6 +52,24 @@ if ($num >= 1) {
         } else {
             $response['success'] = false;
             $response['message'] = "No Users found with the specified refer_code";
+            print_r(json_encode($response));
+        }
+    } 
+    if ($level === 'c') {
+        $sql = "SELECT *,DATE(joined_date) AS joined_date,CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE c_referred_by = '$refer_code' AND joined_date >= '2025-01-01' ORDER BY id DESC";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+    
+        if ($num >= 1) {
+            $response['success'] = true;
+            $response['message'] = "Users Listed Successfully";
+            $response['count'] = $num;
+            $response['data'] = $res;
+            print_r(json_encode($response));
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Not Found";
             print_r(json_encode($response));
         }
     } 
