@@ -56,7 +56,7 @@
                                     <th data-field="password" data-sortable="true">Password</th>
                                     <th data-field="dob" data-sortable="true">Date of Birth</th>
                                     <th data-field="registration_count" data-sortable="true">Registration Count</th>
-
+                                    <th data-field="joined_date" data-sortable="true">Joined Date</th>
                                 </tr>
                             </thead>
                         </table>

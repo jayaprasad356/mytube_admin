@@ -119,6 +119,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['withdrawal'] = $row['withdrawal'];
         $tempRow['recharge'] = $row['recharge'];
         $tempRow['total_recharge'] = $row['total_recharge'];
+        $tempRow['joined_date'] = $row['joined_date'];
         $tempRow['registration_count'] = $row['registration_count']; // Add the registration count here
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
