@@ -31,6 +31,7 @@ if (isset($_POST['btnEdit'])) {
             $refer_bonus_sent = (isset($_POST['refer_bonus_sent']) && !empty($_POST['refer_bonus_sent'])) ? $db->escapeString($_POST['refer_bonus_sent']) : 0;
             $register_bonus_sent = (isset($_POST['register_bonus_sent']) && !empty($_POST['register_bonus_sent'])) ? $db->escapeString($_POST['register_bonus_sent']) : 0;
             $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
+            $c_referred_by = (isset($_POST['c_referred_by']) && !empty($_POST['c_referred_by'])) ? $db->escapeString($_POST['c_referred_by']) : "";
             $earn = (isset($_POST['earn']) && !empty($_POST['earn'])) ? $db->escapeString($_POST['earn']) : 0;
             $code_generate = (isset($_POST['code_generate']) && !empty($_POST['code_generate'])) ? $db->escapeString($_POST['code_generate']) : 0;
             $total_referrals = (isset($_POST['total_referrals']) && !empty($_POST['total_referrals'])) ? $db->escapeString($_POST['total_referrals']) : 0;
@@ -111,7 +112,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,per_code_val=$per_code_val,per_code_cost=$per_code_cost,earning_wallet = '$earning_wallet',bonus_wallet = '$bonus_wallet',recharge  = '$recharge',total_recharge  = '$total_recharge'  WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by',c_referred_by='$c_referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,per_code_val=$per_code_val,per_code_cost=$per_code_cost,earning_wallet = '$earning_wallet',bonus_wallet = '$bonus_wallet',recharge  = '$recharge',total_recharge  = '$total_recharge'  WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -239,14 +240,18 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Refer Code</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="refer_code" value="<?php echo $res[0]['refer_code']; ?>">
+                                    <label for="exampleInputEmail1">C Referred By</label>
+                                    <input type="text" class="form-control" name="c_referred_by" value="<?php echo $res[0]['c_referred_by']; ?>">
                                 </div>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="form-group">
+                            <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Refer Code</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="refer_code" value="<?php echo $res[0]['refer_code']; ?>">
+                                </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Total Referrals</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="total_referrals" value="<?php echo $res[0]['total_referrals']; ?>">
@@ -259,14 +264,14 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Today Codes</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="today_codes" value="<?php echo $res[0]['today_codes']; ?>">
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Total Codes</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="total_codes" value="<?php echo $res[0]['total_codes']; ?>">
-                                </div>
                             </div>
                         </div>
                         <br>
                         <div class="row">
+                        <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Total Codes</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="total_codes" value="<?php echo $res[0]['total_codes']; ?>">
+                                </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Code Generate</label><br>
