@@ -38,7 +38,7 @@ if (isset($_POST['btnEdit'])) {
             $balance = (isset($_POST['balance']) && !empty($_POST['balance'])) ? $db->escapeString($_POST['balance']) : "0";
             $today_codes = (isset($_POST['today_codes']) && !empty($_POST['today_codes'])) ? $db->escapeString($_POST['today_codes']) : 0;
             $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
-
+            $joined_date = $db->escapeString(($_POST['joined_date']));
             $per_code_cost = $db->escapeString(($_POST['per_code_cost']));
             //$level = $db->escapeString(($_POST['level']));
             $per_code_val = $db->escapeString(($_POST['per_code_val']));
@@ -112,7 +112,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by',c_referred_by='$c_referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,per_code_val=$per_code_val,per_code_cost=$per_code_cost,earning_wallet = '$earning_wallet',bonus_wallet = '$bonus_wallet',recharge  = '$recharge',total_recharge  = '$total_recharge'  WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by',c_referred_by='$c_referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,per_code_val=$per_code_val,per_code_cost=$per_code_cost,earning_wallet = '$earning_wallet',bonus_wallet = '$bonus_wallet',recharge  = '$recharge',total_recharge  = '$total_recharge',joined_date = '$joined_date'  WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -295,6 +295,10 @@ if (isset($_POST['btnCancel'])) { ?>
                      
                         <br>
                         <div class="row">
+                        <div class="col-md-3">
+                                   <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
+                                    <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
+                                </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Per Code Cost</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="per_code_cost" value="<?php echo $res[0]['per_code_cost']; ?>">

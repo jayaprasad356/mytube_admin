@@ -64,7 +64,8 @@ if (isset($_POST['btnAdd'])) {
             $error['add_user'] = " <span class='label label-danger'>Mobile Number Already Exists</span>";
         }
         else{
-            $sql_query = "INSERT INTO users (name,mobile,email,password,dob,city,referred_by,refer_code)VALUES('$name','$mobile','$email','$password','$dob','$city','$referred_by','$refer_code')";
+            $joined_date = date('Y-m-d H:i:s');
+            $sql_query = "INSERT INTO users (name,mobile,email,password,dob,city,referred_by,refer_code,joined_date)VALUES('$name','$mobile','$email','$password','$dob','$city','$referred_by','$refer_code','$joined_date')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
