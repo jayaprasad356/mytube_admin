@@ -21,7 +21,7 @@ class Database
     // Demo
     private $db_host = "localhost";
     private $db_user = "u743445510_smart_id_maker";
-    private $db_pass = "SmartID@2024";
+    private $db_pass = "Smartid@2025";
     private $db_name = "u743445510_smart_id_maker"; 
 
     /*
