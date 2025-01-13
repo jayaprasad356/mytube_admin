@@ -14,15 +14,15 @@ class Database
 
 
     //Live
-    // private $db_host = "localhost";
-    // private $db_user = "u261531247_smart_id_maker";
-    // private $db_pass = "SmartID@2024";
-    // private $db_name = "u261531247_smart_id_maker"; 
-    // Demo
     private $db_host = "localhost";
-    private $db_user = "u743445510_smart_id_maker";
-    private $db_pass = "Smartid@2025";
-    private $db_name = "u743445510_smart_id_maker"; 
+    private $db_user = "u261531247_smart_id_maker";
+    private $db_pass = "SmartID@2024";
+    private $db_name = "u261531247_smart_id_maker"; 
+    // Demo
+    // private $db_host = "localhost";
+    // private $db_user = "u743445510_smart_id_maker";
+    // private $db_pass = "Smartid@2025";
+    // private $db_name = "u743445510_smart_id_maker"; 
 
     /*
      * Extra variables that are required by other function such as boolean con variable
