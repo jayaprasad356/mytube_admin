@@ -34,7 +34,7 @@ if (empty($user)) {
 
 $sql = "SELECT outsource_user_plan.* ,outsouce_plan.name,outsouce_plan.image,outsouce_plan.demo_video,outsouce_plan.monthly_codes,outsouce_plan.per_code_cost,outsouce_plan.price,outsouce_plan.monthly_earnings
         FROM outsource_user_plan 
-        LEFT JOIN outsouce_plan ON outsource_user_plan.plan_id = plan.id
+        LEFT JOIN outsource_plan ON outsource_user_plan.plan_id = plan.id
         WHERE outsource_user_plan.user_id = '$user_id'";
 
 $db->sql($sql);
