@@ -21,7 +21,7 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT valid FROM users WHERE id = $user_id ";
+$sql = "SELECT * FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $user = $db->getResult();
 
@@ -52,7 +52,7 @@ if ($num >= 1) {
     }
 
     $response['success'] = true;
-    $response['message'] = "User Plan Details Retrieved Successfully";
+    $response['message'] = "Outsource User Plan Details Retrieved Successfully";
     $response['data'] = $res;
     print_r(json_encode($response));
 }
