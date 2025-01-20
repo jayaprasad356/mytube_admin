@@ -82,17 +82,17 @@ if (!empty($res_check_user)) {
     return false;
 }
 
-$sql_check = "SELECT * FROM outsource_user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
-$db->sql($sql_check);
-$res_check_user = $db->getResult();
+// $sql_check = "SELECT * FROM outsource_user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
+// $db->sql($sql_check);
+// $res_check_user = $db->getResult();
 
-if (!empty($res_check_user)) {
-    echo json_encode([
-        'success' => false,
-        'message' => "You have already activated the plan: $plan_name."
-    ]);
-    return false;
-}
+// if (!empty($res_check_user)) {
+//     echo json_encode([
+//         'success' => false,
+//         'message' => "You have already activated the plan: $plan_name."
+//     ]);
+//     return false;
+// }
 
 
 if (in_array($plan_id, [1, 2, 4, 6])) {
