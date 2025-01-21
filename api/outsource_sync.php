@@ -101,7 +101,7 @@ $sync_cost = $plan[0]['sync_cost'];
 $num_sync = $plan[0]['num_sync'];
 
 $current_date = date('Y-m-d');
-$sql_check_sync = "SELECT COUNT(*) as sync_count FROM transactions WHERE user_id = $user_id AND type = 'Generated' AND DATE(datetime) = '$current_date'";
+$sql_check_sync = "SELECT COUNT(*) as sync_count FROM transactions WHERE user_id = $user_id AND type = 'outsource_earnings' AND DATE(datetime) = '$current_date'";
 $db->sql($sql_check_sync);
 $transaction_count = $db->getResult();
 
@@ -112,7 +112,7 @@ if ($transaction_count[0]['sync_count'] >= $num_sync) {
     return;
 }
 
-$sql_last_sync = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'Generated' ORDER BY datetime DESC LIMIT 1";
+$sql_last_sync = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'outsource_earnings' ORDER BY datetime DESC LIMIT 1";
 $db->sql($sql_last_sync);
 $last_sync_result = $db->getResult();
 
@@ -135,7 +135,7 @@ $total_cost = $sync_cost;
 $sql = "UPDATE users SET earning_wallet = earning_wallet + $total_cost , today_earnings = today_earnings + $total_cost , total_earnings = total_earnings + $total_cost WHERE id = $user_id";
 $db->sql($sql);
 
-$sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','Generated',0)";
+$sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','outsource_earnings',0)";
 $db->sql($sql);
 
 if ($plan_id != 5) {

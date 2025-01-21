@@ -190,7 +190,7 @@ if ($recharge >= $price) {
     $sql_insert_user_plan = "INSERT INTO outsource_user_plan (user_id, plan_id, joined_date, claim) VALUES ('$user_id', '$plan_id', '$date', 1)";
     $db->sql($sql_insert_user_plan);
 
-    $sql_insert_transaction = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$price', '$datetime', 'plan_activated')";
+    $sql_insert_transaction = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$price', '$datetime', 'outsource_plan_activated')";
     $db->sql($sql_insert_transaction);
 
     $sql_user = "SELECT * FROM users WHERE id = $user_id";
