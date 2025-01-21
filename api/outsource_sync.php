@@ -46,6 +46,7 @@ if (!empty($leave_data)) {
     return;
 }
 
+
 if (in_array($plan_id, [1, 2, 4, 6])) {
     $sql_check = "SELECT * FROM outsource_user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
     $db->sql($sql_check);
@@ -98,58 +99,67 @@ if (empty($plan)) {
 }
 
 $sync_cost = $plan[0]['sync_cost'];
-$num_sync = 1; // All plans have sync count as 1
+$num_sync = $plan[0]['num_sync'];
+// Check sync limit
 
-$current_date = date('Y-m-d');
-$sql_check_sync = "SELECT COUNT(*) as sync_count FROM transactions WHERE user_id = $user_id AND amount = $sync_cost AND type = 'outsource_earnings' AND DATE(datetime) = '$current_date'";
-$db->sql($sql_check_sync);
-$transaction_count = $db->getResult();
 
-if ($transaction_count[0]['sync_count'] >= $num_sync) {
-    $response['success'] = false;
-    $response['message'] = "You Have Already Claimed Earnings For This Plan Today. Please Claim Tomorrow.";
-    echo json_encode($response);
-    return;
-}
 
-// Set the amount based on the plan_id
-switch ($plan_id) {
-    case 1:
-        $sync_cost = 50;
-        break;
-    case 2:
-        $sync_cost = 80;
-        break;
-    case 4:
-        $sync_cost = 110;
-        break;
-    case 6:
-        $sync_cost = 230;
-        break;
-    default:
-        $response['success'] = false;
-        $response['message'] = "Invalid Plan Id";
-        echo json_encode($response);
-        return;
-}
+// Check if today's sync limit is reached
+$sql_check_sync_today = "SELECT COUNT(id) as num_sync 
+                         FROM outsource_user_plan 
+                         WHERE user_id = $user_id 
+                         AND plan_id = $plan_id 
+                         AND DATE(datetime) = CURDATE()";
+$db->sql($sql_check_sync_today);
+$sync_limit_data = $db->getResult();
 
-$sql_last_sync = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'outsource_earnings' ORDER BY datetime DESC LIMIT 1";
-$db->sql($sql_last_sync);
-$last_sync_result = $db->getResult();
+if (!empty($sync_limit_data) && $sync_limit_data[0]['num_sync'] >= $num_sync) {
+    // Check for an older unused sync entry
+    $sql_check_old_sync = "SELECT id 
+                           FROM outsource_user_plan 
+                           WHERE user_id = $user_id 
+                           AND plan_id = $plan_id 
+                           AND DATE(datetime) != CURDATE() 
+                           ORDER BY datetime ASC 
+                           LIMIT 1";
+    $db->sql($sql_check_old_sync);
+    $old_sync = $db->getResult();
 
-if (!empty($last_sync_result)) {
-    $last_sync_time = strtotime($last_sync_result[0]['datetime']);
-    $current_time = time();
-    $time_difference = $current_time - $last_sync_time;
-
-    if ($time_difference < 600) {
-        $remaining_time = 600 - $time_difference;
-        $response['success'] = false;
-        $response['message'] = "Please wait " . ceil($remaining_time / 60) . " more minutes before your next sync.";
-        echo json_encode($response);
-        return;
+    if (!empty($old_sync)) {
+        // Use the old sync slot and update its date
+        $old_sync_id = $old_sync[0]['id'];
+        $sql_update_old_sync = "UPDATE outsource_user_plan 
+                                SET datetime = '$datetime' 
+                                WHERE id = $old_sync_id";
+        $db->sql($sql_update_old_sync);
+    } else {
+        // No available old sync slots, return error
+        echo json_encode(["success" => false, "message" => "You Have Already Claimed Earnings For Today. Please Claim Tomorrow"]);
+        exit;
     }
 }
+
+
+// // Set the amount based on the plan_id
+// switch ($plan_id) {
+//     case 1:
+//         $sync_cost = 50;
+//         break;
+//     case 2:
+//         $sync_cost = 80;
+//         break;
+//     case 4:
+//         $sync_cost = 110;
+//         break;
+//     case 6:
+//         $sync_cost = 230;
+//         break;
+//     default:
+//         $response['success'] = false;
+//         $response['message'] = "Invalid Plan Id";
+//         echo json_encode($response);
+//         return;
+// }
 
 $total_cost = $sync_cost;
 
@@ -158,6 +168,7 @@ $db->sql($sql);
 
 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','outsource_earnings',0)";
 $db->sql($sql);
+
 
 if ($plan_id != 5) {
     // Check if the passed user_id has joined_date > 2025-01-01
@@ -201,7 +212,8 @@ $db->sql($sql);
 $user_data = $db->getResult();
 
 $response['success'] = true;
-$response['message'] = "Sync Completed Successfully";
+$response['message'] = "Your claim is successfully credited to earning wallet.";
 $response['user_data'] = $user_data;
 echo json_encode($response);
+  
 ?>
