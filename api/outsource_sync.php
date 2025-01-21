@@ -107,7 +107,7 @@ $transaction_count = $db->getResult();
 
 if ($transaction_count[0]['sync_count'] >= $num_sync) {
     $response['success'] = false;
-    $response['message'] = "You have reached your daily sync limit. Please try again tomorrow.";
+    $response['message'] = "You Have Already Claimed Earnings For Today. Please Claim Tomorrow.";
     echo json_encode($response);
     return;
 }
