@@ -48,6 +48,7 @@ if ($num >= 1) {
         $temp['demo_video'] = $row['demo_video'];
         $temp['monthly_codes'] = $row['monthly_codes'];
         $temp['monthly_earnings'] = $row['monthly_earnings'];
+        $temp['yearly_earnings'] = $row['yearly_earnings'];
         $temp['per_code_cost'] = $row['per_code_cost'];
         $temp['price'] = $row['price'];
         $temp['type'] = $row['type'];
@@ -55,6 +56,7 @@ if ($num >= 1) {
         $temp['num_sync'] = $row['num_sync'];
         $temp['sub_description'] = $row['sub_description'];
         $temp['active_link'] = $row['active_link'];
+        $temp['sync_cost'] = $row['sync_cost'];
         
         $plan_id = $row['id'];
         $sql_check_plan_1_2_3_6 = "SELECT * FROM outsource_user_plan WHERE user_id = $user_id AND (plan_id = 1 OR plan_id = 2 OR plan_id = 4 OR plan_id = 6)";
