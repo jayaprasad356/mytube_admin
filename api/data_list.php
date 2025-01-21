@@ -12,7 +12,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-$sql = "SELECT * FROM random_data ORDER BY RAND() LIMIT 10";
+$sql = "SELECT * FROM random_data ORDER BY RAND() LIMIT 50";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
