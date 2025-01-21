@@ -98,18 +98,39 @@ if (empty($plan)) {
 }
 
 $sync_cost = $plan[0]['sync_cost'];
-$num_sync = $plan[0]['num_sync'];
+$num_sync = 1; // All plans have sync count as 1
 
 $current_date = date('Y-m-d');
-$sql_check_sync = "SELECT COUNT(*) as sync_count FROM transactions WHERE user_id = $user_id AND type = 'outsource_earnings' AND DATE(datetime) = '$current_date'";
+$sql_check_sync = "SELECT COUNT(*) as sync_count FROM transactions WHERE user_id = $user_id AND amount = $sync_cost AND type = 'outsource_earnings' AND DATE(datetime) = '$current_date'";
 $db->sql($sql_check_sync);
 $transaction_count = $db->getResult();
 
 if ($transaction_count[0]['sync_count'] >= $num_sync) {
     $response['success'] = false;
-    $response['message'] = "You Have Already Claimed Earnings For Today. Please Claim Tomorrow.";
+    $response['message'] = "You Have Already Claimed Earnings For This Plan Today. Please Claim Tomorrow.";
     echo json_encode($response);
     return;
+}
+
+// Set the amount based on the plan_id
+switch ($plan_id) {
+    case 1:
+        $sync_cost = 50;
+        break;
+    case 2:
+        $sync_cost = 80;
+        break;
+    case 4:
+        $sync_cost = 110;
+        break;
+    case 6:
+        $sync_cost = 230;
+        break;
+    default:
+        $response['success'] = false;
+        $response['message'] = "Invalid Plan Id";
+        echo json_encode($response);
+        return;
 }
 
 $sql_last_sync = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'outsource_earnings' ORDER BY datetime DESC LIMIT 1";
