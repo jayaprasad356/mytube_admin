@@ -102,42 +102,60 @@ $sync_cost = $plan[0]['sync_cost'];
 $num_sync = $plan[0]['num_sync'];
 // Check sync limit
 
+// Check if there's an unused entry (datetime is empty)
+$sql_check_unused = "SELECT id 
+                     FROM outsource_user_plan 
+                     WHERE user_id = $user_id 
+                     AND plan_id = $plan_id 
+                     AND (datetime IS NULL OR datetime = '') 
+                     ORDER BY id ASC 
+                     LIMIT 1";
+$db->sql($sql_check_unused);
+$unused_entry = $db->getResult();
 
+if (!empty($unused_entry)) {
+    // Found an unused entry, update it
+    $unused_entry_id = $unused_entry[0]['id'];
+    $sql_update_unused = "UPDATE outsource_user_plan 
+                          SET datetime = '$datetime' 
+                          WHERE id = $unused_entry_id";
+    $db->sql($sql_update_unused);
+} else {
+    // If no unused entry, check if today's sync limit is reached
+    $sql_check_sync_today = "SELECT COUNT(id) as num_sync 
+                             FROM outsource_user_plan 
+                             WHERE user_id = $user_id 
+                             AND plan_id = $plan_id 
+                             AND DATE(datetime) = CURDATE()";
+    $db->sql($sql_check_sync_today);
+    $sync_limit_data = $db->getResult();
 
-// Check if today's sync limit is reached
-$sql_check_sync_today = "SELECT COUNT(id) as num_sync 
-                         FROM outsource_user_plan 
-                         WHERE user_id = $user_id 
-                         AND plan_id = $plan_id 
-                         AND DATE(datetime) = CURDATE()";
-$db->sql($sql_check_sync_today);
-$sync_limit_data = $db->getResult();
+    if (!empty($sync_limit_data) && $sync_limit_data[0]['num_sync'] >= $num_sync) {
+        // Check for an older unused sync entry
+        $sql_check_old_sync = "SELECT id 
+                               FROM outsource_user_plan 
+                               WHERE user_id = $user_id 
+                               AND plan_id = $plan_id 
+                               AND DATE(datetime) != CURDATE() 
+                               ORDER BY datetime ASC 
+                               LIMIT 1";
+        $db->sql($sql_check_old_sync);
+        $old_sync = $db->getResult();
 
-if (!empty($sync_limit_data) && $sync_limit_data[0]['num_sync'] >= $num_sync) {
-    // Check for an older unused sync entry
-    $sql_check_old_sync = "SELECT id 
-                           FROM outsource_user_plan 
-                           WHERE user_id = $user_id 
-                           AND plan_id = $plan_id 
-                           AND DATE(datetime) != CURDATE() 
-                           ORDER BY datetime ASC 
-                           LIMIT 1";
-    $db->sql($sql_check_old_sync);
-    $old_sync = $db->getResult();
-
-    if (!empty($old_sync)) {
-        // Use the old sync slot and update its date
-        $old_sync_id = $old_sync[0]['id'];
-        $sql_update_old_sync = "UPDATE outsource_user_plan 
-                                SET datetime = '$datetime' 
-                                WHERE id = $old_sync_id";
-        $db->sql($sql_update_old_sync);
-    } else {
-        // No available old sync slots, return error
-        echo json_encode(["success" => false, "message" => "You Have Already Claimed Earnings For Today. Please Claim Tomorrow"]);
-        exit;
+        if (!empty($old_sync)) {
+            $old_sync_id = $old_sync[0]['id'];
+            $sql_update_old_sync = "UPDATE outsource_user_plan 
+                                    SET datetime = '$datetime' 
+                                    WHERE id = $old_sync_id";
+            $db->sql($sql_update_old_sync);
+        } else {
+            // No available old sync slots, return error
+            echo json_encode(["success" => false, "message" => "You Have Already Claimed Earnings For Today. Please Claim Tomorrow"]);
+            exit;
+        }
     }
 }
+
 
 
 // // Set the amount based on the plan_id
@@ -168,6 +186,24 @@ $db->sql($sql);
 
 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','outsource_earnings',0)";
 $db->sql($sql);
+
+$datetime = date('Y-m-d H:i:s');
+
+// Update only the most recent entry for this user_id and plan_id
+$sql_update_claim = "UPDATE outsource_user_plan 
+                     SET datetime = '$datetime' 
+                     WHERE id = (
+                         SELECT id FROM (
+                             SELECT id FROM outsource_user_plan 
+                             WHERE user_id = $user_id AND plan_id = $plan_id 
+                             ORDER BY datetime DESC 
+                             LIMIT 1
+                         ) as subquery
+                     )";
+
+$db->sql($sql_update_claim);
+
+
 
 
 if ($plan_id != 5) {
