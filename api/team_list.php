@@ -45,7 +45,7 @@ if ($num >= 1) {
         if ($num >= 1) {
             foreach ($res as $key => $user) {
                 $user_id = $user['id'];
-                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01'";
+                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01' AND plan_id = 5";
                 $db->sql($sql_plan);
                 $res_plan = $db->getResult();
                 if (empty($res_plan)) {
@@ -80,7 +80,7 @@ if ($num >= 1) {
         if ($num >= 1) {
             foreach ($res as $key => $user) {
                 $user_id = $user['id'];
-                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01'";
+                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01' AND plan_id = 5";
                 $db->sql($sql_plan);
                 $res_plan = $db->getResult();
                 if (empty($res_plan)) {
