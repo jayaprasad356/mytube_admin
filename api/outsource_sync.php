@@ -117,7 +117,7 @@ if (!empty($claim_check) && !is_null($claim_check[0]['datetime'])) {
     $claim_date = date('Y-m-d', strtotime($claim_check[0]['datetime']));
     if ($claim_date == $current_date && $num_sync == 1) {
         $response['success'] = false;
-        $response['message'] = "Claim already made for this plan today.";
+        $response['message'] = "You Have Already Claimed Earnings For Today. Please Claim Tomorrow.";
         echo json_encode($response);
         return;
     }
