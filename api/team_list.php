@@ -33,22 +33,38 @@ $sql_user = "SELECT refer_code FROM users WHERE id = $user_id";
 $db->sql($sql_user);
 $res_user = $db->getResult();
 $num = $db->numRows($res_user);
-
 if ($num >= 1) {
     $refer_code = $res_user[0]['refer_code'];
 
     if ($level === 'b') {
-        $sql = "SELECT *, DATE(joined_date) AS joined_date, CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE referred_by = '$refer_code' AND joined_date >= '2025-01-01' ORDER BY id DESC";
+        $sql = "SELECT *, DATE(joined_date) AS joined_date, CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE referred_by = '$refer_code' ORDER BY id DESC";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
     
         if ($num >= 1) {
-            $response['success'] = true;
-            $response['message'] = "Users Listed Successfully";
-            $response['count'] = $num;
-            $response['data'] = $res;
-            print_r(json_encode($response));
+            foreach ($res as $key => $user) {
+                $user_id = $user['id'];
+                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01'";
+                $db->sql($sql_plan);
+                $res_plan = $db->getResult();
+                if (empty($res_plan)) {
+                    unset($res[$key]);
+                }
+            }
+            $res = array_values($res); // Reindex array after unsetting elements
+            $num = count($res);
+            if ($num >= 1) {
+                $response['success'] = true;
+                $response['message'] = "Users Listed Successfully";
+                $response['count'] = $num;
+                $response['data'] = $res;
+                print_r(json_encode($response));
+            } else {
+                $response['success'] = false;
+                $response['message'] = "No Users found with the specified refer_code and plan";
+                print_r(json_encode($response));
+            }
         } else {
             $response['success'] = false;
             $response['message'] = "No Users found with the specified refer_code";
@@ -56,25 +72,40 @@ if ($num >= 1) {
         }
     } 
     if ($level === 'c') {
-        $sql = "SELECT *,DATE(joined_date) AS joined_date,CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE c_referred_by = '$refer_code' AND joined_date >= '2025-01-01' ORDER BY id DESC";
+        $sql = "SELECT *, DATE(joined_date) AS joined_date, CONCAT(SUBSTRING(mobile, 1, 2), '******', SUBSTRING(mobile, LENGTH(mobile)-1, 2)) AS mobile FROM users WHERE c_referred_by = '$refer_code' ORDER BY id DESC";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
     
         if ($num >= 1) {
-            $response['success'] = true;
-            $response['message'] = "Users Listed Successfully";
-            $response['count'] = $num;
-            $response['data'] = $res;
-            print_r(json_encode($response));
+            foreach ($res as $key => $user) {
+                $user_id = $user['id'];
+                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01'";
+                $db->sql($sql_plan);
+                $res_plan = $db->getResult();
+                if (empty($res_plan)) {
+                    unset($res[$key]);
+                }
+            }
+            $res = array_values($res); // Reindex array after unsetting elements
+            $num = count($res);
+            if ($num >= 1) {
+                $response['success'] = true;
+                $response['message'] = "Users Listed Successfully";
+                $response['count'] = $num;
+                $response['data'] = $res;
+                print_r(json_encode($response));
+            } else {
+                $response['success'] = false;
+                $response['message'] = "No Users found with the specified refer_code and plan";
+                print_r(json_encode($response));
+            }
         } else {
             $response['success'] = false;
             $response['message'] = "Not Found";
             print_r(json_encode($response));
         }
     } 
-    
-    
 } else {
     $response['success'] = false;
     $response['message'] = "User Not found";
