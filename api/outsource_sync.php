@@ -115,11 +115,14 @@ $claim_check = $db->getResult();
 
 if (!empty($claim_check) && !is_null($claim_check[0]['datetime'])) {
     $claim_date = date('Y-m-d', strtotime($claim_check[0]['datetime']));
+    $claim_time = date('H:i:s', strtotime($claim_check[0]['datetime']));
     if ($claim_date == $current_date && $num_sync == 1) {
-        $response['success'] = false;
-        $response['message'] = "You Have Already Claimed Earnings For Today. Please Claim Tomorrow.";
-        echo json_encode($response);
-        return;
+        if ($claim_time < '12:00:00' || $claim_time >= '00:00:00') {
+            $response['success'] = false;
+            $response['message'] = "You Have Already Claimed Earnings For Today. Please Claim Tomorrow.";
+            echo json_encode($response);
+            return;
+        }
     }
 }
 
