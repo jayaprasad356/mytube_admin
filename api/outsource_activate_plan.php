@@ -70,17 +70,17 @@ $invite_bonus = $plan[0]['invite_bonus'];
 $per_code_cost = $plan[0]['per_code_cost'];
 $datetime = date('Y-m-d H:i:s');
 
-$sql_check = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
-$db->sql($sql_check);
-$res_check_user = $db->getResult();
+// $sql_check = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
+// $db->sql($sql_check);
+// $res_check_user = $db->getResult();
 
-if (!empty($res_check_user)) {
-    echo json_encode([
-        'success' => false,
-        'message' => "You have already activated the plan: $plan_name."
-    ]);
-    return false;
-}
+// if (!empty($res_check_user)) {
+//     echo json_encode([
+//         'success' => false,
+//         'message' => "You have already activated the plan: $plan_name."
+//     ]);
+//     return false;
+// }
 
 // $sql_check = "SELECT * FROM outsource_user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
 // $db->sql($sql_check);
