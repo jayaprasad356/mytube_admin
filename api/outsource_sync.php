@@ -31,8 +31,16 @@ if (empty($_POST['plan_id'])) {
     return;
 }
 
+if (empty($_POST['outsource_user_plan_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Outsource User Plan Id is Empty";
+    echo json_encode($response);
+    return;
+}
+
 $user_id = $db->escapeString($_POST['user_id']);
 $plan_id = $db->escapeString($_POST['plan_id']);
+$outsource_user_plan_id = $db->escapeString($_POST['outsource_user_plan_id']);
 
 $current_date = date('Y-m-d');
 $sql_check_leave = "SELECT * FROM leaves WHERE date = '$current_date'";
@@ -46,9 +54,8 @@ if (!empty($leave_data)) {
     return;
 }
 
-
 if (in_array($plan_id, [1, 2, 4, 6])) {
-    $sql_check = "SELECT * FROM outsource_user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
+    $sql_check = "SELECT * FROM outsource_user_plan WHERE user_id = $user_id AND plan_id = $plan_id AND id = $outsource_user_plan_id";
     $db->sql($sql_check);
     $user_plan = $db->getResult();
 
@@ -100,110 +107,33 @@ if (empty($plan)) {
 
 $sync_cost = $plan[0]['sync_cost'];
 $num_sync = $plan[0]['num_sync'];
-// Check sync limit
 
-// Check if there's an unused entry (datetime is empty)
-$sql_check_unused = "SELECT id 
-                     FROM outsource_user_plan 
-                     WHERE user_id = $user_id 
-                     AND plan_id = $plan_id 
-                     AND (datetime IS NULL OR datetime = '') 
-                     ORDER BY id ASC 
-                     LIMIT 1";
-$db->sql($sql_check_unused);
-$unused_entry = $db->getResult();
+// Check if claim has already been made and num_sync is 1 for today
+$sql_check_claimed = "SELECT datetime FROM outsource_user_plan WHERE id = $outsource_user_plan_id AND user_id = $user_id AND plan_id = $plan_id";
+$db->sql($sql_check_claimed);
+$claim_check = $db->getResult();
 
-if (!empty($unused_entry)) {
-    // Found an unused entry, update it
-    $unused_entry_id = $unused_entry[0]['id'];
-    $sql_update_unused = "UPDATE outsource_user_plan 
-                          SET datetime = '$datetime' 
-                          WHERE id = $unused_entry_id";
-    $db->sql($sql_update_unused);
-} else {
-    // If no unused entry, check if today's sync limit is reached
-    $sql_check_sync_today = "SELECT COUNT(id) as num_sync 
-                             FROM outsource_user_plan 
-                             WHERE user_id = $user_id 
-                             AND plan_id = $plan_id 
-                             AND DATE(datetime) = CURDATE()";
-    $db->sql($sql_check_sync_today);
-    $sync_limit_data = $db->getResult();
-
-    if (!empty($sync_limit_data) && $sync_limit_data[0]['num_sync'] >= $num_sync) {
-        // Check for an older unused sync entry
-        $sql_check_old_sync = "SELECT id 
-                               FROM outsource_user_plan 
-                               WHERE user_id = $user_id 
-                               AND plan_id = $plan_id 
-                               AND DATE(datetime) != CURDATE() 
-                               ORDER BY datetime ASC 
-                               LIMIT 1";
-        $db->sql($sql_check_old_sync);
-        $old_sync = $db->getResult();
-
-        if (!empty($old_sync)) {
-            $old_sync_id = $old_sync[0]['id'];
-            $sql_update_old_sync = "UPDATE outsource_user_plan 
-                                    SET datetime = '$datetime' 
-                                    WHERE id = $old_sync_id";
-            $db->sql($sql_update_old_sync);
-        } else {
-            // No available old sync slots, return error
-            echo json_encode(["success" => false, "message" => "You Have Already Claimed Earnings For Today. Please Claim Tomorrow"]);
-            exit;
-        }
+if (!empty($claim_check) && !is_null($claim_check[0]['datetime'])) {
+    $claim_date = date('Y-m-d', strtotime($claim_check[0]['datetime']));
+    if ($claim_date == $current_date && $num_sync == 1) {
+        $response['success'] = false;
+        $response['message'] = "Claim already made for this plan today.";
+        echo json_encode($response);
+        return;
     }
 }
 
+// Proceed with updating the claim in outsource_user_plan
+$sql_update_claim = "UPDATE outsource_user_plan SET datetime = '$datetime' WHERE id = $outsource_user_plan_id";
+$db->sql($sql_update_claim);
 
-
-// // Set the amount based on the plan_id
-// switch ($plan_id) {
-//     case 1:
-//         $sync_cost = 50;
-//         break;
-//     case 2:
-//         $sync_cost = 80;
-//         break;
-//     case 4:
-//         $sync_cost = 110;
-//         break;
-//     case 6:
-//         $sync_cost = 230;
-//         break;
-//     default:
-//         $response['success'] = false;
-//         $response['message'] = "Invalid Plan Id";
-//         echo json_encode($response);
-//         return;
-// }
-
+// Proceed with the rest of the logic to credit earnings
 $total_cost = $sync_cost;
-
 $sql = "UPDATE users SET earning_wallet = earning_wallet + $total_cost , today_earnings = today_earnings + $total_cost , total_earnings = total_earnings + $total_cost WHERE id = $user_id";
 $db->sql($sql);
 
 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','outsource_earnings',0)";
 $db->sql($sql);
-
-$datetime = date('Y-m-d H:i:s');
-
-// Update only the most recent entry for this user_id and plan_id
-$sql_update_claim = "UPDATE outsource_user_plan 
-                     SET datetime = '$datetime' 
-                     WHERE id = (
-                         SELECT id FROM (
-                             SELECT id FROM outsource_user_plan 
-                             WHERE user_id = $user_id AND plan_id = $plan_id 
-                             ORDER BY datetime DESC 
-                             LIMIT 1
-                         ) as subquery
-                     )";
-
-$db->sql($sql_update_claim);
-
-
 
 
 if ($plan_id != 5) {
