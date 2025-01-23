@@ -142,7 +142,7 @@ $db->sql($sql);
 
 if ($plan_id != 5) {
     // Check if the passed user_id has joined_date > 2025-01-01
-    $sql = "SELECT joined_date FROM users WHERE id = $user_id";
+    $sql = "SELECT joined_date FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
     $db->sql($sql);
     $user_result = $db->getResult();
     
