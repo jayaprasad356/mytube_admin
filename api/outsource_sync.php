@@ -141,12 +141,11 @@ $db->sql($sql);
 
 if ($plan_id != 5) {
     // Check if the passed user_id has joined_date > 2025-01-01
-    $sql = "SELECT joined_date FROM users WHERE id = $user_id";
+    $sql = "SELECT joined_date FROM outsource_user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
     $db->sql($sql);
     $user_result = $db->getResult();
     
     if (!empty($user_result) && $user_result[0]['joined_date'] >= '2025-01-01') {
-        // Check 'referred_by' eligibility for level income
         $sql = "SELECT id FROM users WHERE refer_code = '$referred_by'";
         $db->sql($sql);
         $res = $db->getResult();
@@ -154,7 +153,7 @@ if ($plan_id != 5) {
         if ($num == 1) {
             $refer_id = $res[0]['id'];
             $level_income = $total_cost * 0.05;
-            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $level_income, today_codes = today_codes + $level_income, total_codes = total_codes + $level_income, `team_income` = `team_income` + $level_income WHERE id = $refer_id";
+            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $level_income,team_income = team_income + $level_income WHERE id = $refer_id";
             $db->sql($sql);
             $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$refer_id', '$level_income', '$datetime', 'level_income')";
             $db->sql($sql_insert_transaction);
@@ -168,7 +167,7 @@ if ($plan_id != 5) {
         if ($num == 1) {
             $refer_id = $res[0]['id'];
             $level_income = $total_cost * 0.02;
-            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $level_income, today_codes = today_codes + $level_income, total_codes = total_codes + $level_income, `team_income` = `team_income` + $level_income WHERE id = $refer_id";
+            $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $level_income, team_income = team_income + $level_income WHERE id = $refer_id";
             $db->sql($sql);
             $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$refer_id', '$level_income', '$datetime', 'level_income')";
             $db->sql($sql_insert_transaction);
