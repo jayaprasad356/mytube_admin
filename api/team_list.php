@@ -45,13 +45,18 @@ if ($num >= 1) {
         if ($num >= 1) {
             foreach ($res as $key => $user) {
                 $user_id = $user['id'];
-                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01' AND plan_id = 5";
+                
+                // Check if the user has a paid plan
+                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01' AND plan_id != 5";
                 $db->sql($sql_plan);
                 $res_plan = $db->getResult();
+                
+                // If user does NOT have a paid plan, remove them from the list
                 if (empty($res_plan)) {
                     unset($res[$key]);
                 }
             }
+            
             $res = array_values($res); // Reindex array after unsetting elements
             $num = count($res);
             if ($num >= 1) {
@@ -80,7 +85,7 @@ if ($num >= 1) {
         if ($num >= 1) {
             foreach ($res as $key => $user) {
                 $user_id = $user['id'];
-                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01' AND plan_id = 5";
+                $sql_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND joined_date >= '2025-01-01' AND plan_id != 5";
                 $db->sql($sql_plan);
                 $res_plan = $db->getResult();
                 if (empty($res_plan)) {

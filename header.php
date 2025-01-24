@@ -203,7 +203,7 @@ $fn = new custom_functions;
                    </ul>
                 </li>
 
-                <!-- <li class="treeview">
+                <li class="treeview">
                     <a href="#">
                         <i class="fa fa-calendar"></i>
                         <span>Outsource Plans</span>
@@ -213,7 +213,7 @@ $fn = new custom_functions;
                         <li><a href="outsource_plan.php"><i class="fa fa-calendar"></i>Outsource Plan</a></li>
                         <li><a href="outsource_user_plan.php"><i class="fa fa-user"></i>Outsource User Plan</a></li>
                    </ul>
-                </li> -->
+                </li>
 
                 <li class="treeview">
                     <a href="bank_details.php">
