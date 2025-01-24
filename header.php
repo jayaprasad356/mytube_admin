@@ -295,6 +295,12 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="bulk_amount.php">
+                    <i class="fas fa-file"></i>
+                        <span>Bulk Amount</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="referrals.php">
                     <i class="fa fa-users"></i>
                         <span>Referrals</span>
