@@ -70,6 +70,45 @@ if ($num >= 1) {
         } else {
             $temp['status'] = $plan_exists ? 1 : 0;
         }
+
+        // Fetch joined_date only if the user has an active plan
+        $sql_joined_date = "SELECT joined_date FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
+        $db->sql($sql_joined_date);
+        $user_plan = $db->getResult();
+
+        if (!empty($user_plan) && $plan_exists) { // Ensure the user has this plan activated
+            $joined_date = new DateTime($user_plan[0]['joined_date']);
+            $current_date = new DateTime();
+
+            // Calculate difference in days
+            $interval = $joined_date->diff($current_date);
+            $worked_days = $interval->days + 1; // Include current date
+
+            // Fetch leave days between joined_date and current_date
+            $sql_leaves = "SELECT date FROM leaves WHERE date >= '{$joined_date->format('Y-m-d')}' AND date <= '{$current_date->format('Y-m-d')}'";
+            $db->sql($sql_leaves);
+            $leaves = $db->getResult();
+
+            // Convert leave records to an array of leave dates
+            $leave_dates = array_map(function ($leave) {
+                return $leave['date'];
+            }, $leaves);
+
+            // Loop through each day and subtract leave days
+            $date_period = new DatePeriod($joined_date, new DateInterval('P1D'), $current_date);
+            foreach ($date_period as $date) {
+                if (in_array($date->format('Y-m-d'), $leave_dates)) {
+                    $worked_days--; // Reduce worked_days for each leave day
+                }
+            }
+
+            // Assign worked_days to response
+            $temp['worked_days'] = $worked_days;
+        } else {
+            // If the user has not activated this plan, set worked_days as 0
+            $temp['worked_days'] = 0;
+        }
+
         
         $rows[] = $temp;
     }

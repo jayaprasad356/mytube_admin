@@ -75,6 +75,21 @@ if (in_array($plan_id, [1, 2, 4, 6])) {
     }
 }
 
+if (in_array($plan_id, [1, 2, 4, 5, 6])) {
+    $sql_check = "SELECT * FROM outsource_user_plan WHERE user_id = $user_id AND plan_id = $plan_id AND id = $outsource_user_plan_id";
+    $db->sql($sql_check);
+    $user_plan = $db->getResult();
+
+    $joined_date = date('Y-m-d', strtotime($user_plan[0]['joined_date']));
+    $current_date = date('Y-m-d');
+    if ($joined_date == $current_date) {
+        $response['success'] = false;
+        $response['message'] = "You are not eligible to claim today";
+        echo json_encode($response);
+        return;
+    }
+}
+
 $sql = "SELECT referred_by,code_generate,c_referred_by FROM users WHERE id = $user_id";
 $db->sql($sql);
 $users = $db->getResult();
