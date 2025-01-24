@@ -12,6 +12,12 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
+$datetime = date('Y-m-d H:i:s');
+
+$api_name = 'my_plan_list';
+$sql_log_api_call = "INSERT INTO api_calls (api_name, datetime) VALUES ('$api_name', '$datetime')";
+$db->sql($sql_log_api_call);
+
 // Check if user_id and plan_id are provided
 if (empty($_POST['user_id'])) {
     $response['success'] = false;

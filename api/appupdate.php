@@ -14,11 +14,11 @@ $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
 
-// $datetime = date('Y-m-d H:i:s');
+$datetime = date('Y-m-d H:i:s');
 
-// $api_name = 'appupdate';
-// $sql_log_api_call = "INSERT INTO api_calls (api_name, datetime) VALUES ('$api_name', '$datetime')";
-// $db->sql($sql_log_api_call);
+$api_name = 'appupdate';
+$sql_log_api_call = "INSERT INTO api_calls (api_name, datetime) VALUES ('$api_name', '$datetime')";
+$db->sql($sql_log_api_call);
 
 $date = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
