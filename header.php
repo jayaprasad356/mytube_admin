@@ -296,7 +296,7 @@ $fn = new custom_functions;
                 </li>
                 <li class="treeview">
                     <a href="bulk_amount.php">
-                    <i class="fas fa-file"></i>
+                    <i class="fa fa-file"></i>
                         <span>Bulk Amount</span>
                     </a>
                 </li>
