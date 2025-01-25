@@ -45,7 +45,7 @@ $otp = $_POST['otp'];
 
 
 $apiUrl = 'https://api.authkey.io/request';
-$authKey = '673e807e1f672335';
+$authKey = 'dc0b07c812ca4934';
 $sid = '14324';
 
 // Build the URL with query parameters
