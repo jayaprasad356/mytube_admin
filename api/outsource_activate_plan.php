@@ -158,7 +158,7 @@ if ($recharge >= $price) {
                     $db->sql($sql);
                 }
                 if ($plan_id == 6) {
-                    $cost = 4000;
+                    $cost = 1200;
                     $total_cost = $cost;
             
                     $sql = "UPDATE users SET bonus_wallet = bonus_wallet + $total_cost, total_referrals = total_referrals + 1 WHERE refer_code = '$referred_by'";
