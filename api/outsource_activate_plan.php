@@ -106,6 +106,24 @@ if (in_array($plan_id, [1, 2, 4, 6])) {
     }
 }
 
+$sql_last_sync = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'outsource_plan_activated' ORDER BY datetime DESC LIMIT 1";
+$db->sql($sql_last_sync);
+$last_sync_result = $db->getResult();
+
+if (!empty($last_sync_result)) {
+    $last_sync_time = strtotime($last_sync_result[0]['datetime']);
+    $current_time = time();
+    $time_difference = $current_time - $last_sync_time;
+
+    if ($time_difference < 600) {
+        $remaining_time = 600 - $time_difference;
+        $response['success'] = false;
+        $response['message'] = "Please wait " . ceil($remaining_time / 60) . " more minutes before your next Outsource Plan.";
+        echo json_encode($response);
+        return;
+    }
+}
+
 if ($recharge >= $price) {
     if ($refer_code) {
         $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
