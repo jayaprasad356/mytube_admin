@@ -90,6 +90,18 @@ if (in_array($plan_id, [1, 2, 4, 5, 6])) {
     }
 }
 
+$sql = "SELECT * FROM settings WHERE id=1";
+$db->sql($sql);
+$result = $db->getResult();
+$outsource_code_generate = $result[0]['outsource_code_generate'];
+
+if ($outsource_code_generate == 0) {
+    $response['success'] = false;
+    $response['message'] = "Outsource Code Generation is disabled";
+    print_r(json_encode($response));
+    return false;
+}
+
 $sql = "SELECT referred_by,code_generate,c_referred_by FROM users WHERE id = $user_id";
 $db->sql($sql);
 $users = $db->getResult();

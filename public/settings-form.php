@@ -9,6 +9,7 @@ $fn = new custom_functions;
 if (isset($_POST['btnUpdate'])) {
 
     $code_generate = $db->escapeString(($_POST['code_generate']));
+    $outsource_code_generate = $db->escapeString(($_POST['outsource_code_generate']));
     $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
     $sync_time = $db->escapeString(($_POST['sync_time']));
     $duration = $db->escapeString(($_POST['duration']));
@@ -25,7 +26,7 @@ if (isset($_POST['btnUpdate'])) {
     $main_content = $db->escapeString(($_POST['main_content']));
     $ad_link = $db->escapeString(($_POST['ad_link']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content',ad_link = '$ad_link' WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content',ad_link = '$ad_link',outsource_code_generate = '$outsource_code_generate' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -78,7 +79,13 @@ $res = $db->getResult();
                                         <input type="checkbox" id="code_generate_button" class="js-switch" <?= isset($res[0]['code_generate']) && $res[0]['code_generate'] == 1 ? 'checked' : '' ?>>
                                         <input type="hidden" id="code_generate_status" name="code_generate" value="<?= isset($res[0]['code_generate']) && $res[0]['code_generate'] == 1 ? 1 : 0 ?>">
                                     </div>
-
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Outsource Code Generate</label><br>
+                                        <input type="checkbox" id="outsource_code_generate_button" class="js-switch" <?= isset($res[0]['outsource_code_generate']) && $res[0]['outsource_code_generate'] == 1 ? 'checked' : '' ?>>
+                                        <input type="hidden" id="outsource_code_generate_status" name="outsource_code_generate" value="<?= isset($res[0]['outsource_code_generate']) && $res[0]['outsource_code_generate'] == 1 ? 1 : 0 ?>">
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -239,6 +246,19 @@ $res = $db->getResult();
 
         } else {
             $('#code_generate_status').val(0);
+        }
+    };
+</script>
+
+<script>
+    var changeCheckbox = document.querySelector('#outsource_code_generate_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#outsource_code_generate_status').val(1);
+
+        } else {
+            $('#outsource_code_generate_status').val(0);
         }
     };
 </script>
