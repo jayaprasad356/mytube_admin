@@ -30,7 +30,7 @@ if ($num >= 1) {
     $response['message'] = "Settings listed Successfully";
     $response['grow_video'] = "https://www.youtube.com/watch?v=91C9epbUXks";
     $response['job_video'] = "https://www.youtube.com/watch?v=6RC_0H4875w";
-    $response['outsource_job_video'] = "https://youtube.com/shorts/VkYG-WrjZlI?si=lwBj62i-oiG7-8UG";
+    $response['outsource_job_video'] = "https://www.youtube.com/shorts/VkYG-WrjZlI";
     $response['data'] = $res;
     print_r(json_encode($response));
 
