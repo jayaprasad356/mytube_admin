@@ -71,6 +71,7 @@ $sql = "SELECT * FROM settings WHERE id=1";
 $db->sql($sql);
 $result = $db->getResult();
 $code_generate = $result[0]['code_generate'];
+$sync_time = $result[0]['sync_time'] * 60; // Convert minutes to seconds
 
 if ($code_generate == 0) {
     $response['success'] = false;
@@ -133,8 +134,8 @@ if (!empty($last_sync_result)) {
     $current_time = time();
     $time_difference = $current_time - $last_sync_time;
 
-    if ($time_difference < 600) {
-        $remaining_time = 600 - $time_difference;
+    if ($time_difference < $sync_time) {
+        $remaining_time = $sync_time - $time_difference;
         $response['success'] = false;
         $response['message'] = "Please wait " . ceil($remaining_time / 60) . " more minutes before your next sync.";
         echo json_encode($response);
