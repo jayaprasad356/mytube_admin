@@ -205,7 +205,7 @@ if ($recharge >= $price) {
     $sql = "UPDATE users SET recharge = recharge - $price, total_assets = total_assets + $price, withdrawal_status = 1 WHERE id = $user_id";
     $db->sql($sql);
 
-    $sql_insert_user_plan = "INSERT INTO outsource_user_plan (user_id, plan_id, joined_date, claim) VALUES ('$user_id', '$plan_id', '$date', 1)";
+    $sql_insert_user_plan = "INSERT INTO outsource_user_plan (user_id, plan_id, joined_date, claim) VALUES ('$user_id', '$plan_id', '$date', 0)";
     $db->sql($sql_insert_user_plan);
 
     $sql_insert_transaction = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$price', '$datetime', 'outsource_plan_activated')";
@@ -216,7 +216,7 @@ if ($recharge >= $price) {
     $res_user = $db->getResult();
 
     $response['success'] = true;
-    $response['message'] = "Outsource Plan started successfully";
+    $response['message'] = "Outsource Plan started successfully . You can claim income after 24 hrs.";
     $response['data'] = $res_user;
 } else {
     $response['success'] = false;

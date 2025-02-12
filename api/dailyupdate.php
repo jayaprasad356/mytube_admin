@@ -50,6 +50,9 @@ foreach ($users as $user) {
     } 
 }  
 
+$sql = "UPDATE outsource_user_plan SET claim = 1";
+$db->sql($sql);
+
 // Reset today's codes
 $sql = "UPDATE users SET today_codes = 0"; 
 $db->sql($sql); 
