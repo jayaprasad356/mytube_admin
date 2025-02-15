@@ -55,7 +55,9 @@ if ($num >= 1) {
         $temp['num_sync'] = $row['num_sync'];
         $temp['sub_description'] = $row['sub_description'];
         $temp['active_link'] = $row['active_link'];
-        
+        $temp['refund'] = $row['refund'];
+        $temp['refer_refund_amount'] = $row['refer_refund_amount'];
+
         $plan_id = $row['id'];
         $sql_check_plan_1_2_4_6 = "SELECT * FROM user_plan WHERE user_id = $user_id AND (plan_id = 1 OR plan_id = 2 OR plan_id = 4 OR plan_id = 6)";
         $db->sql($sql_check_plan_1_2_4_6);

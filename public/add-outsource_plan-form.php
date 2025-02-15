@@ -22,6 +22,8 @@ if (isset($_POST['btnAdd'])) {
         $sub_description = $db->escapeString(($_POST['sub_description']));
         $active_link = $db->escapeString(($_POST['active_link']));
         $sync_cost = $db->escapeString(($_POST['sync_cost']));
+        $refund = $db->escapeString(($_POST['refund']));
+        $refer_refund_amount = $db->escapeString(($_POST['refer_refund_amount']));
    
         $error = array();
        
@@ -72,10 +74,10 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO outsource_plan (name,description,image,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link,sync_cost,yearly_earnings) VALUES ('$name','$description','$upload_image','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link','$sync_cost','$yearly_earnings')";
+        $sql = "INSERT INTO outsource_plan (name,description,image,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link,sync_cost,yearly_earnings,refund,refer_refund_amount) VALUES ('$name','$description','$upload_image','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link','$sync_cost','$yearly_earnings','$refund','$refer_refund_amount')";
         $db->sql($sql);
     } else {
-            $sql_query = "INSERT INTO outsource_plan (name,description,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link,sync_cost,yearly_earnings) VALUES ('$name','$description','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link','$sync_cost','$yearly_earnings')";
+            $sql_query = "INSERT INTO outsource_plan (name,description,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link,sync_cost,yearly_earnings,refund,refer_refund_amount) VALUES ('$name','$description','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link','$sync_cost','$yearly_earnings','$refund','$refer_refund_amount')";
             $db->sql($sql);
         }
             $result = $db->getResult();
@@ -197,6 +199,19 @@ if (isset($_POST['btnAdd'])) {
                                 <div class='col-md-3'>
                                     <label for="exampleInputtitle">Sync Cost</label> <i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="sync_cost">
+                                </div>
+                                <div class='col-md-3'>
+                                    <label for="exampleInputtitle">Refund</label> <i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="refund">
+                                </div>
+                            </div> 
+                        </div> 
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-3'>
+                                    <label for="exampleInputtitle">Refer Refund Amount</label> <i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="refer_refund_amount">
                                 </div>
                             </div> 
                         </div> 

@@ -20,6 +20,8 @@ if (isset($_POST['btnAdd'])) {
         $num_sync = $db->escapeString(($_POST['num_sync']));
         $sub_description = $db->escapeString(($_POST['sub_description']));
         $active_link = $db->escapeString(($_POST['active_link']));
+        $refund = $db->escapeString(($_POST['refund']));
+        $refer_refund_amount = $db->escapeString(($_POST['refer_refund_amount']));
    
         $error = array();
        
@@ -70,10 +72,10 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO plan (name,description,image,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link) VALUES ('$name','$description','$upload_image','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link')";
+        $sql = "INSERT INTO plan (name,description,image,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link,refund,refer_refund_amount) VALUES ('$name','$description','$upload_image','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link','$refund','$refer_refund_amount')";
         $db->sql($sql);
     } else {
-            $sql_query = "INSERT INTO plan (name,description,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link) VALUES ('$name','$description','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link')";
+            $sql_query = "INSERT INTO plan (name,description,demo_video,monthly_codes,per_code_cost,price,monthly_earnings,type,min_refers,invite_bonus,num_sync,sub_description,active_link,refund,refer_refund_amount) VALUES ('$name','$description','$demo_video','$monthly_codes','$per_code_cost','$price','$monthly_earnings','$type','$min_refers','$invite_bonus','$num_sync','$sub_description','$active_link','$refund','$refer_refund_amount')";
             $db->sql($sql);
         }
             $result = $db->getResult();
@@ -175,6 +177,10 @@ if (isset($_POST['btnAdd'])) {
                                     <label for="exampleInputtitle">Num Sync</label> <i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="num_sync">
                                 </div>
+                                <div class='col-md-3'>
+                                    <label for="exampleInputtitle">Refund</label> <i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="refund">
+                                </div>
                             </div> 
                         </div> 
                         <br>
@@ -187,6 +193,10 @@ if (isset($_POST['btnAdd'])) {
                                 <div class='col-md-3'>
                                     <label for="exampleInputtitle">Active Link</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="active_link">
+                                </div>
+                                <div class='col-md-3'>
+                                    <label for="exampleInputtitle">Refer Refund Amount</label> <i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="refer_refund_amount">
                                 </div>
                             </div> 
                         </div> 

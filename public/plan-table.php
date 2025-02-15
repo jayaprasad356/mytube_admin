@@ -33,6 +33,8 @@
                                     <th  data-field="num_sync" data-sortable="true">Num Sync</th>
                                     <th  data-field="min_refers" data-sortable="true">Min Refers</th>
                                     <th data-field="image">Image</th>
+                                    <th  data-field="refund" data-sortable="true">Refund</th>
+                                    <th  data-field="refer_refund_amount" data-sortable="true">Refer Refund Amount</th>
                                     <th  data-field="description" data-sortable="true">Description</th>
                                     <th  data-field="sub_description" data-sortable="true">Sub Description</th>
                                     <th  data-field="active_link" data-sortable="true">Active Link</th>

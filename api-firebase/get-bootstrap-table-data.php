@@ -1632,6 +1632,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'system-users') {
         $tempRow['num_sync'] = $row['num_sync'];
         $tempRow['sub_description'] = $row['sub_description'];
         $tempRow['active_link'] = $row['active_link'];
+        $tempRow['refund'] = $row['refund'];
         if(!empty($row['image'])){
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
 
@@ -1783,6 +1784,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
         $tempRow['sub_description'] = $row['sub_description'];
         $tempRow['active_link'] = $row['active_link'];
         $tempRow['sync_cost'] = $row['sync_cost'];
+        $tempRow['refund'] = $row['refund'];
         if(!empty($row['image'])){
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
 

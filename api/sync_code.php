@@ -100,7 +100,7 @@ if ($code_generate == 0) {
 $referred_by = $users[0]['referred_by'];
 $c_referred_by = $users[0]['c_referred_by'];
 
-$sql = "SELECT per_code_cost, num_sync FROM plan WHERE id = $plan_id";
+$sql = "SELECT per_code_cost, num_sync ,refund FROM plan WHERE id = $plan_id";
 $db->sql($sql);
 $plan = $db->getResult();
 if (empty($plan)) {
@@ -112,6 +112,7 @@ if (empty($plan)) {
 
 $per_code_cost = $plan[0]['per_code_cost'];
 $num_sync = $plan[0]['num_sync'];
+$refund = $plan[0]['refund'];
 
 $current_date = date('Y-m-d');
 $sql_check_sync = "SELECT COUNT(*) as sync_count FROM transactions WHERE user_id = $user_id AND type = 'Generated' AND DATE(datetime) = '$current_date'";
@@ -147,7 +148,7 @@ $codes = 50;
 
 $total_cost = $codes * $per_code_cost;
 
-$sql = "UPDATE users SET earning_wallet = earning_wallet + $total_cost , today_codes = today_codes + $codes , total_codes = total_codes + $codes , today_earnings = today_earnings + $total_cost , total_earnings = total_earnings + $total_cost WHERE id = $user_id";
+$sql = "UPDATE users SET earning_wallet = earning_wallet + $total_cost , today_codes = today_codes + $codes , total_codes = total_codes + $codes , today_earnings = today_earnings + $total_cost , total_earnings = total_earnings + $total_cost , refund_wallet = refund_wallet + $refund WHERE id = $user_id";
 $db->sql($sql);
 
 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','Generated','$codes')";

@@ -30,8 +30,10 @@ if (isset($_POST['btnEdit'])) {
 	$num_sync = $db->escapeString(trim($_POST['num_sync']));
 	$sub_description = $db->escapeString(trim($_POST['sub_description']));
 	$active_link = $db->escapeString(trim($_POST['active_link']));
+	$refund = $db->escapeString(trim($_POST['refund']));
+	$refer_refund_amount = $db->escapeString(($_POST['refer_refund_amount']));
     
-	$sql_query = "UPDATE outsource_plan SET name='$name',description='$description',demo_video='$demo_video',monthly_codes='$monthly_codes',per_code_cost='$per_code_cost',price='$price',monthly_earnings='$monthly_earnings',type = '$type',min_refers = '$min_refers',invite_bonus= '$invite_bonus',num_sync = '$num_sync',sub_description = '$sub_description',active_link = '$active_link', yearly_earnings = '$yearly_earnings' , sync_cost = '$sync_cost'  WHERE id =  $ID";
+	$sql_query = "UPDATE outsource_plan SET name='$name',description='$description',demo_video='$demo_video',monthly_codes='$monthly_codes',per_code_cost='$per_code_cost',price='$price',monthly_earnings='$monthly_earnings',type = '$type',min_refers = '$min_refers',invite_bonus= '$invite_bonus',num_sync = '$num_sync',sub_description = '$sub_description',active_link = '$active_link', yearly_earnings = '$yearly_earnings' , sync_cost = '$sync_cost' , refund = '$refund' , refer_refund_amount = '$refer_refund_amount' WHERE id =  $ID";
 		$db->sql($sql_query);
 		$result = $db->getResult();             
 		if (!empty($result)) {
@@ -191,6 +193,18 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-3">
 									<label for="exampleInputEmail1">Sync Cost</label><i class="text-danger asterik">*</i>
 									<input type="number" class="form-control" name="sync_cost" value="<?php echo $res[0]['sync_cost']; ?>">
+								</div>
+								<div class="col-md-3">
+									<label for="exampleInputEmail1">Refund</label><i class="text-danger asterik">*</i>
+									<input type="number" class="form-control" name="refund" value="<?php echo $res[0]['refund']; ?>">
+								</div>
+                            </div>	 
+						  </div> 
+						  <br><div class="row">
+                            <div class="form-group">
+								<div class="col-md-3">
+									<label for="exampleInputEmail1">Refer Refund Amount</label><i class="text-danger asterik">*</i>
+									<input type="number" class="form-control" name="refer_refund_amount" value="<?php echo $res[0]['refer_refund_amount']; ?>">
 								</div>
                             </div>	 
 						  </div> 

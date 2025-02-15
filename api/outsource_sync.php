@@ -122,7 +122,7 @@ if ($code_generate == 0) {
 $referred_by = $users[0]['referred_by'];
 $c_referred_by = $users[0]['c_referred_by'];
 
-$sql = "SELECT sync_cost, num_sync FROM outsource_plan WHERE id = $plan_id";
+$sql = "SELECT sync_cost, num_sync , refund FROM outsource_plan WHERE id = $plan_id";
 $db->sql($sql);
 $plan = $db->getResult();
 if (empty($plan)) {
@@ -134,6 +134,7 @@ if (empty($plan)) {
 
 $sync_cost = $plan[0]['sync_cost'];
 $num_sync = $plan[0]['num_sync'];
+$refund = $plan[0]['refund'];
 
 // Check if claim has already been made and num_sync is 1 for today
 $sql_check_claimed = "SELECT datetime FROM outsource_user_plan WHERE id = $outsource_user_plan_id AND user_id = $user_id AND plan_id = $plan_id";
@@ -159,7 +160,7 @@ $db->sql($sql_update_claim);
 
 // Proceed with the rest of the logic to credit earnings
 $total_cost = $sync_cost;
-$sql = "UPDATE users SET earning_wallet = earning_wallet + $total_cost , today_earnings = today_earnings + $total_cost , total_earnings = total_earnings + $total_cost WHERE id = $user_id";
+$sql = "UPDATE users SET earning_wallet = earning_wallet + $total_cost , today_earnings = today_earnings + $total_cost , total_earnings = total_earnings + $total_cost , refund_wallet = refund_wallet + $refund WHERE id = $user_id";
 $db->sql($sql);
 
 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`,`type`, `codes`) VALUES ('$user_id', '$total_cost', '$datetime','outsource_earnings',0)";
