@@ -301,6 +301,12 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="bulk_refund.php">
+                    <i class="fa fa-file"></i>
+                        <span>Bulk Refund</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="referrals.php">
                     <i class="fa fa-users"></i>
                         <span>Referrals</span>
