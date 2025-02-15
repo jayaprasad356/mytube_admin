@@ -46,6 +46,7 @@ if (isset($_POST['btnEdit'])) {
             $bonus_wallet = $db->escapeString($_POST['bonus_wallet']);
             $recharge = $db->escapeString(($_POST['recharge']));
             $total_recharge = $db->escapeString($_POST['total_recharge']);
+            $refund_wallet = $db->escapeString($_POST['refund_wallet']);
             $error = array();
             
             if (empty($mobile)) {
@@ -112,7 +113,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by',c_referred_by='$c_referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,per_code_val=$per_code_val,per_code_cost=$per_code_cost,earning_wallet = '$earning_wallet',bonus_wallet = '$bonus_wallet',recharge  = '$recharge',total_recharge  = '$total_recharge',joined_date = '$joined_date'  WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by',c_referred_by='$c_referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,per_code_val=$per_code_val,per_code_cost=$per_code_cost,earning_wallet = '$earning_wallet',bonus_wallet = '$bonus_wallet',recharge  = '$recharge',total_recharge  = '$total_recharge',joined_date = '$joined_date',refund_wallet = '$refund_wallet'  WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -173,6 +174,10 @@ if (isset($_POST['btnCancel'])) { ?>
                             <div class="form-group col-md-3">
                                 <h4 class="box-title"> </h4>
                                 <a class="btn btn-block btn-danger" href="add-refer_bonus.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i>  Add Refer Bonus</a>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h4 class="box-title"> </h4>
+                                <a class="btn btn-block btn-warning" href="add-refund.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i>  Add Refund</a>
                             </div>
                 </div>
                 <div class="box-header">
@@ -325,6 +330,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-3">
                                 <label for="exampleInputEmail1">Total Recharge</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="total_recharge" value="<?php echo $res[0]['total_recharge']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Refund Wallet</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="refund_wallet" value="<?php echo $res[0]['refund_wallet']; ?>">
                                 </div>
                           </div>
                         <br>
