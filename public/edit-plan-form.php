@@ -174,7 +174,7 @@ if (isset($_POST['btnCancel'])) { ?>
 								</div>
 								<div class="col-md-3">
 									<label for="exampleInputEmail1">Refund</label><i class="text-danger asterik">*</i>
-									<input type="number" class="form-control" name="refund" value="<?php echo $res[0]['refund']; ?>">
+									<input type="number" step="0.01" class="form-control" name="refund" value="<?php echo $res[0]['refund']; ?>">
 								</div>
                             </div>	 
 						  </div> 
@@ -190,7 +190,7 @@ if (isset($_POST['btnCancel'])) { ?>
 								</div>
 								<div class="col-md-3">
 									<label for="exampleInputEmail1">Refer Refund Amount</label><i class="text-danger asterik">*</i>
-									<input type="number" class="form-control" name="refer_refund_amount" value="<?php echo $res[0]['refer_refund_amount']; ?>">
+									<input type="number" step="0.01" class="form-control" name="refer_refund_amount" value="<?php echo $res[0]['refer_refund_amount']; ?>">
 								</div>
                             </div>	 
 						  </div> 

@@ -202,7 +202,7 @@ if (isset($_POST['btnAdd'])) {
                                 </div>
                                 <div class='col-md-3'>
                                     <label for="exampleInputtitle">Refund</label> <i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="refund">
+                                    <input type="number" step="0.01" class="form-control" name="refund">
                                 </div>
                             </div> 
                         </div> 
@@ -211,7 +211,7 @@ if (isset($_POST['btnAdd'])) {
                             <div class="form-group">
                                 <div class='col-md-3'>
                                     <label for="exampleInputtitle">Refer Refund Amount</label> <i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="refer_refund_amount">
+                                    <input type="number" step="0.01" class="form-control" name="refer_refund_amount">
                                 </div>
                             </div> 
                         </div> 

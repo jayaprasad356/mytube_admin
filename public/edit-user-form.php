@@ -333,7 +333,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class="col-md-3">
                                 <label for="exampleInputEmail1">Refund Wallet</label><i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="refund_wallet" value="<?php echo $res[0]['refund_wallet']; ?>">
+                                    <input type="number" step="0.01" class="form-control" name="refund_wallet" value="<?php echo $res[0]['refund_wallet']; ?>">
                                 </div>
                           </div>
                         <br>
