@@ -10,7 +10,7 @@ date_default_timezone_set('Asia/Kolkata');
 
 
 
-//include_once('../includes/crud.php');');
+include_once('../includes/crud.php');
 include_once('../includes/custom-functions.php');
 include_once('../includes/functions.php');
 $fn = new custom_functions;

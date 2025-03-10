@@ -9,7 +9,7 @@ header("Pragma: no-cache");
 
 date_default_timezone_set('Asia/Kolkata');
 
-// //include_once('../includes/crud.php');');
+// include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
