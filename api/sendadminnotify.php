@@ -7,7 +7,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-include_once('../includes/crud.php');
+//include_once('../includes/crud.php');');
 require_once '../includes/functions.php';
 require_once('../includes/firebase.php');
 require_once ('../includes/push.php');
