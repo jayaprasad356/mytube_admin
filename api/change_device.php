@@ -18,10 +18,6 @@ $fn = new functions;
 
 // $datetime = date('Y-m-d H:i:s');
 
-// $api_name = 'change_device';
-// $sql_log_api_call = "INSERT INTO api_calls (api_name, datetime) VALUES ('$api_name', '$datetime')";
-// $db->sql($sql_log_api_call);
-
 
 if (empty($_POST['mobile'])) {
     $response['success'] = false;

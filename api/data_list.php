@@ -14,9 +14,6 @@ $db->connect();
 
 $datetime = date('Y-m-d H:i:s');
 
-$api_name = 'data_list';
-$sql_log_api_call = "INSERT INTO api_calls (api_name, datetime) VALUES ('$api_name', '$datetime')";
-$db->sql($sql_log_api_call);
 
 $sql = "SELECT * FROM random_data ORDER BY RAND() LIMIT 10";
 $db->sql($sql);
