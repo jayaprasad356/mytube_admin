@@ -14,9 +14,7 @@ $db->connect();
 
 $datetime = date('Y-m-d H:i:s');
 
-$api_name = 'userdetails';
-$sql_log_api_call = "INSERT INTO api_calls (api_name, datetime) VALUES ('$api_name', '$datetime')";
-$db->sql($sql_log_api_call);
+
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
