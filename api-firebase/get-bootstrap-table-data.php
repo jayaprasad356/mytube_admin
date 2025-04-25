@@ -1938,4 +1938,66 @@ if (isset($_GET['table']) && $_GET['table'] == 'referral_users') {
     print_r(json_encode($bulkData));
 }
 
+
+
+if (isset($_GET['table']) && $_GET['table'] == 'payment_screenshot') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'ps.id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND (u.name LIKE '%" . $search . "%' OR ps.title LIKE '%" . $search . "%' OR ps.description LIKE '%" . $search . "%')";
+    }
+
+    $join = "LEFT JOIN `users` u ON ps.user_id = u.id WHERE ps.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(ps.id) as total FROM `payment_screenshot` ps " . $join;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT ps.*, u.name AS user_name , u.id AS user_id FROM `payment_screenshot` ps " . $join . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        $checkbox = '<input type="checkbox" name="enable[]" value="' . $row['id'] . '">';
+        $tempRow['column'] = $checkbox;
+        $tempRow['id'] = $row['id'];
+        $tempRow['user_id'] = $row['user_id'];
+        $tempRow['user_name'] = $row['user_name'];
+        $tempRow['datetime'] = $row['datetime'];
+        
+        $tempRow['image'] = (!empty($row['image'])) ? "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>" : 'No Image';
+    
+        if ($row['status'] == 1)
+            $tempRow['status'] = "<p class='text text-success'>Paid</p>";
+        elseif ($row['status'] == 0)
+            $tempRow['status'] = "<p class='text text-primary'>Unpaid</p>";
+        else
+            $tempRow['status'] = "<p class='text text-danger'>Cancelled</p>";
+    
+        $rows[] = $tempRow;
+    }
+    
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
 $db->disconnect();

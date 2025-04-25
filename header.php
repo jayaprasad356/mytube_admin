@@ -312,6 +312,12 @@ $fn = new custom_functions;
                         <span>Referrals</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="payment_screenshot.php">
+                    <i class="fa fa-image"></i>
+                        <span>Payment Screenshot</span>
+                    </a>
+                </li>
 
                 <?php
 
