@@ -24,12 +24,13 @@ if (empty($_POST['user_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 
 // Fetch the user details from the database
-$user_sql = "SELECT name, mobile FROM users WHERE id = '$user_id'"; // Assuming user data is stored in 'users' table
+$user_sql = "SELECT id,name, mobile FROM users WHERE id = '$user_id'"; // Assuming user data is stored in 'users' table
 $db->sql($user_sql);
 $user_res = $db->getResult();
 
 if (!empty($user_res)) {
     // User found, fetch the name and mobile
+    $user_id = $user_res[0]['id'];
     $user_name = $user_res[0]['name'];
     $user_mobile = $user_res[0]['mobile'];
 } else {
@@ -58,13 +59,15 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
 
         $response['success'] = true;
         $response['message'] = "Payment Screenshot Image uploaded successfully";
-        $response['image_url'] = DOMAIN_URL . $image_url;
 
         // Include user information in the response
-        $response['user_name'] = $user_name;
-        $response['user_mobile'] = $user_mobile;
-        $response['datetime'] = $current_datetime;
-        $response['status'] = 0;  // Status as 0 (Unpaid) since the screenshot is just uploaded
+        $response['user'] = array(
+            'id' => $id,
+            'user_id' => $user_id,
+            'name' => $user_name,
+            'mobile' => $user_mobile,
+            'image' => DOMAIN_URL . $image_url
+        );
     } else {
         $response['success'] = false;
         $response['message'] = "Failed to upload image";
