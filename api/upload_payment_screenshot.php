@@ -57,21 +57,16 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $insert_sql = "INSERT INTO payment_screenshot (user_id, image, status, datetime) VALUES ('$user_id', '$image_url','0', '$current_datetime')";
         $db->sql($insert_sql);
 
-        $sql = "SELECT * FROM payment_screenshot WHERE id = '$id'";
-        $db->sql($sql);
-        $res = $db->getResult();
-
         $response['success'] = true;
         $response['message'] = "Payment Screenshot Image uploaded successfully";
 
         // Include user information in the response
-        $response['data'] = array(
-            'id' => $res[0]['id'],
+        $response['data'] = array([
             'user_id' => $user_id,
             'name' => $user_name,
             'mobile' => $user_mobile,
             'image' => DOMAIN_URL . $image_url
-        );
+        ]);
     } else {
         $response['success'] = false;
         $response['message'] = "Failed to upload image";
