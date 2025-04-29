@@ -34,9 +34,10 @@ if (isset($_POST['bulk_data']) && $_POST['bulk_data'] == 1) {
             $email = trim($db->escapeString($emapData[4]));
             $zip_code = trim($db->escapeString($emapData[5]));
             $business_id = trim($db->escapeString($emapData[6]));
-
-            // Insert data into the database
-            $sql = "INSERT INTO random_datas (`company_name`, `city`,`country`,`website`,`email`,`zip_code`,`business_id`) VALUES ('$company_name', '$city', '$country', '$website', '$email', '$zip_code', '$business_id')";
+            
+            $sql = "INSERT INTO random_datas (`company_name`, `city`, `country`, `website`, `email`, `zip_code`, `business_id`) 
+                    VALUES ('$company_name', '$city', '$country', '$website', '$email', '$zip_code', '$business_id')";
+                    
             $db->sql($sql);
         }
         
