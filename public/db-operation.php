@@ -27,13 +27,16 @@ if (isset($_POST['bulk_data']) && $_POST['bulk_data'] == 1) {
             }
 
             // Trim and escape each value
-            $college = trim($db->escapeString($emapData[0]));
-            $name = trim($db->escapeString($emapData[1]));
-            $batch_number = trim($db->escapeString($emapData[2]));
-            $date = trim($db->escapeString($emapData[3]));
+            $company_name = trim($db->escapeString($emapData[0]));
+            $city = trim($db->escapeString($emapData[1]));
+            $country = trim($db->escapeString($emapData[2]));
+            $website = trim($db->escapeString($emapData[3]));
+            $email = trim($db->escapeString($emapData[4]));
+            $zip_code = trim($db->escapeString($emapData[5]));
+            $business_id = trim($db->escapeString($emapData[6]));
 
             // Insert data into the database
-            $sql = "INSERT INTO random_data (`college`, `name`, `batch_number`, `date`) VALUES ('$college', '$name', '$batch_number', '$date')";
+            $sql = "INSERT INTO random_datas (`company_name`, `city`,`country`,`website`,`email`,`zip_code`,`business_id`) VALUES ('$company_name', '$city','$country','$website','$email','$zip_code','$business_id')";
             $db->sql($sql);
         }
         
