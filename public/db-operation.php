@@ -29,15 +29,14 @@ if (isset($_POST['bulk_data']) && $_POST['bulk_data'] == 1) {
             // Trim and escape each value
             $company_name = trim($db->escapeString($emapData[0]));
             $city = trim($db->escapeString($emapData[1]));
-            $country_name = trim($db->escapeString($emapData[2]));
-            $parent_zip = trim($db->escapeString($emapData[3]));
-            $business_id = trim($db->escapeString($emapData[4]));
-            $website = trim($db->escapeString($emapData[5]));
-            $support_email = trim($db->escapeString($emapData[6]));
+            $country = trim($db->escapeString($emapData[2]));
+            $website = trim($db->escapeString($emapData[3]));
+            $email = trim($db->escapeString($emapData[4]));
+            $zip_code = trim($db->escapeString($emapData[5]));
+            $business_id = trim($db->escapeString($emapData[6]));
 
             // Insert data into the database
-           
-            $sql = "INSERT INTO random_datas (`company_name`, `city`, `country_name`, `parent_zip`, `business_id`, `website`, `support_email`) VALUES ('$company_name', '$city', '$country_name', '$parent_zip', '$business_id', '$website', '$support_email')";
+            $sql = "INSERT INTO random_datas (`company_name`, `city`,`country`,`website`,`email`,`zip_code`,`business_id`) VALUES ('$company_name', '$city', '$country', '$website', '$email', '$zip_code', '$business_id')";
             $db->sql($sql);
         }
         

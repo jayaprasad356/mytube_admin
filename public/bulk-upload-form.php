@@ -69,7 +69,7 @@ if (isset($_POST['btnd'])) {
                             <div class="form-group">
                                 <div class="col-md-6">
                                 <label for="">CSV File</label>
-                                <input type="file" name="upload_file" class="form-control" accept=".csv,.xlsx" />
+                                <input type="file" name="upload_file" class="form-control" accept=".csv" />
                                 </div>
                             </div>
                         </div>
