@@ -37,7 +37,7 @@ if (isset($_POST['bulk_data']) && $_POST['bulk_data'] == 1) {
 
             // Insert data into the database
            
-            $sql = "INSERT INTO `business` (`company_name`, `city`, `country_name`, `parent_zip`, `business_id`, `website`, `support_email`) VALUES ('$company_name', '$city', '$country_name', '$parent_zip', '$business_id', '$website', '$support_email')";
+            $sql = "INSERT INTO random_datas (`company_name`, `city`, `country_name`, `parent_zip`, `business_id`, `website`, `support_email`) VALUES ('$company_name', '$city', '$country_name', '$parent_zip', '$business_id', '$website', '$support_email')";
             $db->sql($sql);
         }
         
