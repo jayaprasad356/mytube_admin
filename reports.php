@@ -79,7 +79,7 @@ $generatedAdvancedUserCount = (isset($res[0]['generatedAdvancedUserCount'])) ? $
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Smart Id Maker - Dashboard</title>
+    <title>QR Card - Dashboard</title>
 </head>
 
 <body>
