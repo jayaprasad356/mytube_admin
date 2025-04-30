@@ -39,7 +39,7 @@ if (isset($_POST['bulk_data']) && $_POST['bulk_data'] == 1) {
             // Extract and sanitize data
             $company_name = trim($db->escapeString($row['company_name']));
             $city = trim($db->escapeString($row['city']));
-            $country = trim($db->escapeString($row['country_name']));
+            $country = trim($db->escapeString($row['county_name']));
             $zip_code = trim($db->escapeString($row['parent_zip']));
             $business_id = trim($db->escapeString($row['business_id']));
             $website = trim($db->escapeString($row['Website']));
