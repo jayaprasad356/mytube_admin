@@ -14,39 +14,57 @@ $function = new functions;
 if (isset($_POST['bulk_data']) && $_POST['bulk_data'] == 1) {
     $error = false;
     $filename = $_FILES["upload_file"]["tmp_name"];
-    
+
     // Validate that the file is a valid CSV
     if ($_FILES["upload_file"]["size"] > 0) {
         $file = fopen($filename, "r");
-        $isFirstRow = true; // Flag to skip the header row
-        
+
+        // Get the header row
+        $headers = fgetcsv($file, 10000, ",");
+        if (!$headers || count($headers) < 7) {
+            echo "<p class='alert alert-danger'>Invalid or malformed CSV header!</p><br>";
+            fclose($file);
+            return;
+        }
+
         while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE) {
-            if ($isFirstRow) {
-                $isFirstRow = false; // Skip the header row
+            if (count($emapData) < count($headers)) {
+                // Skip rows with missing data
                 continue;
             }
 
-            // Trim and escape each value
-            $company_name = trim($db->escapeString($emapData[0]));
-            $city = trim($db->escapeString($emapData[1]));
-            $country = trim($db->escapeString($emapData[2]));
-            $website = trim($db->escapeString($emapData[3]));
-            $email = trim($db->escapeString($emapData[4]));
-            $zip_code = trim($db->escapeString($emapData[5]));
-            $business_id = trim($db->escapeString($emapData[6]));
-            
-            $sql = "INSERT INTO random_datas (`company_name`, `city`, `country`, `website`, `email`, `zip_code`, `business_id`) 
-                    VALUES ('$company_name', '$city', '$country', '$website', '$email', '$zip_code', '$business_id')";
-                    
+            // Combine headers with values to get associative array
+            $row = array_combine($headers, $emapData);
+
+            // Extract and sanitize data
+            $company_name = trim($db->escapeString($row['company_name']));
+            $city = trim($db->escapeString($row['city']));
+            $country = trim($db->escapeString($row['country_name']));
+            $zip_code = trim($db->escapeString($row['parent_zip']));
+            $business_id = trim($db->escapeString($row['business_id']));
+            $website = trim($db->escapeString($row['Website']));
+            $email = trim($db->escapeString($row['Support Email']));
+
+            // Optional: Skip rows with empty required fields
+            if (empty($company_name) || empty($email)) {
+                continue;
+            }
+
+            // Build and execute insert query
+            $sql = "INSERT INTO random_data 
+                    (`company_name`, `city`, `country`, `zip_code`, `business_id`, `website`, `email`) 
+                    VALUES 
+                    ('$company_name', '$city', '$country', '$zip_code', '$business_id', '$website', '$email')";
             $db->sql($sql);
         }
-        
+
         fclose($file);
         echo "<p class='alert alert-success'>CSV file is successfully imported!</p><br>";
     } else {
-        echo "<p class='alert alert-danger'>Invalid file format! Please upload data in CSV file!</p><br>";
+        echo "<p class='alert alert-danger'>Invalid file format! Please upload a CSV file!</p><br>";
     }
 }
+
 
 if (isset($_POST['bulk_amount']) && $_POST['bulk_amount'] == 1) {
     $count = 0;
