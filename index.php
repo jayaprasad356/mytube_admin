@@ -17,8 +17,8 @@ session_start();
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link rel="icon" type="image/ico" href="dist/img/icon.jpeg">
-	<title>Admin Login - Smart Id Maker</title>
+	<link rel="icon" type="image/ico" href="dist/img/smart.jpeg">
+	<title>Admin Login - QR Code</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
