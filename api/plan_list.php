@@ -57,20 +57,33 @@ if ($num >= 1) {
         $temp['active_link'] = $row['active_link'];
         $temp['refund'] = $row['refund'];
         $temp['refer_refund_amount'] = $row['refer_refund_amount'];
-        $temp['status'] = 2;
+
+        // $plan_id = $row['id'];
+        // $sql_check_plan_1_2_4_6 = "SELECT * FROM user_plan WHERE user_id = $user_id AND (plan_id = 1 OR plan_id = 2 OR plan_id = 4 OR plan_id = 6)";
+        // $db->sql($sql_check_plan_1_2_4_6);
+        // $has_plan_1_or_2_or_4_or_6 = $db->numRows() > 0;
+    
+        // $sql_check_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
+        // $db->sql($sql_check_plan);
+        // $plan_exists = $db->numRows() > 0;
+    
+        // if ($plan_id == 5 && $has_plan_1_or_2_or_4_or_6){
+        //     $temp['status'] = 2; 
+        // } 
+
+        $sql_user_plans = "SELECT plan_id FROM user_plan WHERE user_id = $user_id";
+        $db->sql($sql_user_plans);
+        $user_plan_rows = $db->getResult();
+        $user_plan_ids = array_column($user_plan_rows, 'plan_id');
 
         $plan_id = $row['id'];
-        $sql_check_plan_1_2_4_6 = "SELECT * FROM user_plan WHERE user_id = $user_id AND (plan_id = 1 OR plan_id = 2 OR plan_id = 4 OR plan_id = 6)";
-        $db->sql($sql_check_plan_1_2_4_6);
-        $has_plan_1_or_2_or_4_or_6 = $db->numRows() > 0;
-    
-        $sql_check_plan = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
-        $db->sql($sql_check_plan);
-        $plan_exists = $db->numRows() > 0;
-    
-        if ($plan_id == 5 && $has_plan_1_or_2_or_4_or_6){
-            $temp['status'] = 2; 
-        } 
+
+        if (in_array($plan_id, $user_plan_ids)) {
+            $temp['status'] = 1; // User owns this plan
+        } else {
+            $temp['status'] = 2; // User does not own this plan
+        }
+        
 
         // Fetch joined_date only if the user has an active plan
         $sql_joined_date = "SELECT joined_date FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
