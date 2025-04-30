@@ -57,6 +57,7 @@ if ($num >= 1) {
         $temp['active_link'] = $row['active_link'];
         $temp['refund'] = $row['refund'];
         $temp['refer_refund_amount'] = $row['refer_refund_amount'];
+        $temp['status'] = 2;
 
         $plan_id = $row['id'];
         $sql_check_plan_1_2_4_6 = "SELECT * FROM user_plan WHERE user_id = $user_id AND (plan_id = 1 OR plan_id = 2 OR plan_id = 4 OR plan_id = 6)";
@@ -69,9 +70,7 @@ if ($num >= 1) {
     
         if ($plan_id == 5 && $has_plan_1_or_2_or_4_or_6){
             $temp['status'] = 2; 
-        } else {
-            $temp['status'] = $plan_exists ? 1 : 0;
-        }
+        } 
 
         // Fetch joined_date only if the user has an active plan
         $sql_joined_date = "SELECT joined_date FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
