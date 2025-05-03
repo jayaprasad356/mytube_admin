@@ -1578,6 +1578,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'system-users') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+
     if (isset($_GET['offset']))
         $offset = $db->escapeString($_GET['offset']);
     if (isset($_GET['limit']))
@@ -1591,58 +1592,45 @@ if (isset($_GET['table']) && $_GET['table'] == 'system-users') {
         $search = $db->escapeString($_GET['search']);
         $where .= "WHERE id like '%" . $search . "%' OR name like '%" . $search . "%'";
     }
-    if (isset($_GET['sort'])){
-        $sort = $db->escapeString($_GET['sort']);
-    }
-    if (isset($_GET['order'])){
-        $order = $db->escapeString($_GET['order']);
-    }
-    $sql = "SELECT COUNT(`id`) as total FROM `plan` ";
+
+    $sql = "SELECT COUNT(`id`) as total FROM `plan` $where";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
-   
-    $sql = "SELECT * FROM plan " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+
+    $sql = "SELECT * FROM plan $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
 
     $bulkData = array();
     $bulkData['total'] = $total;
-    
+
     $rows = array();
-    $tempRow = array();
 
     foreach ($res as $row) {
-
-        
         $operate = ' <a href="edit-plan.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-plan.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+
+        $tempRow = array();
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['description'] = $row['description'];
         $tempRow['demo_video'] = $row['demo_video'];
-        $tempRow['per_code_cost'] = $row['per_code_cost'];
-        $tempRow['monthly_codes'] = $row['monthly_codes'];
-        $tempRow['monthly_earnings'] = $row['monthly_earnings'];
         $tempRow['invite_bonus'] = $row['invite_bonus'];
         $tempRow['price'] = $row['price'];
-        $tempRow['type'] = $row['type'];
-        $tempRow['min_refers'] = $row['min_refers'];
         $tempRow['num_sync'] = $row['num_sync'];
-        $tempRow['sub_description'] = $row['sub_description'];
-        $tempRow['active_link'] = $row['active_link'];
-        $tempRow['refund'] = $row['refund'];
-        if(!empty($row['image'])){
+
+        if (!empty($row['image'])) {
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
-
-        }else{
+        } else {
             $tempRow['image'] = 'No Image';
-
         }
+
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
+
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
