@@ -32,6 +32,18 @@ if (empty($user)) {
     return false;
 }
 
+// Get user plan_type
+$plan_type = strtolower($user[0]['plan_type']);  // trial, basic, premium
+
+// Map plan_type to expected plan id
+$plan_map = array(
+    'trial' => 1,
+    'basic' => 2,
+    'premium' => 3
+);
+
+$active_plan_id = isset($plan_map[$plan_type]) ? $plan_map[$plan_type] : 0;
+
 $sql = "SELECT * FROM plan ORDER BY price ASC";
 $db->sql($sql);
 $res = $db->getResult();
@@ -47,6 +59,10 @@ if (!empty($res)) {
         $temp['invite_bonus'] = $row['invite_bonus'];
         $temp['price'] = $row['price'];
         $temp['num_sync'] = $row['num_sync'];
+
+        // Enable logic
+        $temp['enable'] = ($row['id'] == $active_plan_id) ? 1 : 0;
+
         $rows[] = $temp;
     }
     $response['success'] = true;
