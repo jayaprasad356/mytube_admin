@@ -26,6 +26,7 @@ if (isset($_POST['btnEdit'])) {
     $earn = $db->escapeString($_POST['earn']);
     $plan_type = isset($_POST['plan_type']) ? $db->escapeString($_POST['plan_type']) : 'trial';
     $code_generate = isset($_POST['code_generate']) ? $db->escapeString($_POST['code_generate']) : 0;
+    $joined_date = $db->escapeString($_POST['joined_date']); // ✅ NEW
 
     if (!empty($name) && !empty($mobile) && !empty($password)) {
         $sql_query = "UPDATE users SET 
@@ -40,7 +41,8 @@ if (isset($_POST['btnEdit'])) {
             balance='$balance', 
             status='$status', 
             plan_type='$plan_type', 
-            code_generate='$code_generate' 
+            code_generate='$code_generate',
+            joined_date='$joined_date'  -- ✅ NEW
             WHERE id=$ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
@@ -146,6 +148,12 @@ $res = $db->getResult();
                                 <option value="basic" <?= (isset($res[0]['plan_type']) && $res[0]['plan_type'] == 'basic') ? 'selected' : ''; ?>>Basic</option>
                                 <option value="premium" <?= (isset($res[0]['plan_type']) && $res[0]['plan_type'] == 'premium') ? 'selected' : ''; ?>>Premium</option>
                             </select>
+                        </div>
+
+                        <!-- ✅ Joined Date Field -->
+                        <div class="form-group col-md-6">
+                            <label>Joined Date</label>
+                            <input type="date" class="form-control" name="joined_date" value="<?php echo date('Y-m-d', strtotime($res[0]['joined_date'])); ?>">
                         </div>
 
                         <!-- Code Generate Switch -->

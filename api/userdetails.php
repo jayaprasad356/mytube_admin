@@ -14,8 +14,6 @@ $db->connect();
 
 $datetime = date('Y-m-d H:i:s');
 
-
-
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User Id is Empty";
@@ -32,14 +30,26 @@ $num = $db->numRows($res_user);
 if ($num >= 1) {
     $user_details = $res_user[0];
 
-    // Fetch the minimum withdrawal from settings
-    $sql_settings = "SELECT min_withdrawal,ad_link FROM settings WHERE id = 1";
+    // Fetch the minimum withdrawal and ad link from settings
+    $sql_settings = "SELECT min_withdrawal, ad_link FROM settings WHERE id = 1";
     $db->sql($sql_settings);
     $res_settings = $db->getResult();
     $min_withdrawal = $res_settings[0]['min_withdrawal'];
     $ad_link = $res_settings[0]['ad_link'];
     $user_details['min_withdrawal'] = $min_withdrawal;
     $user_details['ad_link'] = $ad_link;
+
+    // ✅ Calculate worked_days based on joined_date
+    $joined_date = $user_details['joined_date'];
+    if ($joined_date) {
+        $joined = new DateTime($joined_date);
+        $today = new DateTime();
+        $interval = $joined->diff($today);
+        $worked_days = $interval->days + 1; // +1 to include the joined day
+    } else {
+        $worked_days = 0;
+    }
+    $user_details['worked_days'] = $worked_days;
 
     // Fetch user plans
     $sql_plans = "SELECT plan.*, user_plan.claim FROM user_plan
