@@ -115,7 +115,7 @@ if ($codes_to_add > 0) {
         SET today_codes = today_codes + $codes_to_add,
             total_codes = total_codes + $codes_to_add,
             earn = earn + $amount,
-            balance = balance + $amount,
+            earning_wallet = earning_wallet + $amount,
             last_updated = '$datetime'
         WHERE id = '$user_id'");
 }
