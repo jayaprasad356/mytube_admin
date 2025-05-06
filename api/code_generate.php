@@ -68,14 +68,7 @@ $max_daily_limit = 1500;
 $codes_per_call = 50;
 $per_code_value = 0.25;
 
-if ($plan_type !== 'basic') {
-    $response = [
-        'success' => false,
-        'message' => "Action allowed only for 'basic' plan users"
-    ];
-    echo json_encode($response);
-    exit;
-}
+
 
 // ✅ Get today's date in PHP (not SQL)
 $today_date = date('Y-m-d');
