@@ -22,11 +22,12 @@ if (isset($_POST['btnEdit'])) {
     $city = $db->escapeString($_POST['city']);
     $status = $db->escapeString($_POST['status']);
     $refer_code = $db->escapeString($_POST['refer_code']);
+    $referred_by = $db->escapeString($_POST['referred_by']); // ✅ NEW
     $balance = $db->escapeString($_POST['balance']);
     $earn = $db->escapeString($_POST['earn']);
     $plan_type = isset($_POST['plan_type']) ? $db->escapeString($_POST['plan_type']) : 'trial';
     $code_generate = isset($_POST['code_generate']) ? $db->escapeString($_POST['code_generate']) : 0;
-    $joined_date = $db->escapeString($_POST['joined_date']); // ✅ NEW
+    $joined_date = $db->escapeString($_POST['joined_date']);
 
     if (!empty($name) && !empty($mobile) && !empty($password)) {
         $sql_query = "UPDATE users SET 
@@ -37,12 +38,13 @@ if (isset($_POST['btnEdit'])) {
             email='$email', 
             city='$city', 
             refer_code='$refer_code', 
+            referred_by='$referred_by',
             earn='$earn', 
             balance='$balance', 
             status='$status', 
             plan_type='$plan_type', 
             code_generate='$code_generate',
-            joined_date='$joined_date'  -- ✅ NEW
+            joined_date='$joined_date'  
             WHERE id=$ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
@@ -52,6 +54,55 @@ if (isset($_POST['btnEdit'])) {
         } else {
             $error['update_users'] = "<span class='label label-danger'>Failed to update user</span>";
         }
+
+                // ✅ Check refer_bonus_sent BEFORE sending bonus
+        $check_user_query = "SELECT * FROM users WHERE id = $ID";
+        $db->sql($check_user_query);
+        $check_user = $db->getResult();
+
+        if (!empty($check_user) && $check_user[0]['refer_bonus_sent'] == 0 && !empty($referred_by)) {
+            $user_plan_type = strtolower($check_user[0]['plan_type']); // get user's plan type
+
+            if ($user_plan_type == 'basic' || $user_plan_type == 'premium') {
+                $referrer_query = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+                $db->sql($referrer_query);
+                $referrer_result = $db->getResult();
+
+                if (!empty($referrer_result)) {
+                    $referrer_id = $referrer_result[0]['id'];
+                    $referrer_name = $referrer_result[0]['name'];
+
+                    $update_referrer = "UPDATE users 
+                                        SET 
+                                            today_codes = today_codes + 2000,
+                                            total_codes = total_codes + 2000,
+                                            earn = earn + 500,
+                                            bonus_wallet = bonus_wallet + 500
+                                        WHERE id = $referrer_id";
+                    $db->sql($update_referrer);
+
+                    // ✅ Insert transaction record
+                    $total_cost = 500;  // 2000 * 0.25
+                    $datetime = date('Y-m-d H:i:s');
+                    $sql = "INSERT INTO transactions (user_id, amount, datetime, type) 
+                            VALUES ('$referrer_id', '$total_cost', '$datetime', 'refer_bonus')";
+                    $db->sql($sql);
+
+                    // ✅ Mark bonus as sent
+                    $db->sql("UPDATE users SET refer_bonus_sent = 1 WHERE id = $ID");
+
+                    $error['update_users'] .= "<br><span class='label label-info'>Referral bonus sent to $referrer_name (ID: $referrer_id) with transaction recorded</span>";
+                } else {
+                    $error['update_users'] .= "<br><span class='label label-warning'>Referrer with code $referred_by not found</span>";
+                }
+
+            } else {
+                $error['update_users'] .= "<br><span class='label label-default'>No referral bonus: user plan type is '$user_plan_type'</span>";
+            }
+        }
+
+
+        
     }
 }
 
@@ -59,6 +110,7 @@ $sql_query = "SELECT * FROM users WHERE id=$ID";
 $db->sql($sql_query);
 $res = $db->getResult();
 ?>
+
 
 <section class="content-header">
     <h1>Edit User 
@@ -126,6 +178,10 @@ $res = $db->getResult();
                             <input type="text" class="form-control" name="refer_code" value="<?php echo $res[0]['refer_code']; ?>">
                         </div>
                         <div class="form-group col-md-6">
+                            <label>Referred By</label>
+                            <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
+                        </div>
+                        <div class="form-group col-md-6">
                             <label>Earn</label>
                             <input type="text" class="form-control" name="earn" value="<?php echo $res[0]['earn']; ?>">
                         </div>
@@ -150,13 +206,11 @@ $res = $db->getResult();
                             </select>
                         </div>
 
-                        <!-- ✅ Joined Date Field -->
                         <div class="form-group col-md-6">
                             <label>Joined Date</label>
                             <input type="date" class="form-control" name="joined_date" value="<?php echo date('Y-m-d', strtotime($res[0]['joined_date'])); ?>">
                         </div>
 
-                        <!-- Code Generate Switch -->
                         <div class="form-group col-md-3">
                             <label for="code_generate_button">Code Generate</label><br>
                             <input 
@@ -172,7 +226,6 @@ $res = $db->getResult();
                                 value="<?= isset($res[0]['code_generate']) && $res[0]['code_generate'] == 1 ? 1 : 0 ?>"
                             >
                         </div>
-
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
@@ -183,7 +236,6 @@ $res = $db->getResult();
     </div>
 </section>
 
-<!-- Switchery Script -->
 <script>
     $(document).ready(function() {
         var changeCheckbox = document.querySelector('#code_generate_button');
