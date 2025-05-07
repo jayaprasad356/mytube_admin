@@ -143,8 +143,8 @@ if ($num >= 1) {
      $userId = $res[0]['id'];
  
      // Generate refer code based on user ID
-     $refer_code = 'ID' . str_pad($userId, 2, '0', STR_PAD_LEFT);
- 
+     $refer_code = 'QR' . str_pad($userId, 3, '0', STR_PAD_LEFT);
+
      // Update the refer code for the user
      $sql = "UPDATE users SET refer_code = '$refer_code' WHERE id = '$userId'";
      $db->sql($sql);
