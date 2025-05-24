@@ -66,7 +66,7 @@ if ($user_code_generate === 0) {
 
 $max_daily_limit = 1500;
 $codes_per_call = 50;
-$per_code_value = 0.25;
+$per_code_value = 0.50;
 
 
 

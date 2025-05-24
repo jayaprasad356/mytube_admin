@@ -1,7 +1,7 @@
 <?php
 
 
-define('DOMAIN_URL', 'https://qrcode.enlightapp.in/');
+define('DOMAIN_URL', 'https://mytube.enlightapp.in/');
 define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678');
 define('COST_PER_CODE', 0.17);
@@ -15,9 +15,9 @@ class Database
 
     //Live
     private $db_host = "localhost";
-    private $db_user = "u885242767_qr_code";
-    private $db_pass = "QrCode@2025";
-    private $db_name = "u885242767_qr_code"; 
+    private $db_user = "u885242767_mytube";
+    private $db_pass = "u885242767_mytube";
+    private $db_name = "Mytube@01"; 
     // Demo
     // private $db_host = "localhost";
     // private $db_user = "u261531247_demo_smart_id";
